@@ -18,7 +18,7 @@ CC ?= cc
 AR ?= ar
 
 CFLAGS ?= -std=c99 -Wall -Wextra -Wno-unused-parameter -O2
-override CFLAGS += -I$(SND_ROOT)/include
+override CFLAGS += -I$(SND_ROOT)/include -I$(SND_ROOT)/../include
 
 SRCS := $(wildcard $(SND_ROOT)/*.c)
 OBJS := $(patsubst $(SND_ROOT)/%.c,$(BUILD)/%.o,$(SRCS))

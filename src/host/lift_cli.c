@@ -66,7 +66,10 @@ static void defaults(track_viewer_opts_t *opts)
 void track_viewer_cli_help(void)
 {
     fprintf(stderr,
-            "segamod2 — lifted i960 harness\n"
+            "segamod2 — lifted Sega Rally host\n"
+            "\n"
+            "No arguments: SDL cold-boot viewer (copyright → attract).\n"
+            "  --harness              short dispatch trace (I960_HOST_MAX_DISPATCH, default 64)\n"
             "\n"
             "Viewer:\n"
             "  --viewer track [--course desert] [--out DIR] [--palette-only] [--geo-frames N]\n"
@@ -125,12 +128,17 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
 {
     int i;
     int viewer = 0;
+    int harness = 0;
 
     if (!opts)
         return -1;
     defaults(opts);
 
     for (i = 1; i < argc; i++) {
+        if (streq(argv[i], "--harness")) {
+            harness = 1;
+            continue;
+        }
         if (streq(argv[i], "--help") || streq(argv[i], "-h")) {
             track_viewer_cli_help();
             return 2;
@@ -268,6 +276,15 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         }
         fprintf(stderr, "lift: unknown option: %s (try --help)\n", argv[i]);
         return -1;
+    }
+
+    /* Bare `segamod2` is the live boot viewer — the furthest runnable uplift. */
+    if (!viewer && !harness) {
+        opts->viewer_boot = 1;
+        opts->live_view = 1;
+        if (!opts->palette_dump || streq(opts->palette_dump, "build/lift/palette_state"))
+            opts->palette_dump = "build/lift/boot_copyright";
+        viewer = 1;
     }
 
     if (opts->viewer_boot && opts->headless)

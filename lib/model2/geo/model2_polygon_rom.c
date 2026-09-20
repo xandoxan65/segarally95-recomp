@@ -1,6 +1,7 @@
 /* Load Model 2 polygon ROM (ROM_LOAD32_WORD pairs) for geo DL object draws. */
 
 #include "model2_polygon_rom.h"
+#include "model2_rom_dir.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -126,11 +127,7 @@ int model2_polygon_rom_load_default(void)
     if (g_words)
         return 0;
 
-    dir = getenv("SEGAMOD2_ROM_DIR");
-    if (!dir || !*dir)
-        dir = getenv("DECOMP_ROM_DIR");
-    if (!dir || !*dir)
-        dir = "../ROMS/srallyc-b";
+    dir = model2_resolve_rom_dir();
 
     for (i = 0; i < 2; i++) {
         if (load32_word_interleave(dir, POLY_PAIRS[i].low, POLY_PAIRS[i].high,
@@ -162,7 +159,8 @@ int model2_polygon_rom_load_default(void)
     g_n_words = (unsigned)(total / 4u);
     g_words = (u32 *)merged;
     g_mask = g_n_words ? (g_n_words - 1u) : 0u;
-    fprintf(stderr, "lift: polygon ROM loaded %u words (mask 0x%x)\n", g_n_words, g_mask);
+    fprintf(stderr, "lift: polygon ROM loaded %u words from %s (mask 0x%x)\n",
+            g_n_words, dir, g_mask);
     return 0;
 }
 

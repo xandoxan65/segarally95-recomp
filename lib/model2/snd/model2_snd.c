@@ -1,4 +1,5 @@
 #include "model2_snd.h"
+#include "model2_rom_dir.h"
 #include "model2_snd_midi.h"
 #include "model2_snd_rom.h"
 #include "model2_snd_scsp.h"
@@ -488,14 +489,11 @@ int model2_snd_load_roms(const char *rom_dir)
     const char *dir = rom_dir;
 
     if (!dir || !*dir)
-        dir = getenv("SEGAMOD2_ROM_DIR");
-    if (!dir || !*dir)
-        dir = getenv("DECOMP_ROM_DIR");
-    if (!dir || !*dir)
-        dir = "../ROMS/srallyc-b";
+        dir = model2_resolve_rom_dir();
     thread_stop();
     if (model2_snd_rom_load(dir) != 0)
         return -1;
+    fprintf(stderr, "lift: sound ROMs loaded from %s\n", dir);
     model2_snd_scsp_reset();
     model2_snd_m68k_reset();
     /* 68k boot + TIMA/mix run on the board thread — UART only queues. */

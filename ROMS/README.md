@@ -6,7 +6,7 @@ Place a legally obtained **MAME-compatible** *Sega Rally Championship* Revision 
 ROMS/srallyc-b/
 ```
 
-The decomp tools load program EPROMs and `main_data` from this folder. See [manifest.yaml](manifest.yaml) for the full file list.
+The host load path (`make` / `make rom-blocks`) reads program EPROMs and `main_data` from this folder via `scripts/extract_rom_blocks.py`. See [manifest.yaml](manifest.yaml) for the full file list.
 
 ## Quick setup
 

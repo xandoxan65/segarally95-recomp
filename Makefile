@@ -1,6 +1,6 @@
 # Sega Rally Championship (1995) — host-compiled lift
 #
-#   make lift        # compile + link segamod2 (default; gcc only, no Python)
+#   make lift        # extract ROM blocks, then compile + link segamod2 (default)
 #   make lift-main   # regenerate lift_main / host glue (requires tools/)
 #   make clean
 
@@ -104,22 +104,22 @@ LIFT_PALETTE_CACHE := $(GAME_ROOT)/out/textures/palette_cache/desert
 
 help:
 	@echo "Targets:"
-	@echo "  make / make lift  — compile + link lifted C ($(LIFT_BIN))"
+	@echo "  make / make lift  — extract ROM blocks, compile + link ($(LIFT_BIN))"
 	@echo "  make lift-check   — compile lifted C objects + libs"
 	@echo "  make lift-main    — regenerate lift_main / host glue (needs tools/)"
 	@echo "  make libmodel2_*  — stand-alone Model 2 libs under lib/model2/"
 	@echo "  make sync-runtime — rsync tools/runtime → lib/model2 (if tools present)"
-	@echo "  make rom-blocks   — extract ROM blocks (needs tools/ + ROMs)"
+	@echo "  make rom-blocks   — extract ROM blocks (needs ROMs; no tools/)"
 	@echo "  make compare      — byte-compare rebuilt image (needs tools/)"
 	@echo "  make coverage     — lift coverage report (needs tools/)"
 	@echo "  make lift-viewer  — track viewer (needs ROMs + libpng/sdl2)"
 	@echo "  make clean        — remove build/lift/ and lib build dirs"
 
-# Default human goal: compile committed sources only (no Python).
+# Compile-only check. Default `make` / `lift` also extracts ROM blocks.
 lift-check: $(LIFT_OBJS) libmodel2_geo libmodel2_hw libmodel2_tgp libmodel2_snd
 	@echo "lift-check: $(words $(LIFT_OBJS)) object files OK (+ $(notdir $(LIFT_GEO_LIB)) + $(notdir $(LIFT_HW_LIB)) + $(notdir $(LIFT_TGP_LIB)) + $(notdir $(LIFT_SND_LIB)))"
 
-lift: lift-check $(LIFT_BIN)
+lift: lift-check $(LIFT_BIN) $(REFERENCE) $(MAIN_DATA)
 
 libmodel2_geo:
 	$(MAKE) -C $(LIFT_GEO_DIR) \
@@ -205,20 +205,35 @@ define REQUIRE_TOOLS
 	fi
 endef
 
-reference rom-blocks:
-	$(REQUIRE_TOOLS)
+# maincpu pair + main_data pairs consumed by extract_rom_blocks.
+ROM_BLOCK_SRCS := \
+	$(SEGAMOD2_ROM_DIR)/epr-17888b.12 \
+	$(SEGAMOD2_ROM_DIR)/epr-17889b.13 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17746.10 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17747.11 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17744.8 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17745.9 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17884.6 \
+	$(SEGAMOD2_ROM_DIR)/mpr-17885.7
+# Game-tree extractor (stdlib only). tools/ is optional for lift-main / compare / etc.
+EXTRACT_ROM_BLOCKS := $(GAME_ROOT)/scripts/extract_rom_blocks.py
+# One stamp: GNU make 3.81 has no grouped targets, and the script writes both bins.
+ROM_EXTRACT_STAMP := out/i960/.rom-blocks.stamp
+
+reference rom-blocks: $(REFERENCE) $(MAIN_DATA)
+
+$(ROM_EXTRACT_STAMP): $(ROM_BLOCK_SRCS) $(EXTRACT_ROM_BLOCKS)
 	@test -d "$(SEGAMOD2_ROM_DIR)" || { \
 	  echo "error: ROM dir missing: $(SEGAMOD2_ROM_DIR)" >&2; \
+	  echo "  place MAME srallyc-b dumps under ROMS/srallyc-b/ (see ROMS/README.md)" >&2; \
 	  exit 1; \
 	}
-	@if [ -f "$(GAME_ROOT)/tools/tools/decomp/extract_rom_blocks.py" ] || \
-	    [ -d "$(GAME_ROOT)/tools/tools/decomp" ]; then \
-	  PYTHONPATH="$(GAME_ROOT)/tools" $(PYTHON) -m tools.decomp.extract_rom_blocks --out-dir out/i960; \
-	elif [ -f "$(GAME_ROOT)/tools/decomp/extract_rom_blocks.py" ]; then \
-	  PYTHONPATH="$(GAME_ROOT)/tools" $(PYTHON) -m decomp.extract_rom_blocks --out-dir out/i960; \
-	else \
-	  echo "error: extract_rom_blocks not found under tools/" >&2; exit 1; \
-	fi
+	@mkdir -p out/i960
+	$(PYTHON) "$(EXTRACT_ROM_BLOCKS)" --rom-dir "$(SEGAMOD2_ROM_DIR)" --out-dir out/i960
+	@touch $@
+
+$(REFERENCE) $(MAIN_DATA): $(ROM_EXTRACT_STAMP)
+	@test -s $@ || { rm -f $(ROM_EXTRACT_STAMP); $(MAKE) $(ROM_EXTRACT_STAMP); }
 
 all: $(OUTPUT)
 
@@ -233,7 +248,7 @@ quick compare coverage lift-progress lift-geo-compare:
 	@exit 1
 
 lift-palette: lift
-	@I960_PALETTE_DUMP=$(LIFT_PALETTE_DUMP) ./$(LIFT_BIN)
+	@I960_PALETTE_DUMP=$(LIFT_PALETTE_DUMP) "$(LIFT_BIN)"
 	@if [ -d "$(GAME_ROOT)/tools" ]; then \
 	  PYTHONPATH="$(GAME_ROOT)/tools" $(PYTHON) -m tools.decomp.lift_palette_inspect \
 	    --dump $(LIFT_PALETTE_DUMP) -o $(LIFT_PALETTE_REPORT) 2>/dev/null || \
@@ -245,23 +260,23 @@ lift-palette: lift
 
 lift-viewer: lift
 	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  ./$(LIFT_BIN) --viewer track --course desert --out $(GAME_ROOT)/out \
+	  "$(LIFT_BIN)" --viewer track --course desert --out $(GAME_ROOT)/out \
 	  --palette-dump $(LIFT_PALETTE_DUMP)
 
 lift-palette-viewer: lift-viewer
 
 lift-boot-viewer: lift
 	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  ./$(LIFT_BIN) --viewer boot \
+	  "$(LIFT_BIN)" --viewer boot \
 	  --palette-dump build/lift/boot_copyright
 
 lift-boot-practice: lift
 	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  ./$(LIFT_BIN) --viewer boot --practice \
+	  "$(LIFT_BIN)" --viewer boot --practice \
 	  --palette-dump build/lift/boot_copyright
 
 lift-boot-headless: lift
-	@cd $(GAME_ROOT) && ./$(LIFT_BIN) --viewer boot --headless \
+	@cd $(GAME_ROOT) && "$(LIFT_BIN)" --viewer boot --headless \
 	  --palette-dump build/lift/boot_copyright
 
 lift-boot-live: lift-boot-viewer
@@ -270,7 +285,7 @@ LIFT_CGM_DECODE_DUMP := build/lift/cgm_decode
 LIFT_CGM_SPLASH_VADDR := 0x2879db0
 
 lift-cgm-decode: lift
-	@cd $(GAME_ROOT) && ./$(LIFT_BIN) --decode-cgm $(LIFT_CGM_SPLASH_VADDR) \
+	@cd $(GAME_ROOT) && "$(LIFT_BIN)" --decode-cgm $(LIFT_CGM_SPLASH_VADDR) \
 	  --palette-dump $(LIFT_CGM_DECODE_DUMP)
 
 # Sync portable runtime from tools SoT → this game tree.

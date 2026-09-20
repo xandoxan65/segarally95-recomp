@@ -1,6 +1,7 @@
 /* Load Model 2 textures ROM (ROM_LOAD32_WORD) — u16 tp/th pool. */
 
 #include "model2_texture_rom.h"
+#include "model2_rom_dir.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -114,18 +115,15 @@ int model2_texture_rom_load_default(void)
     if (g_u16)
         return 0;
 
-    dir = getenv("SEGAMOD2_ROM_DIR");
-    if (!dir || !*dir)
-        dir = getenv("DECOMP_ROM_DIR");
-    if (!dir || !*dir)
-        dir = "../ROMS/srallyc-b";
+    dir = model2_resolve_rom_dir();
 
     if (load32_word_to_u16(dir, "mpr-17753.25", "mpr-17752.24", &g_u16, &g_n_u16) != 0) {
         fprintf(stderr, "lift: textures ROM load failed from %s\n", dir);
         return -1;
     }
     g_mask = g_n_u16 ? (g_n_u16 - 1u) : 0u;
-    fprintf(stderr, "lift: textures ROM loaded %u u16 (mask 0x%x)\n", g_n_u16, g_mask);
+    fprintf(stderr, "lift: textures ROM loaded %u u16 from %s (mask 0x%x)\n",
+            g_n_u16, dir, g_mask);
     return 0;
 }
 
