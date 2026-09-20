@@ -43,6 +43,8 @@ typedef struct {
 
 static model2_nvram_t g_nvram;
 static char g_nvram_path[512];
+/* 0x202019: 0=japan, 1=us, 2=international. CLI default; overrides YAML. */
+static u8 g_region = 2;
 
 static const char *nvram_default_path(void)
 {
@@ -80,11 +82,13 @@ static void nvram_capture_from_host(void)
 
 void model2_nvram_apply_options(void)
 {
-    if (!g_nvram.loaded || !g_nvram.have_settings)
+    if (!g_nvram.loaded || !g_nvram.have_settings) {
+        i960_st_u8(I960_WORKRAM, 0x202019, 0, g_region);
         return;
+    }
 
     i960_st_u8(I960_WORKRAM, 0x202018, 0, g_nvram.advertise);
-    i960_st_u8(I960_WORKRAM, 0x202019, 0, g_nvram.country);
+    i960_st_u8(I960_WORKRAM, 0x202019, 0, g_region);
     i960_st_u8(I960_WORKRAM, 0x20201a, 0, g_nvram.flag_1a);
     i960_st_u8(I960_WORKRAM, 0x20201b, 0, g_nvram.flag_1b);
     i960_st_u8(I960_WORKRAM, 0x20201c, 0, g_nvram.flag_1c);
@@ -100,6 +104,7 @@ void model2_nvram_apply_options(void)
         i960_st_u16(I960_WORKRAM, 0x202010, 0, g_nvram.mode_cksum);
         i960_st_u16(I960_WORKRAM, 0x202012, 0, g_nvram.mode_word);
     }
+    g_nvram.country = g_region;
 }
 
 static int hex_nibble(int c)
@@ -132,20 +137,54 @@ static int parse_u32_value(const char *s, u32 *out)
 static const char *country_name(u8 v)
 {
     if (v == 1)
-        return "usa";
+        return "us";
     if (v == 2)
-        return "export";
-    return "jpn";
+        return "international";
+    return "japan";
 }
 
-static u8 country_from_name(const char *s)
+static int country_from_name(const char *s, u8 *out)
 {
+    char tok[32];
+    size_t n = 0;
+
     while (*s && isspace((unsigned char)*s))
         s++;
-    if (!strncmp(s, "usa", 3) || !strncmp(s, "USA", 3) || s[0] == '1')
-        return 1;
-    if (!strncmp(s, "export", 6) || !strncmp(s, "EXPORT", 6) || s[0] == '2')
-        return 2;
+    while (*s && !isspace((unsigned char)*s) && *s != '#' && n + 1 < sizeof(tok)) {
+        char c = *s++;
+
+        if (c >= 'A' && c <= 'Z')
+            c = (char)(c - 'A' + 'a');
+        tok[n++] = c;
+    }
+    tok[n] = '\0';
+    if (n == 0)
+        return -1;
+    if (!strcmp(tok, "japan") || !strcmp(tok, "jpn") || !strcmp(tok, "jp")
+        || !strcmp(tok, "0")) {
+        *out = 0;
+        return 0;
+    }
+    if (!strcmp(tok, "us") || !strcmp(tok, "usa") || !strcmp(tok, "1")) {
+        *out = 1;
+        return 0;
+    }
+    if (!strcmp(tok, "international") || !strcmp(tok, "export")
+        || !strcmp(tok, "world") || !strcmp(tok, "2")) {
+        *out = 2;
+        return 0;
+    }
+    return -1;
+}
+
+int model2_nvram_set_region_name(const char *name)
+{
+    u8 country = 2;
+
+    if (!name || country_from_name(name, &country) != 0)
+        return -1;
+    g_region = country;
+    g_nvram.country = country;
     return 0;
 }
 
@@ -164,7 +203,7 @@ int model2_nvram_load(const char *path)
     memset(&g_nvram, 0, sizeof(g_nvram));
     /* Sensible defaults matching game_option_flags_init / coin_option_defaults. */
     g_nvram.advertise = 1;
-    g_nvram.country = 0;
+    g_nvram.country = g_region;
     g_nvram.flag_1a = 1;
     g_nvram.flag_1e = 1;
     g_nvram.flag_1f = 4;
@@ -176,7 +215,9 @@ int model2_nvram_load(const char *path)
 
     fp = fopen(path, "r");
     if (!fp) {
-        fprintf(stderr, "lift: nvram — no file at %s (using defaults)\n", path);
+        fprintf(stderr, "lift: nvram — no file at %s (region %s)\n",
+                path, country_name(g_region));
+        fflush(stderr);
         return 1;
     }
 
@@ -240,7 +281,10 @@ int model2_nvram_load(const char *path)
             while (*val && isspace((unsigned char)*val))
                 val++;
             if (!strcmp(key, "country")) {
-                g_nvram.country = country_from_name(val);
+                u8 country = g_region;
+
+                if (country_from_name(val, &country) == 0)
+                    g_nvram.country = country;
                 g_nvram.have_settings = 1;
             } else if (!strcmp(key, "advertise") && parse_u32_value(val, &num) == 0) {
                 g_nvram.advertise = (u8)num;
@@ -285,9 +329,15 @@ int model2_nvram_load(const char *path)
 
     g_nvram.loaded = 1;
     g_nvram.dirty = 0;
+    if (g_nvram.country != g_region) {
+        fprintf(stderr, "lift: region %s overrides nvram country %s\n",
+                country_name(g_region), country_name(g_nvram.country));
+    }
+    g_nvram.country = g_region;
     fprintf(stderr,
             "lift: nvram loaded from %s (country=%s, sram_bytes=%u)\n",
             path, country_name(g_nvram.country), (unsigned)hex_off);
+    fflush(stderr);
     return 0;
 }
 
@@ -309,7 +359,7 @@ int model2_nvram_save(const char *path)
 
     fprintf(fp,
             "# Sega Rally (srallyc) host NVRAM — backup SRAM + operator options\n"
-            "# country: jpn | usa | export  (workram 0x202019)\n"
+            "# country: international | japan | us  (workram 0x202019; CLI --region overrides)\n"
             "version: %d\n"
             "settings:\n"
             "  country: %s\n"

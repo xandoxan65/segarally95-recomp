@@ -70,8 +70,11 @@ static void zero_registers(void)
 
 void i960_host_load_rom(void)
 {
+    if (model2_romset_verify() != 0)
+        exit(1);
     if (model2_rom_load_default() != 0) {
-        fprintf(stderr, "lift: ROM load failed (run: make rom-blocks); using zero-filled maincpu\n");
+        fprintf(stderr, "lift: ROM load failed after checksum check\n");
+        exit(1);
     }
     /* Geo/polygon ROM loads lazily on first FIFO decode (avoids ~8MB startup read). */
 }
@@ -80,8 +83,10 @@ void i960_host_reset(void)
 {
     model2_hw_init_from_lift();
     model2_snd_reset();
-    if (model2_snd_load_roms(NULL) != 0)
-        fprintf(stderr, "lift: sound ROMs not loaded (68k+SCSP silent)\n");
+    if (model2_snd_load_roms(NULL) != 0) {
+        fprintf(stderr, "lift: sound ROM load failed\n");
+        exit(1);
+    }
     model2_io_board_reset();
     zero_registers();
     /*

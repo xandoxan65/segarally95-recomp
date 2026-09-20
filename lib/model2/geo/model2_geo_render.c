@@ -460,13 +460,17 @@ static void ensure_polygon_rom(void)
 
     if (g_polygon_loaded)
         return;
-    if (model2_polygon_rom_load_default() != 0)
-        fprintf(stderr, "lift: geo render: continuing without polygon ROM\n");
+    if (model2_polygon_rom_load_default() != 0) {
+        fprintf(stderr, "lift: polygon ROM required; refusing to draw without it\n");
+        exit(1);
+    }
     poly = model2_polygon_rom_words(&n_poly);
     if (poly && n_poly)
         model2_geo_dl_ctx_set_rom(&g_ctx, poly, n_poly);
-    if (model2_texture_rom_load_default() != 0)
-        fprintf(stderr, "lift: geo render: continuing without textures ROM\n");
+    if (model2_texture_rom_load_default() != 0) {
+        fprintf(stderr, "lift: texture ROM required; refusing to draw without it\n");
+        exit(1);
+    }
     g_polygon_loaded = 1;
 }
 

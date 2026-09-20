@@ -1,6 +1,7 @@
 /* CLI for segamod2 host modes (--viewer, --help). */
 
 #include "track_viewer.h"
+#include "model2_nvram.h"
 #include "model2_snd.h"
 
 #include <stdio.h>
@@ -12,7 +13,6 @@ static int streq(const char *a, const char *b)
     return a && b && strcmp(a, b) == 0;
 }
 
-static char s_default_out[512];
 static char s_copro_dump[512];
 
 static void cli_setenv(const char *key, const char *value)
@@ -36,19 +36,8 @@ static const char *optional_path(int *i, int argc, char **argv, const char *fall
 
 static void defaults(track_viewer_opts_t *opts)
 {
-    const char *root = getenv("SEGAMOD2_ROOT");
-
-    if (!root || !*root)
-        root = "..";
-
-    snprintf(s_default_out, sizeof(s_default_out), "%s/out", root);
-    opts->course = "desert";
-    opts->out_root = s_default_out;
     opts->palette_dump = "build/lift/palette_state";
-    opts->palette_only = 0;
-    opts->geo_frames = 0;
     opts->viewer_boot = 0;
-    opts->boot_frames = 0;
     opts->live_view = 0;
     opts->headless = 0;
     opts->record_path = NULL;
@@ -65,14 +54,13 @@ static void defaults(track_viewer_opts_t *opts)
 
 void track_viewer_cli_help(void)
 {
-    fprintf(stderr,
+    fprintf(stdout,
             "segamod2 — lifted Sega Rally host\n"
             "\n"
             "No arguments: SDL cold-boot viewer (copyright → attract).\n"
             "  --harness              short dispatch trace (I960_HOST_MAX_DISPATCH, default 64)\n"
             "\n"
             "Viewer:\n"
-            "  --viewer track [--course desert] [--out DIR] [--palette-only] [--geo-frames N]\n"
             "  --viewer boot [--palette-dump DIR] [--headless] [--record FILE] [--practice]\n"
             "  --live                 SDL window (boot viewer default)\n"
             "  --headless             PNG dump only, no SDL window\n"
@@ -82,11 +70,12 @@ void track_viewer_cli_help(void)
             "                         also: I960_HOST_ASPECT=16:9\n"
             "  --practice             skip attract/menus → desert practice START (Delta MT)\n"
             "                         also: I960_HOST_SKIP_PRACTICE=1\n"
+            "  --region NAME          cabinet region: international (default), japan, or us\n"
+            "                         overrides the NVRAM country byte (0x202019)\n"
             "  --record FILE          pipe live frames to ffmpeg (*.avi=mjpeg, else x264)\n"
             "                         async writer; drops frames if encode lags (low latency)\n"
             "                         also: I960_HOST_RECORD=FILE or press R in the window\n"
             "\n"
-            "  track: lifted palette + CGM bridge + asset export for web viewer\n"
             "  boot:  full cold boot (copyright → attract; --practice jumps to desert START)\n"
             "\n"
             "CGM decode (isolated catalog → sys24 PNG, splash call chain):\n"
@@ -144,42 +133,18 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
             return 2;
         }
         if (streq(argv[i], "--viewer")) {
-            viewer = 1;
-            if (i + 1 < argc && argv[i + 1][0] != '-') {
-                if (streq(argv[i + 1], "track") || streq(argv[i + 1], "track-desert")) {
-                    i++;
-                    if (streq(argv[i], "track-desert"))
-                        opts->course = "desert";
-                } else if (streq(argv[i + 1], "boot")) {
-                    i++;
-                    opts->viewer_boot = 1;
-                    opts->live_view = 1;
-                }
+            if (i + 1 >= argc || !streq(argv[i + 1], "boot")) {
+                fprintf(stderr, "lift: --viewer expects boot\n");
+                return -1;
             }
-            continue;
-        }
-        if (streq(argv[i], "--frames") && i + 1 < argc) {
-            opts->boot_frames = (int)strtol(argv[++i], NULL, 0);
-            continue;
-        }
-        if (streq(argv[i], "--course") && i + 1 < argc) {
-            opts->course = argv[++i];
-            continue;
-        }
-        if (streq(argv[i], "--out") && i + 1 < argc) {
-            opts->out_root = argv[++i];
+            i++;
+            viewer = 1;
+            opts->viewer_boot = 1;
+            opts->live_view = 1;
             continue;
         }
         if (streq(argv[i], "--palette-dump") && i + 1 < argc) {
             opts->palette_dump = argv[++i];
-            continue;
-        }
-        if (streq(argv[i], "--palette-only")) {
-            opts->palette_only = 1;
-            continue;
-        }
-        if (streq(argv[i], "--geo-frames") && i + 1 < argc) {
-            opts->geo_frames = (int)strtol(argv[++i], NULL, 0);
             continue;
         }
         if (streq(argv[i], "--live")) {
@@ -221,6 +186,15 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
             viewer = 1;
             if (!opts->headless)
                 opts->live_view = 1;
+            continue;
+        }
+        if (streq(argv[i], "--region")) {
+            if (i + 1 >= argc || model2_nvram_set_region_name(argv[i + 1]) != 0) {
+                fprintf(stderr,
+                        "lift: --region expects international, japan, or us\n");
+                return -1;
+            }
+            i++;
             continue;
         }
         if (streq(argv[i], "--decode-cgm") && i + 1 < argc) {

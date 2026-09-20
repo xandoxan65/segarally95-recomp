@@ -10,8 +10,13 @@ int model2_nvram_load(const char *path);
 /* Capture current backup SRAM + workram options and write YAML. */
 int model2_nvram_save(const char *path);
 
-/* Re-apply loaded settings into workram (after option init / seed). */
+/* Re-apply loaded settings into workram (after option init / seed).
+ * Country (0x202019) is always the CLI region, default international. */
 void model2_nvram_apply_options(void);
+
+/* Override NVRAM country. Names: international|japan|us (also export|jpn|usa).
+ * Returns 0, or -1 if the name is not recognized. */
+int model2_nvram_set_region_name(const char *name);
 
 void model2_nvram_mark_dirty(void);
 void model2_nvram_sync_if_dirty(void);

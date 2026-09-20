@@ -58,6 +58,9 @@ int model2_rom_load(const char *maincpu_path, const char *main_data_path);
 /* Convenience: load default paths and wire i960_mem ROM backend. */
 int model2_rom_load_default(void);
 
+/* Require the MAME srallycb files (present, size, CRC32). 0 ok, -1 on stderr. */
+int model2_romset_verify(void);
+
 /* Seed workram palette cells from maincpu ROM mirror (workram - 0x59F000).
  * Gamma scalars @ 0x5A2C70/0x5A2C74, lumaram row count @ 0x5A2EB0, table ptr @ 0x5A2EB4. */
 void model2_workram_seed_palette_gamma(void);

@@ -6,38 +6,19 @@ emitted yet, or wires harness helpers (catalog FIFO feed, env-driven placement b
 It must **not** be treated as lifted maincpu code. Progress reports and byte-match
 validation use `src/game/`, `src/boot/`, `src/libc/`, and `src/irq/` only.
 
-## Track viewer (unified path)
+## Boot viewer
 
-**Single entry point** — lifted palette + viewer asset export:
+Default `segamod2` (no arguments) is the SDL cold-boot viewer. Equivalent:
 
 ```bash
-cd decomp && make lift-viewer
+make lift-boot-viewer
 # or:
-./build/lift/segamod2 --viewer track --course desert --out ../out
+./build/segamod2 --viewer boot
 ```
 
-Pipeline (`lift_track_viewer.c`):
-
-1. **Lifted C** — `geo_renderer_init` (`geo_palette_lut_upload` @ `0x3C80`, `geo_lumaram_init` @ `0x4350`)
-2. **Optional** — `--geo-frames N` runs lifted `geo_draw_frame_entry` with track placement feed
-3. **C dump** — `model2_palette_state_dump` → `build/lift/palette_state`
-4. **Export** — skipped until mesh/palette_cache bake is lifted in C (no host-script bridge)
-
-Flags:
-
-| Flag | Effect |
-|------|--------|
-| `--viewer track` | Enable track viewer mode |
-| `--course desert` | Course id |
-| `--out DIR` | Repo `out/` root (default `SEGAMOD2_ROOT/out`) |
-| `--palette-dump DIR` | Palette snapshot dir (default `build/lift/palette_state`) |
-| `--palette-only` | Skip PNG/OBJ export (palette dump only) |
-| `--geo-frames N` | Run N lifted draw frames with track placement feed |
-| `--live` | SDL window: refresh sys24 framebuffer each frame (boot viewer) |
-| `--practice` | Boot viewer: skip attract/menus → desert practice START (Delta AT) |
-| `--help` | Usage |
-
-Legacy env modes were removed; use `--viewer track` or `--viewer boot` only.
+`--palette-dump DIR` writes the palette snapshot (default `build/lift/palette_state`).
+`--practice` skips attract/menus to desert practice START. `--headless` dumps PNGs
+with no SDL window.
 
 ## System-24 tile framebuffer (`sys24_tile.c`)
 
@@ -85,7 +66,6 @@ Offline FIFO decode:
 | Module | Role |
 |--------|------|
 | `lift_cli.c` | CLI parsing for `segamod2` |
-| `track_viewer_export.c` | Asset export stub (C bake not lifted yet) |
 | `placement_catalog_feed.c` | Catalog-row geo FIFO pushes |
 
 Palette RAM dumps come from **running `segamod2` with `--viewer`**.

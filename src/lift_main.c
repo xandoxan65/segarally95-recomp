@@ -14,14 +14,15 @@ int main(int argc, char **argv)
     track_viewer_opts_t viewer_opts;
     int viewer_mode;
 
-    i960_host_load_rom();
-    i960_host_reset();
-
     viewer_mode = track_viewer_cli_parse(argc, argv, &viewer_opts);
     if (viewer_mode == 2)
         return 0;
     if (viewer_mode < 0)
         return 1;
+
+    i960_host_load_rom();
+    i960_host_reset();
+
     if (viewer_mode == 1) {
         i960_host_trace_init();
         if (viewer_opts.geo_fifo_path)
@@ -30,7 +31,8 @@ int main(int argc, char **argv)
             return i960_lift_cgm_decode_run(&viewer_opts);
         if (viewer_opts.viewer_boot)
             return i960_lift_boot_screen_run(&viewer_opts);
-        return i960_lift_track_viewer_run(&viewer_opts);
+        fprintf(stderr, "lift: --viewer expects boot\n");
+        return 1;
     }
 
     i960_host_trace_init();

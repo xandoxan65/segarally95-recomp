@@ -3,24 +3,11 @@
 
 #include <stdint.h>
 
-/* Track viewer — lifted palette + asset export for the web viewer.
- *
- * Run:  segamod2 --viewer track --course desert [--out DIR] [--palette-only]
- *
- * Palette: geo_renderer_init builds colorxlat (0x3C80 + 0x4350 over ROM
- * 0x5A2EB4). GEO colorbases come from lifted boot/refresh/mode5
- * (table @ 0x5FB89E → 0x01802000) — same writers attract desert uses.
- * Mesh / palette_cache bake is C-only when ported (export currently skips).
- */
+/* Host viewer options (boot screen, CGM decode, geo FIFO decode). */
 
 typedef struct track_viewer_opts {
-    const char *course;        /* e.g. "desert" */
-    const char *out_root;      /* segamod2 out/ (palette_cache + scenes) */
-    const char *palette_dump;  /* decomp/build/lift/palette_state */
-    int palette_only;          /* skip mesh / PNG bake */
-    int geo_frames;            /* optional geo_draw_frame_entry iterations (0=skip) */
+    const char *palette_dump;  /* palette / framebuffer snapshot dir */
     int viewer_boot;           /* 1 = attract boot path (--viewer boot) */
-    int boot_frames;           /* frames to run before dump (boot viewer) */
     int live_view;             /* 1 = SDL live framebuffer (boot default) */
     int headless;              /* 1 = force PNG-only boot (--headless) */
     const char *record_path;   /* --record FILE.avi|mp4 (ffmpeg pipe, async) */
@@ -39,9 +26,6 @@ typedef struct track_viewer_opts {
 int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts);
 
 void track_viewer_cli_help(void);
-
-/* Lifted palette boot + optional geo feed + dump + export. Returns exit code. */
-int i960_lift_track_viewer_run(const track_viewer_opts_t *opts);
 
 /* Natural cold boot → main loop for attract/title (no desert scene hack).
  * Halts on copyright tile-script milestone; framebuffer from C sys24_tile. */

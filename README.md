@@ -34,13 +34,12 @@ Place board dumps under `ROMS/srallyc-b/` (see `ROMS/README.md` and `ROMS/manife
 
 ### Viewer deps
 
-Track / boot viewers need **libpng** and **SDL2** (and OpenGL on the host). Without them, `make lift` still links; viewer features are compiled out or limited.
+The boot viewer needs **libpng** and **SDL2** (and OpenGL on the host). Without them, `make lift` still links; viewer features are compiled out or limited.
 
 ```bash
 # macOS (Homebrew)
 brew install libpng sdl2
 
-make lift-viewer          # desert track
 make lift-boot-viewer     # cold boot + SDL
 make lift-boot-practice   # skip to desert practice START
 ```

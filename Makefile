@@ -54,6 +54,7 @@ LIFT_HOST_RUNTIME := \
 	lib/model2/host/i960_regs.c \
 	lib/model2/host/i960_mem.c \
 	lib/model2/host/model2_rom.c \
+	lib/model2/host/model2_rom_check.c \
 	lib/model2/host/i960_host.c \
 	lib/model2/host/i960_host_scene.c \
 	lib/model2/host/i960_host_staging.c \
@@ -92,7 +93,7 @@ GEN_LIFT_MAIN := $(firstword \
 .PHONY: all help lift lift-check lift-main clean \
 	libmodel2_geo libmodel2_hw libmodel2_tgp libmodel2_snd \
 	reference rom-blocks compare quick coverage lift-progress \
-	lift-palette lift-palette-viewer lift-viewer \
+	lift-palette \
 	lift-boot-viewer lift-boot-practice lift-boot-headless lift-boot-live \
 	lift-cgm-decode lift-geo-compare sync-runtime tools-hint
 
@@ -100,7 +101,6 @@ GEN_LIFT_MAIN := $(firstword \
 
 LIFT_PALETTE_DUMP := build/lift/palette_state
 LIFT_PALETTE_REPORT := $(GAME_ROOT)/out/lift/palette_inspect
-LIFT_PALETTE_CACHE := $(GAME_ROOT)/out/textures/palette_cache/desert
 
 help:
 	@echo "Targets:"
@@ -112,7 +112,6 @@ help:
 	@echo "  make rom-blocks   — extract ROM blocks (needs ROMs; no tools/)"
 	@echo "  make compare      — byte-compare rebuilt image (needs tools/)"
 	@echo "  make coverage     — lift coverage report (needs tools/)"
-	@echo "  make lift-viewer  — track viewer (needs ROMs + libpng/sdl2)"
 	@echo "  make clean        — remove build/lift/ and lib build dirs"
 
 # Compile-only check. Default `make` / `lift` also extracts ROM blocks.
@@ -257,13 +256,6 @@ lift-palette: lift
 	else \
 	  echo "palette dump written; clone tools/ for lift_palette_inspect"; \
 	fi
-
-lift-viewer: lift
-	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  "$(LIFT_BIN)" --viewer track --course desert --out $(GAME_ROOT)/out \
-	  --palette-dump $(LIFT_PALETTE_DUMP)
-
-lift-palette-viewer: lift-viewer
 
 lift-boot-viewer: lift
 	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
