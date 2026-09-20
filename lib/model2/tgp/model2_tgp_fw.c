@@ -6,6 +6,7 @@
 
 #include "model2_tgp_fw.h"
 #include "lift_log.h"
+#include "model2_rom_dir.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,13 +77,85 @@ void model2_tgp_fw_bind_copro_data(const u32 *words, u32 nwords)
     g_copro_words = nwords;
 }
 
-int model2_tgp_fw_load_copro_data_default(void)
+/* MAME ROM_LOAD32_WORD: low 16 bits from low_name, high 16 from high_name. */
+static int load32_word_pair(const char *low_path, const char *high_path,
+                            u32 **out_words, u32 *out_nwords)
 {
-    /*
-     * make lift-boot-viewer runs with cwd=decomp/; extract writes the blob at
-     * repo-root out/heightmaps/. Try both layouts (and the mistaken
-     * decomp/out path) so 0x52 does not silently no-op → flag 15 → Y dive.
-     */
+    FILE *low = NULL;
+    FILE *high = NULL;
+    long low_sz, high_sz;
+    u32 nwords;
+    u32 *buf;
+    u32 i;
+
+    low = fopen(low_path, "rb");
+    high = fopen(high_path, "rb");
+    if (!low || !high)
+        goto fail;
+    if (fseek(low, 0, SEEK_END) != 0 || fseek(high, 0, SEEK_END) != 0)
+        goto fail;
+    low_sz = ftell(low);
+    high_sz = ftell(high);
+    if (low_sz < 2 || low_sz != high_sz || (low_sz & 1) != 0)
+        goto fail;
+    nwords = (u32)(low_sz / 2);
+    buf = (u32 *)malloc((size_t)nwords * 4u);
+    if (!buf)
+        goto fail;
+    rewind(low);
+    rewind(high);
+    for (i = 0; i < nwords; i++) {
+        unsigned char lo[2], hi[2];
+
+        if (fread(lo, 1, 2, low) != 2 || fread(hi, 1, 2, high) != 2) {
+            free(buf);
+            goto fail;
+        }
+        buf[i] = (u32)lo[0] | ((u32)lo[1] << 8)
+               | ((u32)hi[0] << 16) | ((u32)hi[1] << 24);
+    }
+    fclose(low);
+    fclose(high);
+    *out_words = buf;
+    *out_nwords = nwords;
+    return 0;
+fail:
+    if (low)
+        fclose(low);
+    if (high)
+        fclose(high);
+    return -1;
+}
+
+/*
+ * copro_data is mpr-17754/55 (ROM_LOAD32_WORD). A prebuilt
+ * out/heightmaps blob is optional; without the words, 0x52 misses,
+ * table_index_b stores flag 15, and the car falls through the road.
+ * That is invisible on desert (span Y≈0) and obvious on mountain (Y≈15).
+ */
+static int load_copro_from_rom(u32 **out_words, u32 *out_nwords, const char **src)
+{
+    static const char *const low_names[] = { "mpr-17754.28", "mpr-17754.29" };
+    static const char *const high_names[] = { "mpr-17755.29", "mpr-17755.28" };
+    const char *dir = model2_resolve_rom_dir();
+    unsigned pair;
+
+    for (pair = 0; pair < 2u; pair++) {
+        char low_path[768];
+        char high_path[768];
+
+        snprintf(low_path, sizeof(low_path), "%s/%s", dir, low_names[pair]);
+        snprintf(high_path, sizeof(high_path), "%s/%s", dir, high_names[pair]);
+        if (load32_word_pair(low_path, high_path, out_words, out_nwords) == 0) {
+            *src = low_names[pair];
+            return 0;
+        }
+    }
+    return -1;
+}
+
+static int load_copro_from_blob(u32 **out_words, u32 *out_nwords, const char **src)
+{
     static const char *const paths[] = {
         "out/heightmaps/copro_data_deinterleaved.bin",
         "../out/heightmaps/copro_data_deinterleaved.bin",
@@ -90,59 +163,73 @@ int model2_tgp_fw_load_copro_data_default(void)
         NULL,
     };
     const char *const *p;
-    FILE *fp = NULL;
-    long sz;
-    u32 nwords;
-    u32 *buf;
+
+    for (p = paths; *p; p++) {
+        FILE *fp = fopen(*p, "rb");
+        long sz;
+        u32 nwords;
+        u32 *buf;
+
+        if (!fp)
+            continue;
+        if (fseek(fp, 0, SEEK_END) != 0) {
+            fclose(fp);
+            continue;
+        }
+        sz = ftell(fp);
+        if (sz < 16 || (sz & 3) != 0) {
+            fclose(fp);
+            continue;
+        }
+        nwords = (u32)(sz / 4);
+        buf = (u32 *)malloc((size_t)sz);
+        if (!buf) {
+            fclose(fp);
+            return -1;
+        }
+        rewind(fp);
+        if (fread(buf, 4, nwords, fp) != nwords) {
+            free(buf);
+            fclose(fp);
+            continue;
+        }
+        fclose(fp);
+        *out_words = buf;
+        *out_nwords = nwords;
+        *src = *p;
+        return 0;
+    }
+    return -1;
+}
+
+int model2_tgp_fw_load_copro_data_default(void)
+{
+    u32 *buf = NULL;
+    u32 nwords = 0;
+    const char *src = NULL;
     static int load_fail_logged;
 
     if (g_copro != NULL)
         return 0;
 
-    for (p = paths; *p; p++) {
-        fp = fopen(*p, "rb");
-        if (fp)
-            break;
-    }
-    if (!fp) {
+    if (load_copro_from_blob(&buf, &nwords, &src) != 0
+        && load_copro_from_rom(&buf, &nwords, &src) != 0) {
         if (!load_fail_logged) {
             fprintf(stderr,
                     "lift: tgp copro_data missing — 0x52 walk disabled "
-                    "(tried out/ and ../out/heightmaps/)\n");
+                    "(no heightmap blob and no mpr-17754/55)\n");
             fflush(stderr);
             load_fail_logged = 1;
         }
         return -1;
     }
-    if (fseek(fp, 0, SEEK_END) != 0) {
-        fclose(fp);
-        return -1;
-    }
-    sz = ftell(fp);
-    if (sz < 16 || (sz & 3) != 0) {
-        fclose(fp);
-        return -1;
-    }
-    nwords = (u32)(sz / 4);
-    buf = (u32 *)malloc((size_t)sz);
-    if (!buf) {
-        fclose(fp);
-        return -1;
-    }
-    rewind(fp);
-    if (fread(buf, 4, nwords, fp) != nwords) {
-        free(buf);
-        fclose(fp);
-        return -1;
-    }
-    fclose(fp);
     if (g_copro_owned)
         free(g_copro_owned);
     g_copro_owned = buf;
     g_copro = buf;
     g_copro_words = nwords;
-    lift_log( "lift: tgp copro_data loaded %u words from %s\n",
-            (unsigned)nwords, *p);
+    lift_log("lift: tgp copro_data loaded %u words from %s\n",
+             (unsigned)nwords, src);
     fflush(stderr);
     return 0;
 }
