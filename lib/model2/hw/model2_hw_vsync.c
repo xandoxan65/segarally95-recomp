@@ -4,12 +4,13 @@
  * 0x10000000 (geo_renderer_init stos 4 @ 0x372C).
  *
  * Pacing (one blocker per geo_vsync_wait):
- *   --live / SDL: one sys24_viewer_flip (SwapWindow) per wait; emulated videoctl
+ *   SDL window: one sys24_viewer_flip (SwapWindow) per wait; emulated videoctl
  *   may advance 2 steps when render_mode=0 without a second present.
  *   I960_HOST_VIDEO_SYNC without SDL: pthread timer @ model2_tile_vsync_hz().
  *   Offline: instant emulated vblank steps (no wall clock). */
 
 #include "model2_hw.h"
+#include "lift_log.h"
 
 #include <pthread.h>
 #include <stdio.h>
@@ -137,13 +138,13 @@ static void log_vsync_timing_once(void)
         return;
     g_logged_timing = 1;
     if (vsync_use_sdl_clock()) {
-        fprintf(stderr,
+        lift_status(
                 "model2_hw: video sync — SDL present + %.2f Hz host pacer "
                 "(videoctl frame# + render_mode@0x10000000)\n",
                 host_vsync_hz());
         return;
     }
-    fprintf(stderr,
+    lift_status(
             "model2_hw: video sync — %.2f Hz (%.2f ms) timer; videoctl frame# + "
             "render_mode@0x10000000 (override I960_HOST_FRAME_HZ)\n",
             host_vsync_hz(),
@@ -167,7 +168,7 @@ static int vsync_flip_one_frame(void)
         if (host && host->boot_vblank)
             host->boot_vblank();
         if (host && host->display_flip && host->display_flip() != 0) {
-            fprintf(stderr, "model2_hw: live view closed — requesting halt\n");
+            lift_status("model2_hw: live view closed — requesting halt\n");
             if (host->request_halt)
                 host->request_halt();
             return -1;
@@ -297,7 +298,7 @@ void model2_hw_render_mode_write(u32 value)
     videoctl_refresh_locked();
     if (!g_logged_render_mode) {
         g_logged_render_mode = 1;
-        fprintf(stderr,
+        lift_status(
                 "model2_hw: render_mode@0x10000000 <= 0x%x → videoctl bit2 every %d vblank(s)\n",
                 value,
                 g_render_mode ? 1 : 2);

@@ -5,6 +5,7 @@
 // @rom 0x1ecc0 +0xe4 game_start_race_hud_position
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -23,7 +24,7 @@ void game_start_race_hud_position(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_hud_position g0=%u\n", (unsigned)arg0);
+        lift_log( "lift: race_hud_position g0=%u\n", (unsigned)arg0);
         fflush(stderr);
         logged = 1;
     }

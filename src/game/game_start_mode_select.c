@@ -5,6 +5,7 @@
 // @rom 0x14440 +0x80 game_start_mode_select
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -52,6 +53,6 @@ void game_start_mode_select(u32 arg0, u32 arg1, u32 arg2)
     else
         sub += 3u;
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, sub);
-    fprintf(stderr, "lift: mode_select done choice=%u → submode %u\n",
+    lift_log( "lift: mode_select done choice=%u → submode %u\n",
             (unsigned)choice, (unsigned)sub);
 }

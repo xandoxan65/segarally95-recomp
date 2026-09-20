@@ -4,6 +4,7 @@
 // @rom 0x1c140 +0x60 game_start_practice_enter
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -32,5 +33,5 @@ void game_start_practice_enter(u32 arg0, u32 arg1, u32 arg2)
     i960_st_u32(I960_WORKRAM, 0x2020c8, 0, 15u);
     sub = i960_ld_u32(I960_WORKRAM, 0x20209c, 0) + 1u;
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, sub);
-    fprintf(stderr, "lift: practice_enter → submode %u\n", (unsigned)sub);
+    lift_log( "lift: practice_enter → submode %u\n", (unsigned)sub);
 }

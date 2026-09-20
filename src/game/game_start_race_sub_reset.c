@@ -5,6 +5,7 @@
 // @rom 0x1c9c0 +0x44 game_start_race_sub_reset
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_fp.h"
 
@@ -38,7 +39,7 @@ void game_start_race_sub_reset(u32 arg0, u32 arg1, u32 arg2)
     }
 
     if (!logged) {
-        fprintf(stderr, "lift: race_sub_reset (0x2020a8=0)\n");
+        lift_log( "lift: race_sub_reset (0x2020a8=0)\n");
         logged = 1;
     }
 }

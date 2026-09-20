@@ -3,6 +3,7 @@
 // @rom 0x476f0 +0x1dc geo_reg_texture_sync
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -179,7 +180,7 @@ void geo_reg_texture_sync(u32 arg0, u32 arg1, u32 arg2)
 
         (void)model2_geo_peek_polygon_ram0(0x7c11u, &peek);
         if (!s_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: geo_reg_texture_sync filled tables; "
                     "0x2172a0=%#x 0x217340=%#x 0x2173a0=%#x "
                     "poly_ram0[0x7c11]=%#x expect_src=%#x%s\n",

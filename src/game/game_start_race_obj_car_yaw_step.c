@@ -12,6 +12,7 @@
 // @rom 0x2f3c0 +0x15c game_start_race_obj_car_yaw_step
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_hw.h"
@@ -49,7 +50,7 @@ void game_start_race_obj_car_yaw_step(u32 arg0, u32 arg1, u32 arg2)
     sp = sp + 0x10u;
 
     if (!logged) {
-        fprintf(stderr, "lift: car_yaw_step node=%#x\n", node);
+        lift_log( "lift: car_yaw_step node=%#x\n", node);
         fflush(stderr);
         logged = 1;
     }

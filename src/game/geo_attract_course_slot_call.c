@@ -3,6 +3,7 @@
 // @rom 0x3b200 +0x5c0 geo_attract_course_slot_call
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
@@ -376,7 +377,7 @@ epilogue:
         static unsigned s_slot_log;
 
         if (s_slot_log < 6u && obj) {
-            fprintf(stderr,
+            lift_log(
                     "lift: slot_call best_ix=%u g0=%#x query_xz=(%.3g,%.3g) "
                     "probe=(%.3g,%.3g,%.3g)\n",
                     best_ix, (unsigned)g0,

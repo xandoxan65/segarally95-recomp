@@ -4,7 +4,7 @@
 
 #include "i960_lift.h"
 
-/* True when I960_HOST_LIVE_VIEW is set (or lift --live). */
+/* True when I960_HOST_LIVE_VIEW is set (SDL window; off with --headless). */
 int sys24_viewer_wanted(void);
 
 /* Open window + texture. Returns 0 on success, -1 on error. No-op when not wanted. */

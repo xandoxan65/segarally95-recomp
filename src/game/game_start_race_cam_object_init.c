@@ -7,6 +7,7 @@
 // @rom 0x34140 +0x234 game_start_race_cam_object_init
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 
@@ -27,7 +28,7 @@ void game_start_race_cam_object_init(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_object_init cam=%#x\n", cam);
+        lift_log( "lift: race_cam_object_init cam=%#x\n", cam);
         fflush(stderr);
         logged = 1;
     }
@@ -146,7 +147,7 @@ void game_start_race_cam_object_init(u32 arg0, u32 arg1, u32 arg2)
         static int pose_logged;
 
         if (!pose_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_cam_object_init 213b40 xyz=(%.3g,%.3g,%.3g)\n",
                     i960_u32_to_f64(i960_ld_u32(I960_ABS, 0x00213b40u, 0)),
                     i960_u32_to_f64(i960_ld_u32(I960_ABS, 0x00213b40u, 4)),

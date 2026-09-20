@@ -12,6 +12,7 @@
 // @rom 0x217e0 +0x120 game_start_race_obj_seed_cars
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_rom.h"
@@ -41,7 +42,7 @@ void game_start_race_obj_seed_cars(u32 arg0, u32 arg1, u32 arg2)
     sp = sp + 0x20u;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_seed_cars (0x217e0)\n");
+        lift_log( "lift: race_obj_seed_cars (0x217e0)\n");
         fflush(stderr);
         logged = 1;
     }
@@ -133,7 +134,7 @@ void game_start_race_obj_seed_cars(u32 arg0, u32 arg1, u32 arg2)
         {
             u32 player = i960_ld_u32(I960_WORKRAM, 0x2140d4, 0);
 
-            fprintf(stderr,
+            lift_log(
                     "lift: race_obj_seed_cars count=%u course=%u "
                     "pose50=%#x node=%#x n10=%#x\n",
                     (unsigned)n, (unsigned)course,

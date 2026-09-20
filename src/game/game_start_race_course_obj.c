@@ -12,6 +12,7 @@
 // @rom 0x2bb50 +0x2c game_start_race_course_obj_draw_21
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -59,7 +60,7 @@ void game_start_race_course_obj_draw_4(u32 arg0, u32 arg1, u32 arg2)
     eye_z = i960_ld_u32(I960_WORKRAM, 0x202214, 0);
 
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: course_obj_draw_4 node=%#x xyz=(%.3g,%.3g,%.3g) slot=%u\n",
                 (unsigned)node,
                 i960_u32_to_f64(x), i960_u32_to_f64(y), i960_u32_to_f64(z),

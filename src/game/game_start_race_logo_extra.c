@@ -9,6 +9,7 @@
 // @rom 0x420f0 +0x90 game_start_race_logo_extra
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 
@@ -66,7 +67,7 @@ void game_start_race_logo_extra(u32 arg0, u32 arg1, u32 arg2)
     game_start_race_course_centroid(0, 0, 0);
 
     if (!logged) {
-        fprintf(stderr, "lift: race_logo_extra desert node=%#x\n", (unsigned)node);
+        lift_log( "lift: race_logo_extra desert node=%#x\n", (unsigned)node);
         fflush(stderr);
         logged = 1;
     }

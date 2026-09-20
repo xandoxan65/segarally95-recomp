@@ -18,6 +18,7 @@
 // @rom 0x2bcf0 +0xa80 game_start_race_obj_car_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -254,7 +255,7 @@ static void car_frame_e8_mode3(u32 node, u32 span_base, u32 wrap_n, u8 *frame)
         static int logged_m3;
 
         if (!logged_m3) {
-            fprintf(stderr,
+            lift_log(
                     "lift: car_frame e8=3 node=%#x xyz=(%.3g,%.3g,%.3g) "
                     "ang=(%.3g,%.3g,%.3g) e4=%u\n",
                     node,
@@ -299,7 +300,7 @@ void game_start_race_obj_car_frame(u32 arg0, u32 arg1, u32 arg2)
     sp = sp + 0x50u;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_car_frame node=%#x e8=%u\n", node,
+        lift_log( "lift: race_obj_car_frame node=%#x e8=%u\n", node,
                 i960_ld_u32(I960_ABS, node, 0xe8));
         fflush(stderr);
         logged = 1;

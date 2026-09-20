@@ -1,6 +1,7 @@
 /* C port of tools/model2_geo_dl.py — geo_process_command display-list runner. */
 
 #include "model2_geo_dl.h"
+#include "lift_log.h"
 #include "model2_geo_tex.h"
 #include "model2_texture_rom.h"
 #include "model2_host_aspect.h"
@@ -229,7 +230,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
             static unsigned s_ram_miss;
 
             if (s_ram_miss < 12u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: geo_object_data RAM miss oba=%#x obc=%#x base=%#x "
                         "mode=%d rc=%d verts=%u\n",
                         (unsigned)oba, (unsigned)obc, (unsigned)base, mode, rc,
@@ -252,7 +253,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
         for (pi = 0; pi < local.n_prims; pi++)
             local.prims[pi].hud_overlay = 1;
         if (s_needle_log < 4u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: tach needle obj base=%#x verts=%u prims=%u "
                     "T=(%.3g,%.3g,%.3g)\n",
                     (unsigned)base, local.n_verts, local.n_prims, geo->matrix[9],
@@ -300,7 +301,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
                        && geo->matrix[2] == 0.f && geo->matrix[3] == 0.f
                        && geo->matrix[5] == 0.f && geo->matrix[6] == 0.f
                        && geo->matrix[7] == 0.f);
-            fprintf(stderr,
+            lift_log(
                     "lift: geo body-shell base=%#x export=%u front=%u vis=%u "
                     "mode=%d R=%s T=(%.4g,%.4g,%.4g) "
                     "c2=(%.3g,%.3g,%.3g)\n",
@@ -385,7 +386,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
                     n_zok++;
             }
             if (slot_i < 8u && s_ram_by_oba[slot_i] <= 3u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: geo RAM slot=%u oba=%#x verts=%u prims=%u "
                         "front=%u vis=%u tex=%u zok=%u mtxT=(%.3g,%.3g,%.3g)\n",
                         slot_i, (unsigned)oba, local.n_verts, local.n_prims,
@@ -437,7 +438,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
                            || base == 0x2ec1du || base == 0x2e5b5u
                            || base == 0x2e45cu);
             if (car_sel || s_obj_span_log < 24u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: geo obj-span #%u base=%#x verts=%u "
                         "cx=%.4g x=(%.4g,%.4g) y=(%.4g,%.4g) z=(%.4g,%.4g) "
                         "T=(%.3g,%.3g,%.3g) eye=%u%s\n",
@@ -545,7 +546,7 @@ static int dispatch(model2_geo_dl_ctx_t *ctx, int cmd, u32 opcode, model2_geo_st
 
             model2_geo_rebase_eye0(&out->mesh, old_cx, old_cy, new_cx, new_cy);
             if (s_rebase_log < 8u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: GEO 0x03 rebase eye0 (%d,%d)→(%d,%d) verts=%u\n",
                         old_cx, old_cy, new_cx, new_cy, out->mesh.n_verts);
                 s_rebase_log++;

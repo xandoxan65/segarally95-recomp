@@ -15,6 +15,7 @@
 // @rom 0x1ca30 +0x38 game_start_race_sub_dispatch
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host_staging.h"
 #include "model2_rom.h"
@@ -45,7 +46,7 @@ void game_start_race_sub_dispatch(u32 arg0, u32 arg1, u32 arg2)
         handler = model2_workram_mirror_u32(RACE_SUB_TABLE + (index << 2));
 
     if (!logged || index != last_idx) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_sub_dispatch idx=%u sub=%u handler=0x%x\n",
                 (unsigned)index, (unsigned)sub, (unsigned)handler);
         fflush(stderr);

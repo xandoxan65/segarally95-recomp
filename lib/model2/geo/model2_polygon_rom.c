@@ -2,6 +2,7 @@
 
 #include "model2_polygon_rom.h"
 #include "model2_rom_dir.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -159,8 +160,8 @@ int model2_polygon_rom_load_default(void)
     g_n_words = (unsigned)(total / 4u);
     g_words = (u32 *)merged;
     g_mask = g_n_words ? (g_n_words - 1u) : 0u;
-    fprintf(stderr, "lift: polygon ROM loaded %u words from %s (mask 0x%x)\n",
-            g_n_words, dir, g_mask);
+    lift_status("lift: polygon ROM loaded %u words from %s (mask 0x%x)\n",
+                g_n_words, dir, g_mask);
     return 0;
 }
 

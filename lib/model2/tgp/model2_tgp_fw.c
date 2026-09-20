@@ -5,6 +5,7 @@
  */
 
 #include "model2_tgp_fw.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -140,7 +141,7 @@ int model2_tgp_fw_load_copro_data_default(void)
     g_copro_owned = buf;
     g_copro = buf;
     g_copro_words = nwords;
-    fprintf(stderr, "lift: tgp copro_data loaded %u words from %s\n",
+    lift_log( "lift: tgp copro_data loaded %u words from %s\n",
             (unsigned)nwords, *p);
     fflush(stderr);
     return 0;

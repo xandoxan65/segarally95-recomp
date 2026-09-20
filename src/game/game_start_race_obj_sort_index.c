@@ -7,6 +7,7 @@
 // @rom 0x231f0 +0x80 game_start_race_obj_sort_index
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -61,7 +62,7 @@ void game_start_race_obj_sort_index(u32 arg0, u32 arg1, u32 arg2)
         i32 s0 = (i32)(signed short)i960_ld_u16(I960_ABS, p0, 0x56);
         i32 s1 = (i32)(signed short)i960_ld_u16(I960_ABS, p1, 0x56);
 
-        fprintf(stderr,
+        lift_log(
                 "lift: race_obj_sort ranks=%u/%u poses=%#x/%#x span56=%d/%d "
                 "view0=%#x\n",
                 (unsigned)r0, (unsigned)r1, (unsigned)p0, (unsigned)p1, s0, s1,

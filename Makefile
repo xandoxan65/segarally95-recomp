@@ -258,18 +258,13 @@ lift-palette: lift
 	fi
 
 lift-boot-viewer: lift
-	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  "$(LIFT_BIN)" --viewer boot \
-	  --palette-dump build/lift/boot_copyright
+	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) "$(LIFT_BIN)"
 
 lift-boot-practice: lift
-	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) \
-	  "$(LIFT_BIN)" --viewer boot --practice \
-	  --palette-dump build/lift/boot_copyright
+	@cd $(GAME_ROOT) && SEGAMOD2_ROOT=$(GAME_ROOT) "$(LIFT_BIN)" --practice
 
 lift-boot-headless: lift
-	@cd $(GAME_ROOT) && "$(LIFT_BIN)" --viewer boot --headless \
-	  --palette-dump build/lift/boot_copyright
+	@cd $(GAME_ROOT) && "$(LIFT_BIN)" --headless
 
 lift-boot-live: lift-boot-viewer
 

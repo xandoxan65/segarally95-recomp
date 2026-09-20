@@ -9,6 +9,7 @@
 // @rom 0x427a0 +0xc10 game_start_race_desert_node_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -103,7 +104,7 @@ void game_start_race_desert_node_frame(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_desert_node_frame\n");
+        lift_log( "lift: race_desert_node_frame\n");
         fflush(stderr);
         logged = 1;
     }
@@ -143,7 +144,7 @@ void game_start_race_desert_node_frame(u32 arg0, u32 arg1, u32 arg2)
             static int view_logged;
 
             if (!view_logged) {
-                fprintf(stderr,
+                lift_log(
                         "lift: desert_view mode=%u timer=%d base=%#x "
                         "(213b00=%#x)\n",
                         (unsigned)mode, (int)(i32)timer,

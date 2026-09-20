@@ -8,6 +8,7 @@
 // @rom 0x203d0 +0x300 game_start_race_cam_matrix_long
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -43,7 +44,7 @@ void game_start_race_cam_matrix_long(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_matrix_long\n");
+        lift_log( "lift: race_cam_matrix_long\n");
         fflush(stderr);
         logged = 1;
     }
@@ -53,7 +54,7 @@ void game_start_race_cam_matrix_long(u32 arg0, u32 arg1, u32 arg2)
         static int skip_logged;
 
         if (!skip_logged) {
-            fprintf(stderr, "lift: race_cam_matrix_long skip (2140cc=0)\n");
+            lift_log( "lift: race_cam_matrix_long skip (2140cc=0)\n");
             fflush(stderr);
             skip_logged = 1;
         }
@@ -149,7 +150,7 @@ void game_start_race_cam_matrix_long(u32 arg0, u32 arg1, u32 arg2)
         static int cat_logged;
 
         if (!cat_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: tach catalog 0x2865130 %08x %08x %08x %08x\n",
                     cat0, cat1, cat2, cat3);
             fflush(stderr);

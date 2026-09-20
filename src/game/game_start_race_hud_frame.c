@@ -8,6 +8,7 @@
 // @rom 0x21340 +0x28 game_start_race_geo_prg_hud_go
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -23,7 +24,7 @@ void game_start_race_hud_frame(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_hud_frame (per-frame g0=1 path)\n");
+        lift_log( "lift: race_hud_frame (per-frame g0=1 path)\n");
         fflush(stderr);
         logged = 1;
     }
@@ -57,7 +58,7 @@ void game_start_race_geo_prg_hud_go(u32 arg0, u32 arg1, u32 arg2)
     static int logged;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_geo_prg_hud_go (0x21340)\n");
+        lift_log( "lift: race_geo_prg_hud_go (0x21340)\n");
         fflush(stderr);
         logged = 1;
     }

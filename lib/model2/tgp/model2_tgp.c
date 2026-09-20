@@ -1,4 +1,5 @@
 #include "model2_tgp.h"
+#include "lift_log.h"
 #include "model2_tgp_fw.h"
 
 #include <math.h>
@@ -525,7 +526,7 @@ static void copro_finish_cmd(void)
                 if (log07 < 8) {
                     u32 count = list ? tgp_workram_ld(list) : 0u;
 
-                    fprintf(stderr,
+                    lift_log(
                             "lift: tgp 0x07 cursor=%#x ram=%#x handle=%#x "
                             "armed=%d list=%#x count=%u\n",
                             (unsigned)cursor, (unsigned)ram_handle,
@@ -546,7 +547,7 @@ static void copro_finish_cmd(void)
             int hit = model2_tgp_fw_run_52(g_copro_road.words);
 
             if (hit && !hit_logged) {
-                fprintf(stderr,
+                lift_log(
                         "lift: tgp 0x52 hit dir=%#x idx=%u slot=%u "
                         "q=(%.4g,%.4g,%.4g)\n",
                         (unsigned)g_copro_road.words[3],
@@ -557,7 +558,7 @@ static void copro_finish_cmd(void)
                 fflush(stderr);
                 hit_logged = 1;
             } else if (!hit && !miss_logged) {
-                fprintf(stderr,
+                lift_log(
                         "lift: tgp 0x52 miss dir=%#x idx=%u "
                         "q=(%.4g,%.4g,%.4g)\n",
                         (unsigned)g_copro_road.words[3],
@@ -865,7 +866,7 @@ static void copro_finish_cmd(void)
             tgp_emit_geo_matrix(g_copro_matrix);
             memcpy(g_copro_matrix, saved, sizeof(g_copro_matrix));
             if (s_cmd55_log < 6u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: tgp 0x55 emit T=(%.3g,%.3g,%.3g) scale=(%.3g,%.3g,%.3g) "
                         "obj=(%.3g,%.3g,%.3g) eye=(%.3g,%.3g,%.3g) "
                         "world_delta=(%.3g,%.3g,%.3g) (view matrix kept)\n",
@@ -904,7 +905,7 @@ static void copro_finish_cmd(void)
             tgp_emit_geo_matrix(g_copro_matrix);
             memcpy(g_copro_matrix, saved, sizeof(saved));
             if (s_cmd5d_log < 4u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: tgp 0x5d emit T=(%.3g,%.3g,%.3g) "
                         "obj=(%.3g,%.3g,%.3g) (view R kept)\n",
                         pt[0], pt[1], pt[2], ox, oy, oz);
@@ -1406,7 +1407,7 @@ void model2_tgp_latch_view_matrix(void)
             float ay = u2f(tgp_workram_ld(0x202204u));
             float az = u2f(tgp_workram_ld(0x202208u));
 
-            fprintf(stderr,
+            lift_log(
                     "lift: cam mode=%u eye=(%.3g,%.3g,%.3g) focus=(%.3g,%.3g,%.3g) "
                     "T=(%.3g,%.3g,%.3g) R=%s look=(%.3g,%.3g,%.3g) "
                     "ang=(%.3g,%.3g,%.3g) pitch_seed=%.3g seeds=%.3g/%.3g\n",

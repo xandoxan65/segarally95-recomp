@@ -3,6 +3,7 @@
 // @rom 0x3ed20 +0x168 geo_attract_pen_angle_push
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_geo.h"
@@ -88,7 +89,7 @@ u32 geo_attract_pen_angle_push(u32 arg0, u32 arg1, u32 arg2)
         static unsigned s_yaw;
 
         if (s_yaw < 4u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: pen_yaw atan2(dx=%.3g,dz=%.3g)=%.3g deg "
                     "focus=(%.3g,%.3g,%.3g) obj=(%.3g,%.3g,%.3g) host=%d\n",
                     f7, f6, fang * (180.f / 3.14159265f),

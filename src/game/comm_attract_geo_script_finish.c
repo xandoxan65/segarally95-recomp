@@ -3,6 +3,7 @@
 // @rom 0x11b90 +0xefc comm_attract_geo_script_finish
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
@@ -253,7 +254,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
         static unsigned s_m4;
 
         if (s_m4 < 6u || (s_m4 % 60u) == 0u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: mode4 obj=(%.3g,%.3g,%.3g) scene=(%.3g,%.3g,%.3g) "
                     "delta=(%.3g,%.3g,%.3g)\n",
                     (float)i960_u32_to_f64(arg0_p ? arg0_p[0] : 0),
@@ -451,7 +452,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
             g4 = i960_f64_to_u32((i960_u32_to_f64(g2)) * (i960_u32_to_f64(g0)));
             g0 = i960_f64_to_u32((i960_u32_to_f64(g1)) - (i960_u32_to_f64(g4)));
             if (s_m7 < 4u) {
-                fprintf(stderr,
+                lift_log(
                         "lift: mode7 radius=%.3g falloff=%.3g |delta|=%.3g "
                         "scale=%.3g scene=(%.3g,%.3g,%.3g)\n",
                         radius, falloff, dist,
@@ -754,7 +755,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
         static unsigned s_mode_log;
 
         if (s_mode_log < 8u || (s_mode_log % 60u) == 0u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: script_finish cam_mode=%u (>11=identity-only) "
                     "obj=%p\n",
                     (unsigned)(r6 & 0xffu), (void *)arg0_p);
@@ -789,7 +790,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
                     bearing_deg =
                         (float)(atan2((double)cx, (double)cz) * (180.0 / 3.141592653589793));
 
-                    fprintf(stderr,
+                    lift_log(
                             "lift: cam%d obj_world=(%.3g,%.3g,%.3g) "
                             "obj_cam=(%.3g,%.3g,%.3g) bearing_xz=%.1fdeg "
                             "ang=(%.3g,%.3g,%.3g)\n",

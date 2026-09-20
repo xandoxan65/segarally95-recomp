@@ -4,6 +4,7 @@
 // @rom 0x15200 +0xe0 game_start_car_select
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
 
@@ -38,7 +39,7 @@ void game_start_car_select(u32 arg0, u32 arg1, u32 arg2)
         static int logged;
 
         if (!logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: car_select_frame emit (expect ~524 verts, "
                     "panel cx≈−10/0/+10)\n");
             logged = 1;
@@ -82,7 +83,7 @@ void game_start_car_select(u32 arg0, u32 arg1, u32 arg2)
     sub = i960_ld_u32(I960_WORKRAM, 0x2020ac, 0) + 1u;
     i960_st_u32(I960_WORKRAM, 0x2020ac, 0, sub);
     course = i960_ld_u32(I960_WORKRAM, 0x214354, 0);
-    fprintf(stderr, "lift: car_select done car=%u lookup=%u submode->%u\n",
+    lift_log( "lift: car_select done car=%u lookup=%u submode->%u\n",
             (unsigned)course,
             (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a8bc, 0),
             (unsigned)sub);

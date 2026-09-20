@@ -17,6 +17,7 @@
 // @rom 0x31320 +0x320 game_start_race_obj_road_span_basis
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
@@ -114,7 +115,7 @@ void game_start_race_obj_road_span_basis(u32 arg0, u32 arg1, u32 arg2)
         static int logged;
 
         if (!logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: road_span_basis t=%.4g ox=%.4g "
                     "bx=%.4g by=%.4g bz=%.4g cx=%.4g "
                     "rowX=(%.4g,%.4g,%.4g) rowZ=(%.4g,%.4g,%.4g)\n",
@@ -185,7 +186,7 @@ void game_start_race_obj_road_span_basis(u32 arg0, u32 arg1, u32 arg2)
         }
         *(u32 *)(fp + 0x44u) = oyr;
         if (!out_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: road_span_basis 0x2c out=(%.4g,%.4g,%.4g)\n",
                     i960_u32_to_f64(oxr), i960_u32_to_f64(oyr),
                     i960_u32_to_f64(ozr));

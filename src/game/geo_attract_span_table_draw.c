@@ -3,6 +3,7 @@
 // @rom 0x47920 +0x180 geo_attract_span_table_draw
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "lift_syms.h"
 #include "model2_memory.h"
@@ -34,7 +35,7 @@ static void span_emit_log(const char *path, u32 table_ix, u32 slot, i32 r6,
     if (slot < 18u)
         s_by_slot[slot]++;
     s_total++;
-    fprintf(stderr,
+    lift_log(
             "lift: span_table %s course=%u slot=%u r6=%d r5=%d r7=%d a=%d b=%d\n",
             path, (unsigned)table_ix, (unsigned)slot, r6, r5, r7, a, b);
 }

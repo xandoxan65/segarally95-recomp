@@ -2,6 +2,7 @@
 
 #include "model2_texture_rom.h"
 #include "model2_rom_dir.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -122,8 +123,8 @@ int model2_texture_rom_load_default(void)
         return -1;
     }
     g_mask = g_n_u16 ? (g_n_u16 - 1u) : 0u;
-    fprintf(stderr, "lift: textures ROM loaded %u u16 from %s (mask 0x%x)\n",
-            g_n_u16, dir, g_mask);
+    lift_status("lift: textures ROM loaded %u u16 from %s (mask 0x%x)\n",
+                g_n_u16, dir, g_mask);
     return 0;
 }
 

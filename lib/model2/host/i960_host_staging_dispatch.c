@@ -3,6 +3,7 @@
  * target symbol is known at compile time; use these helpers for callx/indirect. */
 
 #include "i960_host_staging.h"
+#include "lift_log.h"
 #include "i960_host_invoke.h"
 #include "lift_syms.h"
 #include "model2_rom.h"
@@ -396,7 +397,7 @@ void i960_host_staging_call_mode_slot(u32 mode_index)
     if (!staged)
         return;
     if (!i960_host_staging_call_lifted(staged))
-        fprintf(stderr, "lift: unknown mode slot %u → 0x%08x (rom 0x%08x)\n",
+        lift_log( "lift: unknown mode slot %u → 0x%08x (rom 0x%08x)\n",
                 (unsigned)(mode_index & 15u), staged,
                 i960_host_resolve_call_target(staged));
 }

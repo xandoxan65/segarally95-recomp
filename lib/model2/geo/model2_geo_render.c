@@ -5,6 +5,7 @@
  */
 
 #include "model2_geo_render.h"
+#include "lift_log.h"
 #include "model2_geo_dl.h"
 #include "model2_geo_tex.h"
 #include "model2_polygon_rom.h"
@@ -821,7 +822,7 @@ static int decode_fifos_locked(void)
                                 bin[2]++;
                         }
                     }
-                    fprintf(stderr,
+                    lift_log(
                             "lift: geo prg-dl objects=%u verts=%u prims=%u "
                             "tris=%u words=%u mtx_nonident=%u/%u "
                             "focus=(%.3g,%.3g) x=(%.3g,%.3g) z=(%.3g,%.3g) "
@@ -889,7 +890,7 @@ static int decode_fifos_locked(void)
         rebuild_gl_buffers();
 
     if (!g_logged_decode || (g_mesh.n_verts > 0 && g_logged_decode < 8)) {
-        fprintf(stderr,
+        lift_log(
                 "lift: geo decode prg=%u copro=%u verts=%u tris=%u objects_dl=%d\n",
                 prg_n, copro_total, g_mesh.n_verts, g_tri_count, decoded);
         g_logged_decode++;
@@ -976,7 +977,7 @@ int model2_geo_render_init(void)
         g_worker_started = 1;
         if (g_fifo_valid && g_fifo.set_notify)
             g_fifo.set_notify(geo_fifo_notify);
-        fprintf(stderr, "lift: geo decode worker thread started\n");
+        lift_log( "lift: geo decode worker thread started\n");
     } else {
         g_worker_started = 0;
         fprintf(stderr, "lift: geo decode worker thread create failed — sync decode\n");
@@ -1016,7 +1017,7 @@ void model2_geo_render_polygon_data(u32 address, u32 count, const u32 *data)
                 sample = g_ctx.polygon_ram0[addr];
         }
         pthread_mutex_unlock(&g_geo_ram_mtx);
-        fprintf(stderr,
+        lift_log(
                 "lift: geo_polygon_data #%u addr=%#x count=%u sample0=%#x total_words=%u\n",
                 s_poly_uploads, (unsigned)address, (unsigned)count,
                 (unsigned)sample, s_poly_words);
@@ -1138,7 +1139,7 @@ int model2_geo_render_decode_prg_file(const char *path, int require_end)
     model2_geo_dl_result_free(&result);
     free(words);
     rebuild_gl_buffers();
-    fprintf(stderr, "lift: geo file decode verts=%u tris=%u\n", g_mesh.n_verts, g_tri_count);
+    lift_log( "lift: geo file decode verts=%u tris=%u\n", g_mesh.n_verts, g_tri_count);
     return (int)g_mesh.n_verts;
 }
 

@@ -3,6 +3,7 @@
 // @rom 0x2abc0 +0x100 geo_view_table_index_a
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "model2_tgp.h"
@@ -74,7 +75,7 @@ void geo_view_table_index_a(void *arg0, u32 arg1, void *arg2)
         static int skip_logged;
 
         if (skip_logged < 4) {
-            fprintf(stderr,
+            lift_log(
                     "lift: table_index_a skip 0x52 idx=%d count=%u cursor=%#x\n",
                     (int)(i32)index, (unsigned)count, (unsigned)slot);
             fflush(stderr);
@@ -135,7 +136,7 @@ void geo_view_table_index_a(void *arg0, u32 arg1, void *arg2)
             fx.u = ox;
             fy.u = oy;
             fz.u = oz;
-            fprintf(stderr,
+            lift_log(
                     "lift: table_index_a 0x52 idx=%u count=%u cursor=%#x "
                     "q=(%.4g,%.4g,%.4g) host=%d\n",
                     (unsigned)index, (unsigned)count, (unsigned)cursor,

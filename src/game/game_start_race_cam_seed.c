@@ -13,6 +13,7 @@
 // @rom 0x1f1d0 +0x810 game_start_race_cam_seed
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -88,7 +89,7 @@ void game_start_race_cam_seed(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_seed\n");
+        lift_log( "lift: race_cam_seed\n");
         fflush(stderr);
         logged = 1;
     }
@@ -374,7 +375,7 @@ seed_tail:
             static int eye_logged;
 
             if (!eye_logged) {
-                fprintf(stderr,
+                lift_log(
                         "lift: race_cam_seed cam=%#x eye=(%.3g,%.3g,%.3g) t=%.3g\n",
                         cam,
                         i960_u32_to_f64(eye_x),

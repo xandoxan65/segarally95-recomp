@@ -1,6 +1,7 @@
 /* SDL2 live preview: sys24 tiles + optional OpenGL geo composite. */
 
 #include "sys24_viewer.h"
+#include "lift_log.h"
 #include "model2_hw.h"
 #include "i960_host.h"
 #include "i960_mem.h"
@@ -30,11 +31,17 @@ extern void model2_snd_host_audio_close(void);
 #include <GL/gl.h>
 #endif
 #endif
+#if defined(__APPLE__)
+#include <objc/message.h>
+#include <objc/runtime.h>
+#endif
 #endif
 
 enum {
     SYS24_VIEW_SCALE = 2
 };
+
+static const char VIEWER_TITLE[] = "Sega Rally Championship 95 Arcade";
 
 static int g_wanted;
 static int g_open;
@@ -268,6 +275,38 @@ int sys24_viewer_wanted(void)
     return g_wanted;
 }
 
+#ifdef I960_HOST_HAVE_SDL
+/* macOS will not order a terminal-launched window above the front app
+ * unless the process is activated. Pump the queue first; SDL 2.32
+ * otherwise drops the raise until a later event. */
+static void viewer_bring_to_front(SDL_Window *window)
+{
+    SDL_Event ev;
+
+    if (!window)
+        return;
+    SDL_ShowWindow(window);
+    while (SDL_PollEvent(&ev)) {
+    }
+    SDL_RaiseWindow(window);
+#if defined(__APPLE__)
+    {
+        Class nsapp = objc_getClass("NSApplication");
+        SEL shared = sel_registerName("sharedApplication");
+        SEL activate = sel_registerName("activateIgnoringOtherApps:");
+        id app;
+
+        if (nsapp) {
+            app = ((id (*)(Class, SEL))objc_msgSend)(nsapp, shared);
+            if (app)
+                ((void (*)(id, SEL, BOOL))objc_msgSend)(app, activate, YES);
+        }
+    }
+    SDL_RaiseWindow(window);
+#endif
+}
+#endif
+
 int sys24_viewer_open(const char *title)
 {
     if (!sys24_viewer_wanted())
@@ -303,7 +342,7 @@ int sys24_viewer_open(const char *title)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 #endif
     g_window = SDL_CreateWindow(
-        title ? title : "segamod2 lift — sys24 + geo",
+        VIEWER_TITLE,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         win_w,
@@ -311,7 +350,7 @@ int sys24_viewer_open(const char *title)
         SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 #else
     g_window = SDL_CreateWindow(
-        title ? title : "segamod2 lift — sys24 framebuffer",
+        VIEWER_TITLE,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         win_w,
@@ -335,7 +374,7 @@ int sys24_viewer_open(const char *title)
     }
     /* Host timer paces frames; do not also block on display vsync. */
     SDL_GL_SetSwapInterval(0);
-    fprintf(stderr, "lift: live viewer OpenGL composite enabled (%dx%d%s)\n",
+    lift_log( "lift: live viewer OpenGL composite enabled (%dx%d%s)\n",
             win_w, win_h,
             model2_host_aspect_is_widescreen() ? " aspect=16:9" : "");
     glGenTextures(1, &g_tile_tex);
@@ -394,11 +433,10 @@ int sys24_viewer_open(const char *title)
     }
 
     g_open = 1;
-    SDL_ShowWindow(g_window);
-    SDL_RaiseWindow(g_window);
+    viewer_bring_to_front(g_window);
     (void)model2_snd_host_audio_open();
     viewer_record_try_start_from_env();
-    fprintf(stderr,
+    lift_log(
             "lift: live view — %dx%d (scale %dx)%s, 5=coin 1=start F2=test/confirm 9/Down=menu F3=nvram, Space=pause, R=record, Esc=quit\n",
             SYS24_FB_WIDTH,
             SYS24_FB_HEIGHT,
@@ -558,7 +596,7 @@ static void viewer_note_shot(void)
                 sy = (float)i960_u32_to_f64(i960_ld_u32(I960_WORKRAM, row, 4));
                 sz = (float)i960_u32_to_f64(i960_ld_u32(I960_WORKRAM, row, 8));
             }
-            fprintf(stderr,
+            lift_log(
                     "lift: shot=%u phase=%s course=%u tab=%u cam=%u "
                     "inner=%u script=%u desc=%#x link=%#x "
                     "scene=(%.3g,%.3g,%.3g)\n",
@@ -587,16 +625,23 @@ static void viewer_update_title(void)
     if (!g_window)
         return;
 
+    if (!lift_verbose_enabled()) {
+        SDL_SetWindowTitle(g_window, VIEWER_TITLE);
+        return;
+    }
+
     viewer_note_shot();
     if (test_menu)
         snprintf(title, sizeof(title),
-                 "lift%s — mode %u/%u  TEST MENU",
+                 "%s%s — mode %u/%u  TEST MENU",
+                 VIEWER_TITLE,
                  g_paused ? " [PAUSED]" : "",
                  (unsigned)(main_mode & 15u),
                  (unsigned)(inner & 15u));
     else if (splash)
         snprintf(title, sizeof(title),
-                 "lift%s — mode %u/%u  shot %u  splash  course %u",
+                 "%s%s — mode %u/%u  shot %u  splash  course %u",
+                 VIEWER_TITLE,
                  g_paused ? " [PAUSED]" : "",
                  (unsigned)(main_mode & 15u),
                  (unsigned)(inner & 15u),
@@ -604,7 +649,8 @@ static void viewer_update_title(void)
                  (unsigned)g_shot_course);
     else
         snprintf(title, sizeof(title),
-                 "lift%s — mode %u/%u  shot %u  course %u  cam %u  credit %u/%u",
+                 "%s%s — mode %u/%u  shot %u  course %u  cam %u  credit %u/%u",
+                 VIEWER_TITLE,
                  g_paused ? " [PAUSED]" : "",
                  (unsigned)(main_mode & 15u),
                  (unsigned)(inner & 15u),
@@ -623,7 +669,7 @@ static void viewer_log_scene_ids(const char *why)
     u32 frame = i960_ld_u32(I960_WORKRAM, 0x20a808, 0);
 
     viewer_note_shot();
-    fprintf(stderr,
+    lift_log(
             "lift: %s shot=%u%s course=%u cam=%u inner=%u\n",
             why, g_shot,
             viewer_is_splash_hold(inner, frame) ? " splash" : "",
@@ -893,7 +939,7 @@ static void viewer_tile_tex_upload(int keep_black)
         static unsigned s_hud_log;
 
         if (opaque > 0u && s_hud_log < 4u) {
-            fprintf(stderr, "lift: sys24 HUD overlay opaque_px=%u / %u\n", opaque,
+            lift_log( "lift: sys24 HUD overlay opaque_px=%u / %u\n", opaque,
                     (unsigned)n);
             s_hud_log++;
         }
@@ -1026,7 +1072,7 @@ static void draw_geo_layer(int vx, int vy, int vw, int vh,
                    * 180.f / 3.14159265f;
 
         if (!logged_projection) {
-            fprintf(stderr,
+            lift_log(
                     "lift: GEO projection focal=(%.3g,%.3g) window=%dx%d "
                     "center=(%d,%d) fov=(%.2f,%.2f)deg viewport=%dx%d "
                     "(camera-space MV)\n",
@@ -1041,7 +1087,7 @@ static void draw_geo_layer(int vx, int vy, int vw, int vh,
 
             if (hwproj->center[0] != s_cx || hwproj->center[1] != s_cy
                 || hwproj->focal_x != s_fx) {
-                fprintf(stderr,
+                lift_log(
                         "lift: GEO projection latch center=(%d,%d) "
                         "focal=(%.3g,%.3g)\n",
                         hwproj->center[0], hwproj->center[1],
@@ -1069,7 +1115,7 @@ static void draw_geo_layer(int vx, int vy, int vw, int vh,
          * projection rather than fabricating a second camera.
          */
         if (!logged_no_hwproj) {
-            fprintf(stderr,
+            lift_log(
                     "lift: no GEO 0x09/0x03 projection yet — identity "
                     "GL (no invented FOV/look-at)\n");
             logged_no_hwproj = 1;
@@ -1081,7 +1127,7 @@ static void draw_geo_layer(int vx, int vy, int vw, int vh,
     if (have_tex) {
         static int logged_tex;
         if (!logged_tex) {
-            fprintf(stderr, "lift: geo textured draw tris=%u verts=%u\n", ntris,
+            lift_log( "lift: geo textured draw tris=%u verts=%u\n", ntris,
                     nverts);
             logged_tex = 1;
         }
@@ -1285,7 +1331,7 @@ int sys24_viewer_flip(const u8 *tile_map, const u8 *char_ram, const u8 *palram)
                                             nz2++;
                                     }
                                 }
-                                fprintf(stderr,
+                                lift_log(
                                         "lift: car_select scroll "
                                         "h=%#x/%#x/%#x/%#x v=%#x/%#x/%#x/%#x "
                                         "strip14=%d map0_nz=%u map2_nz=%u "
@@ -1312,7 +1358,7 @@ int sys24_viewer_flip(const u8 *tile_map, const u8 *char_ram, const u8 *palram)
                                 }
                             }
                             if (s_pri_log < 6) {
-                                fprintf(stderr,
+                                lift_log(
                                         "lift: mode3 priority opaque_px=%u / %u "
                                         "x_thirds=%u/%u/%u\n",
                                         opaque, (unsigned)n,
@@ -1390,7 +1436,7 @@ int sys24_viewer_flip(const u8 *tile_map, const u8 *char_ram, const u8 *palram)
                                          &hdx, &hdy, &hdww, &hdhh);
 
             if (!logged_aspect) {
-                fprintf(stderr,
+                lift_log(
                         "lift: composite geo=%dx%d hud=%dx%d aspect=%s\n",
                         gvw, gvh, hvw, hvh,
                         model2_host_aspect_is_widescreen() ? "16:9" : "4:3");

@@ -3,6 +3,7 @@
 // @rom 0x7fd0 +0x148 test_menu_exit
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -88,6 +89,6 @@ leave:
     i960_st_u32(I960_WORKRAM, 0x202098, 0, 0);
     g0 = 0;
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, 0);
-    fprintf(stderr, "lift: EXIT TEST MODE → attract\n");
+    lift_log( "lift: EXIT TEST MODE → attract\n");
     return 0;
 }

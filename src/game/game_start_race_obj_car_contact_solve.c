@@ -9,6 +9,7 @@
 // @rom 0x2f8a0 +0x894 game_start_race_obj_car_contact_solve
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -253,7 +254,7 @@ u32 game_start_race_obj_car_contact_solve(u32 arg0, void *arg1, void *arg2)
             max_penetration = penetration;
 
         if (contact_logs < 24u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: contact_solve i=%u pen=%.4g N=(%.3g,%.3g,%.3g) "
                     "F=(%.3g,%.3g,%.3g) scale=%.4g\n",
                     (unsigned)i, contact_f64(penetration),
@@ -271,7 +272,7 @@ u32 game_start_race_obj_car_contact_solve(u32 arg0, void *arg1, void *arg2)
     if (!(contact_f64(max_penetration) > 0.0)) {
         if (contact_summary < 16u
             || (bit7_mask != 0u && (contact_summary % 30u) == 0u)) {
-            fprintf(stderr,
+            lift_log(
                     "lift: contact_solve no-impulse idx=%d bit7=%#x "
                     "pred_y=%.4g\n",
                     (int)index, (unsigned)bit7_mask,
@@ -361,7 +362,7 @@ u32 game_start_race_obj_car_contact_solve(u32 arg0, void *arg1, void *arg2)
         /* Always log first 64, then every 16th — crash tunnels were invisible
          * after the early-run cap while force_slot y<-2 flooded the terminal. */
         if (contact_hit_logs < 64u || (contact_hit_logs % 16u) == 0u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: contact_solve hit pen=%.4g sumXZ=(%.3g,%.3g) "
                     "yaw=%.3g\n",
                     contact_f64(max_penetration),

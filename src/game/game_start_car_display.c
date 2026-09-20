@@ -5,6 +5,7 @@
 // @rom 0x14d60 +0x2c8 game_start_car_display
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "model2_geo.h"
 #include "model2_rom.h"
@@ -217,6 +218,6 @@ void game_start_car_display(u32 arg0, u32 arg1, u32 arg2)
 
     layer_clearbit15_disable();
 
-    fprintf(stderr, "lift: car_display → scene_frame %u lookup=%u\n",
+    lift_log( "lift: car_display → scene_frame %u lookup=%u\n",
             (unsigned)frame, (unsigned)lookup);
 }

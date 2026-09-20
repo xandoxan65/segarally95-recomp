@@ -11,6 +11,7 @@
 // @rom 0x40790 +0x88 game_start_race_cgm_colorbase_seed
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_rom.h"
@@ -58,7 +59,7 @@ void game_start_race_cgm_colorbase_seed(u32 arg0, u32 arg1, u32 arg2)
     i960_st_u32(I960_WORKRAM, 0x215c30, 0, table);
 
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_cgm_colorbase_seed batch=%u course=%u table=%#x\n",
                 (unsigned)batch0, (unsigned)course, (unsigned)table);
         fflush(stderr);

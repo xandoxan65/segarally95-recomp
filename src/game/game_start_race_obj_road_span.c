@@ -10,6 +10,7 @@
 // @rom 0x311e0 +0x130 game_start_race_obj_road_span
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -109,7 +110,7 @@ void game_start_race_obj_road_span(u32 arg0, u32 arg1, u32 arg2)
         static int logged;
 
         if (!logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: road_span node=%#x idx=%u t=%.4g y=%.4g max=%u\n",
                     node, index, i960_u32_to_f64(t), i960_u32_to_f64(y),
                     max_n);

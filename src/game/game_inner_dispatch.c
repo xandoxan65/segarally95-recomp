@@ -3,6 +3,7 @@
 // @rom 0x1aa30 +0x170 game_inner_dispatch
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "lift_syms.h"
@@ -71,7 +72,7 @@ void game_inner_dispatch(u32 arg0, u32 arg1, u32 arg2)
     tile_cursor_seed(20, 20);
     g0 = 0x005b9a10u;
     i960_host_boot_clock_mark();
-    fprintf(stderr, "lift: boot — SOUND INITIALIZE start\n");
+    lift_log( "lift: boot — SOUND INITIALIZE start\n");
     boot_tile_script_run(0x005b9a10u);
     /* @0x1AAD4 shlo 4,15,g5 → 240 frames before copyright @ 0x1A990 */
     i960_st_u32(I960_WORKRAM, 0x2021f4, 0, 15u << 4);

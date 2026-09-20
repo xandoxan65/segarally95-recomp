@@ -3,6 +3,7 @@
 // @rom 0xfa00 +0x2b0 comm_attract_board_dispatch
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host_staging.h"
 #include "model2_hw.h"
@@ -106,7 +107,7 @@ static void comm_attract_inner_tail(void)
     {
         static u32 s_last_inner = 0xffffffffu;
         if (wait_key != s_last_inner) {
-            fprintf(stderr,
+            lift_log(
                     "lift: attract inner %u → %u (script=%u copro=%u)\n",
                     (unsigned)s_last_inner, (unsigned)wait_key,
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a7c4, 0),

@@ -9,6 +9,7 @@
 // @rom 0x2f520 +0x378 game_start_race_obj_road_angles
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
@@ -201,7 +202,7 @@ void game_start_race_obj_road_angles(void *arg0, u32 arg1, u32 arg2)
     i960_mmio_write_u32(0x884000, 0x10802121u);
 
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_obj_road_angles ang=(%.3g,%.3g,%.3g)\n",
                 i960_u32_to_f64(pitch),
                 i960_u32_to_f64(yaw),

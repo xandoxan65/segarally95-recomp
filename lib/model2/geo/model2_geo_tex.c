@@ -1,6 +1,7 @@
 /* Texheader / UV / palette — operator contracts from MAME model2_v / model2rd. */
 
 #include "model2_geo_tex.h"
+#include "lift_log.h"
 #include "model2_geo_hw.h"
 
 #include <math.h>
@@ -411,5 +412,5 @@ void model2_palette_selftest(void)
         if (a[0] != b[0] || a[1] != b[1] || a[2] != b[2] || a[3] != b[3])
             mismatch++;
     }
-    fprintf(stderr, "lift: palette LUT selftest mismatches=%d (cb0/lb0)\n", mismatch);
+    lift_log( "lift: palette LUT selftest mismatches=%d (cb0/lb0)\n", mismatch);
 }

@@ -1,4 +1,5 @@
 #include "model2_hw.h"
+#include "lift_log.h"
 #include "model2_tgp.h"
 #include "model2_host_aspect.h"
 
@@ -133,7 +134,7 @@ void model2_hw_tgp_emit_geo_matrix(const float m[12])
         if (s_scale_log < 12u
             || fabsf(tx) > 1.0e5f || fabsf(ty) > 1.0e5f || fabsf(tz) > 1.0e5f
             || !(amax == amax)) {
-            fprintf(stderr,
+            lift_log(
                     "lift: tgp 0x05→0x0B diag=(%.4g,%.4g,%.4g) T=(%.4g,%.4g,%.4g) "
                     "maxabs=%.4g\n",
                     d0, d4, d8, tx, ty, tz, amax);

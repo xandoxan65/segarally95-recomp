@@ -2,6 +2,7 @@
 // @rom 0x10710 +0xc0 comm_attract_inner_2
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "cgm_format.h"
 #include "i960_host.h"
@@ -30,7 +31,7 @@ static void comm_attract_inner_2_animate_tail(void)
     u32 link_word;
     u32 inner;
 
-    fprintf(stderr, "lift: inner2 animate_tail enter\n");
+    lift_log( "lift: inner2 animate_tail enter\n");
 
     /* @0x10824–0x10858: script rotation via 0x5AF85C jump table. */
     script_idx = i960_ld_u32(I960_WORKRAM, 0x20a7c4, 0);
@@ -43,7 +44,7 @@ static void comm_attract_inner_2_animate_tail(void)
     if (script_idx <= 6u)
         tex_desc = comm_attract_inner_2_texture_pick(script_idx);
 
-    fprintf(stderr, "lift: inner2 tex_desc=%#x script=%u\n", tex_desc, script_idx);
+    lift_log( "lift: inner2 tex_desc=%#x script=%u\n", tex_desc, script_idx);
 
     /* @0x108B0–0x108DC */
     i960_st_u32(I960_WORKRAM, 0x20a808, 0, 0);
@@ -53,15 +54,15 @@ static void comm_attract_inner_2_animate_tail(void)
     i960_st_u32(I960_WORKRAM, 0x20a804, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x20a7fc, 0, link_word);
 
-    fprintf(stderr, "lift: inner2 before texture_descriptor link=%#x\n", link_word);
+    lift_log( "lift: inner2 before texture_descriptor link=%#x\n", link_word);
     tile_texture_descriptor_apply(0x9au, 0, 0);
-    fprintf(stderr, "lift: inner2 before subsys_init\n");
+    lift_log( "lift: inner2 before subsys_init\n");
     game_subsys_init_stub(0, 0, 0);
     game_d6_mode_apply(1, 50, 0);
     game_d6_count_apply(30, 0, 0);
-    fprintf(stderr, "lift: inner2 before course_init\n");
+    lift_log( "lift: inner2 before course_init\n");
     comm_attract_course_init(0, 0, 0);
-    fprintf(stderr, "lift: inner2 after course_init\n");
+    lift_log( "lift: inner2 after course_init\n");
 
     /* @0x10904–0x10930: advance inner mode 2 → 3. */
     i960_st_u32(I960_WORKRAM, 0x20a794, 0, 0);
@@ -69,20 +70,20 @@ static void comm_attract_inner_2_animate_tail(void)
     i960_st_u32(I960_WORKRAM, 0x20a7d4, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x20a7d8, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, inner + 1u);
-    fprintf(stderr, "lift: inner2 advanced to %u\n", inner + 1u);
+    lift_log( "lift: inner2 advanced to %u\n", inner + 1u);
 }
 
 static void comm_attract_inner_2_animate_body(void)
 {
     u32 board_type;
 
-    fprintf(stderr, "lift: inner2 animate_body enter\n");
+    lift_log( "lift: inner2 animate_body enter\n");
 
     /* @0x107E8–0x107F4 */
     g0 = i960_ld_u32(I960_WORKRAM, 0x20a7a4, 0);
-    fprintf(stderr, "lift: inner2 before cgm_1111_flush g0=%#x\n", (u32)g0);
+    lift_log( "lift: inner2 before cgm_1111_flush g0=%#x\n", (u32)g0);
     cgm_1111_flush((u32)g0, 0, 0);
-    fprintf(stderr, "lift: inner2 after cgm_1111_flush\n");
+    lift_log( "lift: inner2 after cgm_1111_flush\n");
     tile_map_banks_clear(0, 0, 0);
 
     /* @0x107F8–0x10820 */
@@ -91,7 +92,7 @@ static void comm_attract_inner_2_animate_body(void)
     if (board_type != 3u)
         i960_st_u32(I960_WORKRAM, 0x20a78c, 0, 0x005b1cc0u);
     cgm_scratch_pool_reset(0, 0, 0);
-    fprintf(stderr, "lift: inner2 before animate_tail\n");
+    lift_log( "lift: inner2 before animate_tail\n");
     comm_attract_inner_2_animate_tail();
 }
 

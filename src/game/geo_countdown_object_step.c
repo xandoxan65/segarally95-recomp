@@ -10,6 +10,7 @@
 // @rom 0x3f9a0 +0x31c geo_countdown_object_step
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -84,7 +85,7 @@ void geo_countdown_object_step(u32 arg0, u32 arg1, u32 arg2)
     static int logged;
 
     if (!logged) {
-        fprintf(stderr, "lift: countdown_object_step emit+epilogue\n");
+        lift_log( "lift: countdown_object_step emit+epilogue\n");
         fflush(stderr);
         logged = 1;
     }

@@ -1,4 +1,5 @@
 #include "i960_host.h"
+#include "lift_log.h"
 #include "model2_hw.h"
 #include "model2_geo.h"
 #include "model2_hw_lift.h"
@@ -43,7 +44,7 @@ int i960_host_skip_practice(void)
     return skip && skip[0] && skip[0] != '0';
 }
 
-/* True when geo_vsync_wait uses realtime video timer (env, --live). */
+/* True when geo_vsync_wait uses realtime video timer (I960_HOST_VIDEO_SYNC). */
 int i960_host_frame_pace_enabled(void)
 {
     return model2_hw_vsync_realtime();
@@ -110,11 +111,11 @@ extern u32 post_reset_dispatch(u32 arg0, u32 arg1, u32 arg2);
 
 void i960_host_run_post_reset(u32 arg0, u32 arg1, u32 arg2)
 {
-    fprintf(stderr, "lift: entering post_reset_dispatch @ 0x570 (callx trace on stderr)\n");
+    lift_log( "lift: entering post_reset_dispatch @ 0x570 (callx trace on stderr)\n");
     (void)post_reset_dispatch(arg0, arg1, arg2);
     if (i960_host_milestone_boot_reached())
         return;
-    fprintf(stderr, "lift: post_reset_dispatch returned unexpectedly\n");
+    lift_status("lift: post_reset_dispatch returned unexpectedly\n");
 }
 
 static struct timespec g_boot_clock0;

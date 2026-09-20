@@ -8,6 +8,7 @@
 // @rom 0x211f0 +0x138 game_start_race_countdown_prg
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -26,7 +27,7 @@ void game_start_race_countdown_prg(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_countdown_prg\n");
+        lift_log( "lift: race_countdown_prg\n");
         fflush(stderr);
         logged = 1;
     }

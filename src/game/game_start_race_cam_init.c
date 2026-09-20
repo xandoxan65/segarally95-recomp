@@ -8,6 +8,7 @@
 // @rom 0x206e0 +0x54 game_start_race_cam_init
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -23,7 +24,7 @@ void game_start_race_cam_init(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_init\n");
+        lift_log( "lift: race_cam_init\n");
         fflush(stderr);
         logged = 1;
     }

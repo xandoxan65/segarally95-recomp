@@ -8,6 +8,7 @@
 // @rom 0x2cce0 +0x196c game_start_race_obj_car_integrate
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -194,7 +195,7 @@ static void integrate_index_refresh(u32 node, u8 *frame)
     /* @0x30340: cmpible 0,g4 → ret when packed >= 0 (keep predicted). */
     if (packed >= 0) {
         if (refresh_logs < 8u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: index_refresh pack1 hit idx=%d "
                     "keep xyz=(%.3g,%.3g,%.3g)\n",
                     (int)packed,
@@ -208,7 +209,7 @@ static void integrate_index_refresh(u32 node, u8 *frame)
     }
 
     if (refresh_logs < 8u) {
-        fprintf(stderr,
+        lift_log(
                 "lift: index_refresh pack1 miss idx=%d "
                 "xyz=(%.3g,%.3g,%.3g)\n",
                 (int)packed,
@@ -228,7 +229,7 @@ static void integrate_index_refresh(u32 node, u8 *frame)
     /* @0x3035C: cmpible 0,g4 → ret when pack2 hit. */
     if (packed >= 0) {
         if (refresh_logs < 8u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: index_refresh pack2 hit idx=%d\n",
                     (int)packed);
             fflush(stderr);
@@ -244,7 +245,7 @@ static void integrate_index_refresh(u32 node, u8 *frame)
     i960_st_u32(I960_ABS, index_va, 0, save_index);
 
     if (refresh_logs < 8u) {
-        fprintf(stderr,
+        lift_log(
                 "lift: index_refresh snap keep_idx=%d "
                 "snap=(%.3g,%.3g,%.3g)\n",
                 (int)(int16_t)(save_index & 0xffffu),
@@ -362,7 +363,7 @@ static u32 integrate_force_slot(
                 car_x = integrate_f64(i960_ld_u32(I960_ABS, node, 0x14));
                 car_z = integrate_f64(i960_ld_u32(I960_ABS, node, 0x1c));
             }
-            fprintf(stderr,
+            lift_log(
                     "lift: force_slot i=%u depth=%.4g flag=%#x apply=%d "
                     "Ny=%.3g probe=(%.4g,%.4g,%.4g) carXZ=(%.4g,%.4g)\n",
                     (unsigned)slot_index, integrate_f64(depth),
@@ -931,7 +932,7 @@ void game_start_race_obj_car_integrate(u32 arg0, u32 arg1, u32 arg2)
     sp += 0x1a0u;
 
     if (!logged) {
-        fprintf(stderr, "lift: car_integrate node=%#x\n", node);
+        lift_log( "lift: car_integrate node=%#x\n", node);
         fflush(stderr);
         logged = 1;
     }

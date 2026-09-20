@@ -12,6 +12,7 @@
 // @rom 0x1ce30 +0x320 game_start_race_slot2
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -95,7 +96,7 @@ static void race_slot2_phase1(void)
         static int adv_logged;
 
         if (!adv_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_slot2 phase1→2 timer=%d need=%d matched=%d flag=%u\n",
                     (int)(i32)i960_ld_u32(I960_WORKRAM, 0x20a560, 0),
                     (int)need, (int)matched,
@@ -141,7 +142,7 @@ static void race_slot2_phase2(void)
         static int cd_logged;
 
         if (!cd_logged) {
-            fprintf(stderr, "lift: race_slot2 phase2→3 install countdown PRG\n");
+            lift_log( "lift: race_slot2 phase2→3 install countdown PRG\n");
             fflush(stderr);
             cd_logged = 1;
         }
@@ -227,7 +228,7 @@ void game_start_race_slot2(u32 arg0, u32 arg1, u32 arg2)
 
     sub = i960_ld_u32(I960_WORKRAM, 0x2020a8, 0);
     if (!logged) {
-        fprintf(stderr, "lift: race_slot2 sub=%u\n", (unsigned)sub);
+        lift_log( "lift: race_slot2 sub=%u\n", (unsigned)sub);
         fflush(stderr);
         logged = 1;
     }
@@ -262,7 +263,7 @@ void game_start_race_slot2(u32 arg0, u32 arg1, u32 arg2)
     case 5:
         race_slot2_phase5();
         if (logged == 1) {
-            fprintf(stderr, "lift: race_slot2 done sub→%u\n",
+            lift_log( "lift: race_slot2 done sub→%u\n",
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x2020a8, 0));
             fflush(stderr);
             logged = 2;

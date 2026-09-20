@@ -2,6 +2,7 @@
 #include "model2_snd_m68k.h"
 #include "model2_snd_rom.h"
 #include "model2_snd_scsp.h"
+#include "model2_snd.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +58,7 @@ static void wr8(u32 addr, u8 v)
         if (addr == 0x2200u && (v & 0x80u)) {
             static int logged_flag;
 
-            if (!logged_flag) {
+            if (!logged_flag && model2_snd_log_enabled()) {
                 fprintf(stderr, "lift: sound 68k obj+0 bit7 pc=%06x\n", pc);
                 logged_flag = 1;
             }
@@ -501,7 +502,7 @@ static void exec_one(void)
         && ipl() < 3) {
         static int logged_irq;
 
-        if (!logged_irq) {
+        if (!logged_irq && model2_snd_log_enabled()) {
             fprintf(stderr,
                     "lift: sound 68k irq3 from pc=%06x a5=%08x vec6c=%08x fifo=%d\n",
                     pc, a[5], rd32(0x6cu),
@@ -516,7 +517,7 @@ static void exec_one(void)
         && model2_snd_scsp_tima_armed() && ipl() < 2) {
         static int logged_tima;
 
-        if (!logged_tima) {
+        if (!logged_tima && model2_snd_log_enabled()) {
             fprintf(stderr, "lift: sound 68k irq2 TIMA pc=%06x vec68=%08x\n",
                     pc, rd32(0x68u));
             logged_tima = 1;

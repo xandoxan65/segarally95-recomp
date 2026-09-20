@@ -8,6 +8,7 @@
 // @rom 0x21370 +0xbc game_start_race_geo_prg_slot
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
 
@@ -32,7 +33,7 @@ void game_start_race_geo_prg_slot(u32 arg0, u32 arg1, u32 arg2)
     if (arg0 != 0u) {
         i960_st_u32(I960_WORKRAM, 0x20ab50, 0, arg0);
         if (!logged) {
-            fprintf(stderr, "lift: race_geo_prg_slot install=%#x\n", arg0);
+            lift_log( "lift: race_geo_prg_slot install=%#x\n", arg0);
             fflush(stderr);
             logged = 1;
         }
@@ -72,7 +73,7 @@ void game_start_race_geo_prg_slot(u32 arg0, u32 arg1, u32 arg2)
     }
 
     if (logged == 1) {
-        fprintf(stderr, "lift: race_geo_prg_slot invoke handler=%#x\n", handler);
+        lift_log( "lift: race_geo_prg_slot invoke handler=%#x\n", handler);
         fflush(stderr);
         logged = 2;
     }

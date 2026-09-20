@@ -5,6 +5,7 @@
 // @rom 0x15fd0 +0x310 game_start_course_display
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "model2_geo.h"
 #include "model2_rom.h"
@@ -177,5 +178,5 @@ void game_start_course_display(u32 arg0, u32 arg1, u32 arg2)
     }
 
     i960_st_u32(I960_WORKRAM, 0x20a940, 0, 0);
-    fprintf(stderr, "lift: course_display → scene_frame %u\n", (unsigned)frame);
+    lift_log( "lift: course_display → scene_frame %u\n", (unsigned)frame);
 }

@@ -11,6 +11,7 @@
 #include "model2_nvram.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
+#include "lift_log.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -215,9 +216,8 @@ int model2_nvram_load(const char *path)
 
     fp = fopen(path, "r");
     if (!fp) {
-        fprintf(stderr, "lift: nvram — no file at %s (region %s)\n",
-                path, country_name(g_region));
-        fflush(stderr);
+        lift_status("lift: nvram — no file at %s (region %s)\n",
+                    path, country_name(g_region));
         return 1;
     }
 
@@ -330,14 +330,12 @@ int model2_nvram_load(const char *path)
     g_nvram.loaded = 1;
     g_nvram.dirty = 0;
     if (g_nvram.country != g_region) {
-        fprintf(stderr, "lift: region %s overrides nvram country %s\n",
-                country_name(g_region), country_name(g_nvram.country));
+        lift_status("lift: region %s overrides nvram country %s\n",
+                    country_name(g_region), country_name(g_nvram.country));
     }
     g_nvram.country = g_region;
-    fprintf(stderr,
-            "lift: nvram loaded from %s (country=%s, sram_bytes=%u)\n",
-            path, country_name(g_nvram.country), (unsigned)hex_off);
-    fflush(stderr);
+    lift_status("lift: nvram loaded from %s (country=%s, sram_bytes=%u)\n",
+                path, country_name(g_nvram.country), (unsigned)hex_off);
     return 0;
 }
 
@@ -412,8 +410,8 @@ int model2_nvram_save(const char *path)
     g_nvram.have_settings = 1;
     g_nvram.dirty = 0;
     snprintf(g_nvram_path, sizeof(g_nvram_path), "%s", path);
-    fprintf(stderr, "lift: nvram saved → %s (country=%s)\n", path,
-            country_name(g_nvram.country));
+    lift_status("lift: nvram saved → %s (country=%s)\n", path,
+                country_name(g_nvram.country));
     return 0;
 }
 

@@ -4,6 +4,7 @@
 #include "model2_snd_rom.h"
 #include "model2_snd_scsp.h"
 #include "model2_snd_m68k.h"
+#include "lift_log.h"
 
 #include <pthread.h>
 #include <stdio.h>
@@ -70,7 +71,7 @@ static int uart_is_ctrl(u32 offset)
 
 static void log_midi_byte(u8 byte)
 {
-    if (!model2_snd_log_enabled() && g_logged_song)
+    if (!model2_snd_log_enabled())
         return;
     g_pkt[g_pkt_n++] = byte;
     if (g_pkt_n < 3u)
@@ -81,9 +82,8 @@ static void log_midi_byte(u8 byte)
                 g_pkt[2]);
         g_logged_song = 1;
     }
-    if (model2_snd_log_enabled())
-        fprintf(stderr, "lift: sound midi  %02x %02x %02x\n",
-                g_pkt[0], g_pkt[1], g_pkt[2]);
+    fprintf(stderr, "lift: sound midi  %02x %02x %02x\n",
+            g_pkt[0], g_pkt[1], g_pkt[2]);
     g_pkt_n = 0;
 }
 
@@ -155,7 +155,7 @@ static void boot_68k(void)
         fprintf(stderr, "lift: sound 68k stopped during reset pc=%06x sr=%04x\n",
                 (unsigned)model2_snd_m68k_pc(),
                 (unsigned)model2_snd_m68k_sr());
-    else
+    else if (model2_snd_log_enabled())
         fprintf(stderr,
                 "lift: sound 68k+SCSP ready pc=%06x sr=%04x a5=%08x a6=%08x "
                 "tima_armed=%d midi_irq=%d tima_period=%u\n",
@@ -188,7 +188,7 @@ static void board_chunk(void)
 
         if (model2_snd_scsp_tima_armed())
             per = model2_snd_scsp_tima_period_samples();
-        if (per != 0u && !g_logged_tima_per) {
+        if (per != 0u && !g_logged_tima_per && model2_snd_log_enabled()) {
             fprintf(stderr, "lift: sound TIMA period=%u samples (%.1f Hz)\n",
                     per, (double)PCM_RATE / (double)per);
             g_logged_tima_per = 1;
@@ -231,8 +231,9 @@ static void board_chunk(void)
                 peak = s;
         }
         if (peak > 32) {
-            fprintf(stderr, "lift: sound mix peak=%d keyon=%u\n",
-                    peak, model2_snd_scsp_keyon_count());
+            if (model2_snd_log_enabled())
+                fprintf(stderr, "lift: sound mix peak=%d keyon=%u\n",
+                        peak, model2_snd_scsp_keyon_count());
             g_logged_mix = 1;
         }
     }
@@ -300,8 +301,8 @@ static int thread_start(void)
         return -1;
     }
     g_thr_on = 1;
-    fprintf(stderr, "lift: sound thread 68k+SCSP @ %u Hz (TIMA from TACTL)\n",
-            PCM_RATE);
+    lift_status("lift: sound thread 68k+SCSP @ %u Hz (TIMA from TACTL)\n",
+                PCM_RATE);
     return 0;
 }
 
@@ -493,7 +494,7 @@ int model2_snd_load_roms(const char *rom_dir)
     thread_stop();
     if (model2_snd_rom_load(dir) != 0)
         return -1;
-    fprintf(stderr, "lift: sound ROMs loaded from %s\n", dir);
+    lift_status("lift: sound ROMs loaded from %s\n", dir);
     model2_snd_scsp_reset();
     model2_snd_m68k_reset();
     /* 68k boot + TIMA/mix run on the board thread — UART only queues. */

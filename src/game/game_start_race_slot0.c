@@ -6,6 +6,7 @@
 // @rom 0x1ca70 +0x1a8 game_start_race_slot0
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_rom.h"
@@ -36,7 +37,7 @@ void game_start_race_slot0(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_slot0 (post-START setup)\n");
+        lift_log( "lift: race_slot0 (post-START setup)\n");
         fflush(stderr);
         logged = 1;
     }
@@ -104,7 +105,7 @@ void game_start_race_slot0(u32 arg0, u32 arg1, u32 arg2)
         n = 0x40u;
     if ((i32)n > 0) {
         if (logged == 1) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_slot0 draw rows=%u batch=%u limit=%u\n",
                     (unsigned)n,
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x20ac88, 0),
@@ -213,7 +214,7 @@ void game_start_race_slot0(u32 arg0, u32 arg1, u32 arg2)
 
         i960_st_u32(I960_WORKRAM, 0x2020a8, 0, sub + 2u);
         if (logged == 2) {
-            fprintf(stderr, "lift: race_slot0 done sub→%u\n", (unsigned)(sub + 2u));
+            lift_log( "lift: race_slot0 done sub→%u\n", (unsigned)(sub + 2u));
             fflush(stderr);
             logged = 3;
         }

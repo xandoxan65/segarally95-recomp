@@ -3,6 +3,7 @@
 // @rom 0x3f2f0 +0x110 comm_attract_course_init
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "lift_syms.h"
@@ -55,7 +56,7 @@ u32 comm_attract_course_init(u32 arg0, u32 arg1, u32 arg2)
     if (list_ptr <= sentinel)
         goto L_0003f380;
 
-    fprintf(stderr,
+    lift_log(
             "lift: Generator Error — list_ptr=0x%x course=%u walk=0x%x\n",
             (unsigned)list_ptr, (unsigned)course_idx, (unsigned)walk_va);
     g0 = 0;
@@ -94,7 +95,7 @@ u32 comm_attract_course_init(u32 arg0, u32 arg1, u32 arg2)
             static int logged;
 
             if (!logged) {
-                fprintf(stderr,
+                lift_log(
                         "lift: course_init course=%u count=%u head=%u "
                         "215390[0]=%#x\n",
                         (unsigned)course_idx, (unsigned)r5, (unsigned)list_ptr,
@@ -109,7 +110,7 @@ u32 comm_attract_course_init(u32 arg0, u32 arg1, u32 arg2)
         r5++;
         if ((signed int)r5 <= (signed int)r8)
             goto L_0003f390;
-        fprintf(stderr,
+        lift_log(
                 "lift: Event Over Flow — course=%u walk_end=0x%x count=%u\n",
                 (unsigned)i960_ld_u32(I960_WORKRAM, 0x214354, 0),
                 (unsigned)walk_va, (unsigned)r5);

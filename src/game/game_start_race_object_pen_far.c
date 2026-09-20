@@ -19,6 +19,7 @@
 // @rom 0x240c0 +0x4 game_start_race_object_pen_mid
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -91,7 +92,7 @@ void game_start_race_object_pen_far(u32 arg0, u32 arg1, u32 arg2)
         u32 follow = i960_ld_u32(I960_WORKRAM, 0x213980, 0);
         u32 fy = follow ? i960_ld_u32(I960_ABS, follow, 0x1c) : 0u;
 
-        fprintf(stderr,
+        lift_log(
                 "lift: object_pen_far pen=%#x obj=%#x yaw=%.3g "
                 "follow_yaw=%.3g d8=%u\n",
                 pen_va, obj_va, i960_u32_to_f64(obj_w[0x1c / 4]),

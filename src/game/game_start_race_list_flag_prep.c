@@ -11,6 +11,7 @@
 // @rom 0x1c2a0 +0x1b0 game_start_race_list_flag_prep
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 
@@ -179,7 +180,7 @@ void game_start_race_list_flag_prep(u32 arg0, u32 arg1, u32 arg2)
 
 done:
     if (!logged) {
-        fprintf(stderr, "lift: race_list_flag_prep mode230=%u g0_in=%u\n",
+        lift_log( "lift: race_list_flag_prep mode230=%u g0_in=%u\n",
                 (unsigned)i960_ld_u32(I960_WORKRAM, 0x202230, 0),
                 (unsigned)g0_in);
         fflush(stderr);

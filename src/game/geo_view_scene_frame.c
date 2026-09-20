@@ -3,6 +3,7 @@
 // @rom 0x34f40 +0x22b4 geo_view_scene_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -1463,7 +1464,7 @@ void geo_view_scene_frame(void * arg0, void * arg1, void * arg2)
              (pitch_now > 0.4 || pitch_now < -0.4))) {
             u32 node = *(u32 *)(fp + 0x1f0);
 
-            fprintf(stderr,
+            lift_log(
                     "lift: pitch_rate node=%#x cam54=%.4g a0=%.4g a4=%.4g g3=%.4g "
                     "fp150=%.4g rate=%.4g pitch=%.4g flag974=%#x\n",
                     (unsigned)node,

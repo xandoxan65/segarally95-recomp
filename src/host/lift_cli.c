@@ -1,4 +1,4 @@
-/* CLI for segamod2 host modes (--viewer, --help). */
+/* CLI for segamod2 host modes (--harness, --help). */
 
 #include "track_viewer.h"
 #include "model2_nvram.h"
@@ -36,7 +36,7 @@ static const char *optional_path(int *i, int argc, char **argv, const char *fall
 
 static void defaults(track_viewer_opts_t *opts)
 {
-    opts->palette_dump = "build/lift/palette_state";
+    opts->palette_dump = NULL;
     opts->viewer_boot = 0;
     opts->live_view = 0;
     opts->headless = 0;
@@ -58,12 +58,11 @@ void track_viewer_cli_help(void)
             "segamod2 — lifted Sega Rally host\n"
             "\n"
             "No arguments: SDL cold-boot viewer (copyright → attract).\n"
+            "  No palette snapshot is written unless --palette-dump or I960_PALETTE_DUMP is set.\n"
             "  --harness              short dispatch trace (I960_HOST_MAX_DISPATCH, default 64)\n"
             "\n"
-            "Viewer:\n"
-            "  --viewer boot [--palette-dump DIR] [--headless] [--record FILE] [--practice]\n"
-            "  --live                 SDL window (boot viewer default)\n"
-            "  --headless             PNG dump only, no SDL window\n"
+            "Boot viewer (this is the default; --harness selects the short trace instead):\n"
+            "  --headless             no SDL window\n"
             "  --aspect 4:3|16:9      live composite (default 4:3 arcade)\n"
             "  --widescreen           alias for --aspect 16:9\n"
             "                         16:9: wider 3D HFOV; HUD/tiles stay centered 4:3\n"
@@ -75,8 +74,7 @@ void track_viewer_cli_help(void)
             "  --record FILE          pipe live frames to ffmpeg (*.avi=mjpeg, else x264)\n"
             "                         async writer; drops frames if encode lags (low latency)\n"
             "                         also: I960_HOST_RECORD=FILE or press R in the window\n"
-            "\n"
-            "  boot:  full cold boot (copyright → attract; --practice jumps to desert START)\n"
+            "  --palette-dump DIR     write palette / framebuffer snapshot (off by default)\n"
             "\n"
             "CGM decode (isolated catalog → sys24 PNG, splash call chain):\n"
             "  --decode-cgm ADDR   main_data vaddr (e.g. 0x2879db0) or byte offset\n"
@@ -89,13 +87,17 @@ void track_viewer_cli_help(void)
             "  --decode-geo-fifo FILE.bin   little-endian u32 prg_fifo dump\n"
             "  [--geo-summary PATH]        JSON summary (default build/lift/geo_decode_summary.json)\n"
             "\n"
-            "Logging (independent; work with --viewer boot or the default harness):\n"
+            "Logging (independent; work with the boot viewer or --harness):\n"
             "  --log-geo [PATH]    dump PRG FIFO at exit (default build/lift/geo_fifo.bin)\n"
             "                      copro FIFO → PATH.copro or build/lift/copro_fifo.bin\n"
             "                      also: I960_GEO_DUMP / I960_COPRO_DUMP\n"
             "  --log-sound [PATH]  print 3-byte sound commands to stderr; dump MIDI ring\n"
             "                      at exit (default build/lift/sound_midi.log)\n"
             "                      also: I960_SND_LOG=1  I960_SND_DUMP=PATH\n"
+            "  --log-lift          print diagnostic lift: traces (off by default)\n"
+            "                      also: I960_LIFT_LOG=1\n"
+            "  -v, --verbose       print status lines (ROM load, boot, NVRAM, stop)\n"
+            "                      also: I960_LIFT_VERBOSE=1\n"
             "\n"
             "  I960_PALETTE_DUMP=<dir>  palette snapshot (also --palette-dump)\n"
             "  I960_GEO_SUMMARY=<path>  dump geo mesh summary at boot end\n"
@@ -132,24 +134,9 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
             track_viewer_cli_help();
             return 2;
         }
-        if (streq(argv[i], "--viewer")) {
-            if (i + 1 >= argc || !streq(argv[i + 1], "boot")) {
-                fprintf(stderr, "lift: --viewer expects boot\n");
-                return -1;
-            }
-            i++;
-            viewer = 1;
-            opts->viewer_boot = 1;
-            opts->live_view = 1;
-            continue;
-        }
         if (streq(argv[i], "--palette-dump") && i + 1 < argc) {
             opts->palette_dump = argv[++i];
-            continue;
-        }
-        if (streq(argv[i], "--live")) {
-            opts->live_view = 1;
-            opts->headless = 0;
+            cli_setenv("I960_PALETTE_DUMP", opts->palette_dump);
             continue;
         }
         if (streq(argv[i], "--headless")) {
@@ -200,8 +187,6 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         if (streq(argv[i], "--decode-cgm") && i + 1 < argc) {
             opts->cgm_decode = 1;
             opts->cgm_vaddr = (uint32_t)strtoul(argv[++i], NULL, 0);
-            if (streq(opts->palette_dump, "build/lift/palette_state"))
-                opts->palette_dump = "build/lift/cgm_decode";
             viewer = 1;
             continue;
         }
@@ -224,6 +209,14 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         }
         if (streq(argv[i], "--geo-summary") && i + 1 < argc) {
             opts->geo_summary = argv[++i];
+            continue;
+        }
+        if (streq(argv[i], "--log-lift")) {
+            cli_setenv("I960_LIFT_LOG", "1");
+            continue;
+        }
+        if (streq(argv[i], "-v") || streq(argv[i], "--verbose")) {
+            cli_setenv("I960_LIFT_VERBOSE", "1");
             continue;
         }
         if (streq(argv[i], "--log-geo") || streq(argv[i], "--geo-log")) {
@@ -252,12 +245,11 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         return -1;
     }
 
-    /* Bare `segamod2` is the live boot viewer — the furthest runnable uplift. */
+    /* Anything except --harness or an isolated decode is the live boot viewer. */
     if (!viewer && !harness) {
         opts->viewer_boot = 1;
-        opts->live_view = 1;
-        if (!opts->palette_dump || streq(opts->palette_dump, "build/lift/palette_state"))
-            opts->palette_dump = "build/lift/boot_copyright";
+        if (!opts->headless)
+            opts->live_view = 1;
         viewer = 1;
     }
 
@@ -266,7 +258,7 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
     if (opts->record_path && *opts->record_path)
         opts->live_view = 1; /* recording needs the present path */
 
-    /* Publish aspect for GEO latch + live viewer (same pattern as --live). */
+    /* Publish aspect for GEO latch + the SDL window. */
     if (opts->aspect && *opts->aspect) {
 #if defined(_WIN32)
         {

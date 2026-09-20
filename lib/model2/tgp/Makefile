@@ -18,7 +18,7 @@ CC ?= cc
 AR ?= ar
 
 CFLAGS ?= -std=c99 -Wall -Wextra -Wno-unused-parameter -O2
-override CFLAGS += -I$(TGP_ROOT)/include
+override CFLAGS += -I$(TGP_ROOT)/include -I$(TGP_ROOT)/../include
 
 SRCS := $(wildcard $(TGP_ROOT)/*.c)
 OBJS := $(patsubst $(TGP_ROOT)/%.c,$(BUILD)/%.o,$(SRCS))

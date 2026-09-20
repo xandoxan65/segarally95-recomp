@@ -10,6 +10,7 @@
 // @rom 0x2c8d0 +0x354 game_start_race_obj_road_attach
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -58,7 +59,7 @@ void game_start_race_obj_road_attach(u32 arg0, u32 arg1, u32 arg2)
     sp = sp + 0x50u;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_road_attach node=%#x\n", node);
+        lift_log( "lift: race_obj_road_attach node=%#x\n", node);
         fflush(stderr);
         logged = 1;
     }
@@ -135,7 +136,7 @@ void game_start_race_obj_road_attach(u32 arg0, u32 arg1, u32 arg2)
         static int yaw_logged;
 
         if (!yaw_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: road_attach course=%u span=%u yaw=%.3g "
                     "pitch=%.3g node=%#x\n",
                     (unsigned)course,

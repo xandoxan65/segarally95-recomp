@@ -11,6 +11,7 @@
 // @rom 0x304f0 +0x888 game_start_race_obj_car_motion
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -118,7 +119,7 @@ void game_start_race_obj_car_motion(u32 arg0, u32 arg1, u32 arg2)
     sp = sp + 0x90u;
 
     if (!logged) {
-        fprintf(stderr, "lift: car_motion node=%#x\n", node);
+        lift_log( "lift: car_motion node=%#x\n", node);
         fflush(stderr);
         logged = 1;
     }
@@ -377,7 +378,7 @@ void game_start_race_obj_car_motion(u32 arg0, u32 arg1, u32 arg2)
             if ((drive_log % 60u) == 1u
                 || fabs(motion_f64(i960_ld_u32(I960_ABS, node, 0xa8))) > 1.0e4
                 || fabs(motion_f64(old)) > 16.0) {
-                fprintf(stderr,
+                lift_log(
                         "lift: car_motion drive node=%#x a8=%.3g ac=%.3g "
                         "lim=%.3g xyz=(%.4g,%.4g,%.4g) "
                         "an=0x%02x/%02x/%02x gear=%u\n",

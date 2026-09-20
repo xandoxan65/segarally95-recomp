@@ -1,4 +1,5 @@
 #include "model2_rom.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include <errno.h>
@@ -757,6 +758,6 @@ int model2_palette_state_load(const char *dir)
         return -1;
     if (read_blob(dir, "lumaram.bin", model2_lumaram, LUMARAM_SIZE) != 0)
         return -1;
-    fprintf(stderr, "lift: loaded palette state from %s\n", dir);
+    lift_log( "lift: loaded palette state from %s\n", dir);
     return 0;
 }

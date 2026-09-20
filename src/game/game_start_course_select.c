@@ -6,6 +6,7 @@
 // @rom 0x162e0 +0xe8 game_start_course_select
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -77,6 +78,6 @@ void game_start_course_select(u32 arg0, u32 arg1, u32 arg2)
 
     sub = i960_ld_u32(I960_WORKRAM, 0x2020ac, 0) + 1u;
     i960_st_u32(I960_WORKRAM, 0x2020ac, 0, sub);
-    fprintf(stderr, "lift: course_select done choice=%u submode->%u\n",
+    lift_log( "lift: course_select done choice=%u submode->%u\n",
             (unsigned)choice, (unsigned)sub);
 }

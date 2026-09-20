@@ -6,6 +6,7 @@
 // @rom 0x1edb0 +0x164 game_start_race_hud_progress
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -32,7 +33,7 @@ void game_start_race_hud_progress(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_hud_progress g0=%u\n", (unsigned)arg0);
+        lift_log( "lift: race_hud_progress g0=%u\n", (unsigned)arg0);
         fflush(stderr);
         logged = 1;
     }

@@ -3,6 +3,7 @@
 // @rom 0x11a80 +0x108 geo_attract_copro_vec_scale
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
@@ -102,7 +103,7 @@ void geo_attract_copro_vec_scale(u32 arg0, void * arg1, void * arg2)
             eye_x = (float)i960_u32_to_f64(px);
             eye_y = (float)i960_u32_to_f64(py);
             eye_z = (float)i960_u32_to_f64(pz);
-            fprintf(stderr,
+            lift_log(
                     "lift: vec_scale scale=%.3g unit=(%.3g,%.3g,%.3g) "
                     "cam_pt=(%.3g,%.3g,%.3g)\n",
                     i960_u32_to_f64(scale),

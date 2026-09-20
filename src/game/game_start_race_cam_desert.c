@@ -11,6 +11,7 @@
 // @rom 0x1fa20 +0x39c game_start_race_cam_desert
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_hw.h"
@@ -71,7 +72,7 @@ void game_start_race_cam_desert(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_desert\n");
+        lift_log( "lift: race_cam_desert\n");
         fflush(stderr);
         logged = 1;
     }
@@ -233,7 +234,7 @@ void game_start_race_cam_desert(u32 arg0, u32 arg1, u32 arg2)
 
         eye_ticks++;
         if (!eye_logged || (eye_ticks % 30u) == 1u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_cam_desert obj=%#x pos=(%.3g,%.3g,%.3g) "
                     "ang=(%.3g,%.3g,%.3g) spline=(%.3g,%.3g,%.3g) "
                     "eye=(%.3g,%.3g,%.3g) t=%.3g an=0x%02x 214120=%d\n",
@@ -290,7 +291,7 @@ void game_start_race_cam_desert(u32 arg0, u32 arg1, u32 arg2)
         i960_st_u32(I960_WORKRAM, 0x213848, 0, 0u);
         i960_st_u32(I960_WORKRAM, 0x21384c, 0, (u32)(0u - 0x40u));
         if (!handoff_logged) {
-            fprintf(stderr, "lift: race_cam_desert → chase (t>=1)\n");
+            lift_log( "lift: race_cam_desert → chase (t>=1)\n");
             fflush(stderr);
             handoff_logged = 1;
         }

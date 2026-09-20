@@ -3,6 +3,7 @@
 // @rom 0x5e30 +0x1e8 geo_scene_string_prep
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -58,7 +59,7 @@ u32 geo_scene_string_prep(u32 arg0, u32 arg1, u32 arg2)
         static int s_logged;
 
         if (!s_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: test menu string_prep ptr0=0x%x cursor=%u\n",
                     strs[0],
                     i960_ld_u32(I960_WORKRAM, 0x20a2ec, 0));

@@ -10,6 +10,7 @@
 // @rom 0x7910 +0x4 test_menu_backup
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include <stdio.h>
@@ -21,7 +22,7 @@ static u32 test_menu_unlifted(const char *name, u32 arg0)
 
     (void)arg0;
     if (slot != s_last_slot) {
-        fprintf(stderr, "lift: test menu '%s' (slot %u) not lifted — returning to list\n",
+        lift_log( "lift: test menu '%s' (slot %u) not lifted — returning to list\n",
                 name, (unsigned)slot);
         s_last_slot = slot;
     }

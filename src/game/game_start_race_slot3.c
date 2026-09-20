@@ -7,6 +7,7 @@
 // @rom 0x1d160 +0x510 game_start_race_slot3
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -48,7 +49,7 @@ void game_start_race_slot3(u32 arg0, u32 arg1, u32 arg2)
         i960_st_u32(I960_WORKRAM, 0x2020a8, 0, sub + 1u);
     }
     if (!logged) {
-        fprintf(stderr, "lift: race_slot3 sub=%u\n",
+        lift_log( "lift: race_slot3 sub=%u\n",
                 (unsigned)i960_ld_u32(I960_WORKRAM, 0x2020a8, 0));
         fflush(stderr);
         logged = 1;

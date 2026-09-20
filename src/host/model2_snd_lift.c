@@ -1,6 +1,7 @@
 /* SDL audio pull from libmodel2_snd. The lib does not link SDL. */
 
 #include "model2_snd.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,7 +55,7 @@ int model2_snd_host_audio_open(void)
         }
         SDL_PauseAudioDevice(g_dev, 0);
         g_open = 1;
-        fprintf(stderr, "lift: sound audio %d Hz stereo s16 (68k+SCSP)\n",
+        lift_log( "lift: sound audio %d Hz stereo s16 (68k+SCSP)\n",
                 have.freq);
         return 0;
     }

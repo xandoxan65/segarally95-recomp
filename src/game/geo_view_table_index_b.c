@@ -3,6 +3,7 @@
 // @rom 0x2acc0 +0x210 geo_view_table_index_b
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
@@ -101,7 +102,7 @@ void geo_view_table_index_b(void *arg0, void *arg1, u32 arg2)
         static int flag_logged;
 
         if (flag_logged < 8) {
-            fprintf(stderr,
+            lift_log(
                     "lift: table_index_b 0x53 raw=%#x stored_slot=%#x out=%#x\n",
                     (unsigned)flag, (unsigned)arg2, (unsigned)out_va);
             fflush(stderr);

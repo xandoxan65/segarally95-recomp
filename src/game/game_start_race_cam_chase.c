@@ -12,6 +12,7 @@
 // @rom 0x1fdc0 +0x198 game_start_race_cam_chase
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_hw.h"
@@ -79,7 +80,7 @@ void game_start_race_cam_chase(u32 arg0, u32 arg1, u32 arg2)
                 || y > 100.0 || y < -100.0)) {
             u32 car = 0x00213b98u;
 
-            fprintf(stderr,
+            lift_log(
                     "lift: race_cam_chase Y bad follow=%#x "
                     "pos=(%.3g,%.3g,%.3g) car213b98=(%.3g,%.3g,%.3g) "
                     "a0=%.3g a4=%.3g 214124=%.3g slot18=%.3g\n",
@@ -102,7 +103,7 @@ void game_start_race_cam_chase(u32 arg0, u32 arg1, u32 arg2)
         u32 cam_pose = 0x00213b40u;
         u32 car_pose = 0x00213b98u;
 
-        fprintf(stderr,
+        lift_log(
                 "lift: race_cam_chase obj=%#x (follow) pos=(%.3g,%.3g,%.3g) "
                 "ang=(%.3g,%.3g,%.3g) car213b98 ang=(%.3g,%.3g,%.3g) "
                 "pos=(%.3g,%.3g,%.3g) 214200=%.3g 214204=%.3g "
@@ -136,7 +137,7 @@ void game_start_race_cam_chase(u32 arg0, u32 arg1, u32 arg2)
         if ((ang_log % 60u) == 0u) {
             u32 car_pose = 0x00213b98u;
 
-            fprintf(stderr,
+            lift_log(
                     "lift: race_cam_chase ang=(%.3g,%.3g,%.3g) "
                     "follow=(%.3g,%.3g,%.3g) car=(%.3g,%.3g,%.3g) "
                     "an=0x%02x/%02x/%02x 214120=%d\n",

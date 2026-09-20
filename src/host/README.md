@@ -8,17 +8,15 @@ validation use `src/game/`, `src/boot/`, `src/libc/`, and `src/irq/` only.
 
 ## Boot viewer
 
-Default `segamod2` (no arguments) is the SDL cold-boot viewer. Equivalent:
+Default `segamod2` (no arguments) is the SDL cold-boot viewer. `--harness` is the short dispatch trace. No palette snapshot is written unless `--palette-dump` or `I960_PALETTE_DUMP` is set.
 
 ```bash
 make lift-boot-viewer
 # or:
-./build/segamod2 --viewer boot
+./build/segamod2
 ```
 
-`--palette-dump DIR` writes the palette snapshot (default `build/lift/palette_state`).
-`--practice` skips attract/menus to desert practice START. `--headless` dumps PNGs
-with no SDL window.
+`--practice` skips attract/menus to desert practice START. `--headless` runs with no SDL window.
 
 ## System-24 tile framebuffer (`sys24_tile.c`)
 
@@ -30,8 +28,8 @@ framebuffer when `model2_palette_state_dump` runs (`sys24_framebuffer.png` + `.r
 in the dump dir).
 
 Boot preview: `make lift-boot-viewer` runs full lifted cold boot with **SDL live preview**
-by default (close window or Escape to exit). Writes `sys24_framebuffer.png` on exit via
-`sys24_tile.c`. Use `make lift-boot-headless` for fast PNG-only runs (dispatch cap).
+by default (close window or Escape to exit). A palette snapshot is written only with
+`--palette-dump DIR`. Use `make lift-boot-headless` for a run with no SDL window.
 
 ### Live SDL preview (`sys24_viewer.c`)
 
@@ -43,12 +41,13 @@ cd decomp && make lift-boot-viewer
 # skip attract / championship+course+car select → desert practice START (Delta AT):
 make lift-boot-practice
 # or:
-./build/lift/segamod2 --viewer boot --practice
-# headless PNG only:
+./build/segamod2 --practice
+# headless, no palette snapshot:
 make lift-boot-headless
 # or:
-./build/lift/segamod2 --viewer boot --palette-dump build/lift/boot_copyright
-./build/lift/segamod2 --viewer boot --headless --palette-dump build/lift/boot_copyright
+./build/segamod2 --headless
+# palette snapshot only when asked:
+./build/segamod2 --palette-dump build/lift/boot_copyright
 ```
 
 Close the window or press Escape to halt. With SDL2 + OpenGL, the viewer composites
@@ -68,5 +67,5 @@ Offline FIFO decode:
 | `lift_cli.c` | CLI parsing for `segamod2` |
 | `placement_catalog_feed.c` | Catalog-row geo FIFO pushes |
 
-Palette RAM dumps come from **running `segamod2` with `--viewer`**.
+Palette RAM dumps are written only with `--palette-dump DIR` or `I960_PALETTE_DUMP`.
 Set `SEGAMOD2_ROOT` to the segamod2 repo root when not using Makefile targets.

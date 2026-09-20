@@ -1,6 +1,7 @@
 /* Isolated CGM catalog decode harness — same lifted calls as comm_attract_inner_2 init. */
 
 #include "track_viewer.h"
+#include "lift_log.h"
 #include "cgm_format.h"
 #include "i960_host.h"
 #include "i960_lift.h"
@@ -118,7 +119,7 @@ int i960_lift_cgm_decode_run(const track_viewer_opts_t *opts)
         game_start_display_setup(0, 0, 0);
         boot_tile_splash_frame(0, 0, 0);
         model2_palette_state_dump(dir);
-        fprintf(stderr, "lift: select HUD probe done — %s\n", dir);
+        lift_log( "lift: select HUD probe done — %s\n", dir);
         return 0;
     }
 
@@ -135,7 +136,7 @@ int i960_lift_cgm_decode_run(const track_viewer_opts_t *opts)
     cgm_workram_runtime_init();
     scene_list_seed(0, 0, 0);
     header_ok = cgm_header_match(catalog_vaddr);
-    fprintf(stderr,
+    lift_log(
             "lift: CGM decode catalog=%#x mode=%u flags=%#x header_match=%d\n",
             catalog_vaddr,
             (unsigned)opts->cgm_mode,
@@ -163,7 +164,7 @@ int i960_lift_cgm_decode_run(const track_viewer_opts_t *opts)
     /* IRQ/vblank path @0x26980 commits queued 32-byte palette rows after CGM draw. */
     boot_tile_splash_frame(0, 0, 0);
 
-    fprintf(stderr,
+    lift_log(
             "lift: catalog_draw_setup batch=%d L1_nonzero_words=%u L2_nonzero_words=%u\n",
             (int)batch,
             cgm_decode_count_map_tiles(0x01004000u),
@@ -171,6 +172,6 @@ int i960_lift_cgm_decode_run(const track_viewer_opts_t *opts)
 
     model2_palette_state_dump(dump);
 
-    fprintf(stderr, "lift: CGM decode done — %s\n", dump);
+    lift_log( "lift: CGM decode done — %s\n", dump);
     return 0;
 }

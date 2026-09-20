@@ -9,6 +9,7 @@
 #include "model2_rom.h"
 #include "model2_geo.h"
 #include "sys24_viewer.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -207,7 +208,7 @@ void i960_host_frame_present(void)
     if (sys24_viewer_wanted()) {
         /* Live: SDL present runs inside geo_vsync_wait (one swap per frame). */
         if (sys24_viewer_poll_events() != 0) {
-            fprintf(stderr, "lift: live view closed — halting dispatch\n");
+            lift_status("lift: live view closed — halting dispatch\n");
             g_dispatch_halt = 1;
         }
         return;
@@ -287,21 +288,25 @@ void i960_host_trace_summary(void)
 {
     unsigned i;
 
-    fprintf(stderr, "lift: dispatch trace — %u call(s), %u unique address(es)\n",
-            g_dispatch_count, g_hit_count);
-    for (i = 0; i < g_hit_count; i++) {
-        const char *name = i960_host_sym_name(g_hits[i].addr);
-        if (name)
-            fprintf(stderr, "  0x%08x  %s  (%u)\n", g_hits[i].addr, name, g_hits[i].count);
-        else
-            fprintf(stderr, "  0x%08x  ???  (%u)\n", g_hits[i].addr, g_hits[i].count);
+    if (lift_verbose_enabled()) {
+        lift_status("lift: dispatch trace — %u call(s), %u unique address(es)\n",
+                    g_dispatch_count, g_hit_count);
+        for (i = 0; i < g_hit_count; i++) {
+            const char *name = i960_host_sym_name(g_hits[i].addr);
+            if (name)
+                lift_status("  0x%08x  %s  (%u)\n", g_hits[i].addr, name,
+                            g_hits[i].count);
+            else
+                lift_status("  0x%08x  ???  (%u)\n", g_hits[i].addr,
+                            g_hits[i].count);
+        }
+        lift_status(
+                "lift: geo prg_fifo words=%u (total=%u) copro_fifo words=%u sound midi bytes=%u\n",
+                model2_hw_prg_count(),
+                model2_hw_prg_total(),
+                model2_hw_copro_count(),
+                model2_snd_total());
     }
-    fprintf(stderr,
-            "lift: geo prg_fifo words=%u (total=%u) copro_fifo words=%u sound midi bytes=%u\n",
-            model2_hw_prg_count(),
-            model2_hw_prg_total(),
-            model2_hw_copro_count(),
-            model2_snd_total());
     {
         const char *dump = getenv("I960_GEO_DUMP");
         const char *cdump = getenv("I960_COPRO_DUMP");
@@ -345,7 +350,7 @@ static void maybe_stop(void)
         return;
     if (g_dispatch_count < g_dispatch_max)
         return;
-    fprintf(stderr, "lift: reached I960_HOST_MAX_DISPATCH=%u — stopping\n", g_dispatch_max);
+    lift_status("lift: reached I960_HOST_MAX_DISPATCH=%u — stopping\n", g_dispatch_max);
     g_dispatch_halt = 1;
 }
 

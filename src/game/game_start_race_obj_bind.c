@@ -13,6 +13,7 @@
 // @rom 0x23110 +0x14 game_start_race_obj_bind
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
@@ -35,7 +36,7 @@ void game_start_race_obj_bind(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_bind timer=0x%x → %s\n",
+        lift_log( "lift: race_obj_bind timer=0x%x → %s\n",
                 (unsigned)arg0,
                 ((i32)arg0 >= 0) ? "list(0x22e20)" : "publish(0x22c70)");
         fflush(stderr);
@@ -71,7 +72,7 @@ void game_start_race_obj_list(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_list (publish 0x213980)\n");
+        lift_log( "lift: race_obj_list (publish 0x213980)\n");
         fflush(stderr);
         logged = 1;
     }
@@ -201,7 +202,7 @@ void game_start_race_obj_list(u32 arg0, u32 arg1, u32 arg2)
         u32 obj0 = i960_ld_u32(I960_WORKRAM, 0x213980, 0);
 
         if (!pose_logged && obj0 != 0u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_obj_list pose obj=%#x xyz=(%.3g,%.3g,%.3g)\n",
                     obj0,
                     i960_u32_to_f64(i960_ld_u32(I960_ABS, obj0, 0)),

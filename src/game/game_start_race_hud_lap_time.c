@@ -9,6 +9,7 @@
 // @rom 0x1e610 +0x174 game_start_race_hud_lap_time
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -35,7 +36,7 @@ void game_start_race_hud_lap_time(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_hud_lap_time g0=%d\n", (int)arg0);
+        lift_log( "lift: race_hud_lap_time g0=%d\n", (int)arg0);
         fflush(stderr);
         logged = 1;
     }

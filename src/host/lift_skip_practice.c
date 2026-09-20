@@ -13,6 +13,7 @@
  */
 
 #include "i960_host.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
 
@@ -182,7 +183,7 @@ void i960_host_skip_practice_tick(void)
             model2_io_in0_set_mask(MODEL2_IO_IN0_START1, 0);
         }
         if (!s_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: skip-practice — waiting for game-start "
                     "(desert / Delta MT)\n");
             s_logged = 1;
@@ -202,7 +203,7 @@ void i960_host_skip_practice_tick(void)
         skip_force_practice_flags();
         i960_st_u32(I960_WORKRAM, 0x2020a4, 0, 0);
         if (!s_selects_done) {
-            fprintf(stderr,
+            lift_log(
                     "lift: skip-practice — desert START "
                     "(course 20a8c4=%u car 214354=%u lookup=%u)\n",
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a8c4, 0),
@@ -230,7 +231,7 @@ void i960_host_skip_practice_tick(void)
     }
 
     if (!s_started) {
-        fprintf(stderr,
+        lift_log(
                 "lift: skip-practice — practice + desert + Delta MT analog\n");
         s_started = 1;
     }

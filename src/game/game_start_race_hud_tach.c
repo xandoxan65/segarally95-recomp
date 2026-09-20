@@ -13,6 +13,7 @@
 // @rom 0x1e500 +0xbc game_start_race_hud_tach
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 
@@ -35,7 +36,7 @@ void game_start_race_hud_tach(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_hud_tach\n");
+        lift_log( "lift: race_hud_tach\n");
         fflush(stderr);
         logged = 1;
     }

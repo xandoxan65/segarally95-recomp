@@ -11,6 +11,7 @@
 // @rom 0x20390 +0x40 game_start_race_cam_matrix
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -25,7 +26,7 @@ void game_start_race_cam_matrix(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cam_matrix g0=%u\n", (unsigned)arg0);
+        lift_log( "lift: race_cam_matrix g0=%u\n", (unsigned)arg0);
         fflush(stderr);
         logged = 1;
     }

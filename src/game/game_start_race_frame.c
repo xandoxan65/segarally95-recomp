@@ -6,6 +6,7 @@
 // @rom 0x1bba0 +0x298 game_start_race_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_geo.h"
@@ -31,7 +32,7 @@ void game_start_race_frame(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_frame (post-START game path)\n");
+        lift_log( "lift: race_frame (post-START game path)\n");
         logged = 1;
     }
 
@@ -85,7 +86,7 @@ void game_start_race_frame(u32 arg0, u32 arg1, u32 arg2)
         u32 head = i960_ld_u32(I960_WORKRAM, 0x2139f8, 0);
 
         if (!depth_list_logged && head != 0u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race depth-list head=%#x flag=%u mode=%u "
                     "depth=%.3g count=%u d8=%u\n",
                     head,
@@ -205,7 +206,7 @@ void game_start_race_frame(u32 arg0, u32 arg1, u32 arg2)
                     u32 follow = i960_ld_u32(I960_WORKRAM, 0x213980, 0);
 
                     if (sec_logs < 8u || (sec_logs % 60u) == 0u) {
-                        fprintf(stderr,
+                        lift_log(
                                 "lift: race_frame secondary pen_desc "
                                 "obj=%#x yaw=%.3g follow=%#x fyaw=%.3g "
                                 "mode=%u d8=%u\n",

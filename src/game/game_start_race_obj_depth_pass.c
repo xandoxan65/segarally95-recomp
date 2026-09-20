@@ -9,6 +9,7 @@
 // @rom 0x23280 +0x250 game_start_race_obj_depth_pass
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_rom.h"
@@ -55,7 +56,7 @@ void game_start_race_obj_depth_pass(u32 arg0, u32 arg1, u32 arg2)
     /* @0x232C4: cmpibge start,count → skip body. */
     if ((i32)start >= (i32)count) {
         if (!logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_obj_depth_pass skip (g0=%u count=%u)\n",
                     (unsigned)start, (unsigned)count);
             fflush(stderr);
@@ -67,7 +68,7 @@ void game_start_race_obj_depth_pass(u32 arg0, u32 arg1, u32 arg2)
     }
 
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_obj_depth_pass body g0=%u count=%u\n",
                 (unsigned)start, (unsigned)count);
         fflush(stderr);

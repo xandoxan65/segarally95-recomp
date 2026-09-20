@@ -13,6 +13,7 @@
 // @rom 0x34380 +0x958 geo_view_scene_prep
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
@@ -337,7 +338,7 @@ void * geo_view_scene_prep(void *arg0, void *arg1, void *arg2)
          * two logs, so START never showed query Y vs leftover flag 15.
          */
         if (node_va == 0x500000u && prep_log < 10) {
-            fprintf(stderr,
+            lift_log(
                     "lift: scene_prep cam idx=%d p0=(%.4g,%.4g,%.4g) "
                     "aabb0=(%.4g,%.4g,%.4g) h=%.4g/%.4g/%.4g/%.4g "
                     "f1c=%#x/%#x/%#x/%#x\n",

@@ -3,6 +3,7 @@
 // @rom 0x3a320 +0x704 geo_view_matrix_prep
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
 #include "i960_mem.h"
@@ -527,7 +528,7 @@ u32 geo_view_matrix_prep(u32 arg0, u32 arg1, u32 arg2)
 
         force_log++;
         if ((force_log % 60u) == 1u) {
-            fprintf(stderr,
+            lift_log(
                     "lift: matrix_prep drive=%.3g brake=%.3g net=%.3g "
                     "needle=%.3g r7=%.3g r9=%u r10=%.3g "
                     "an=0x%02x/%02x/%02x 214120=%d\n",

@@ -8,6 +8,7 @@
 // @rom 0x1bf50 +0x140 game_start_race_timer_arm
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 
@@ -33,7 +34,7 @@ void game_start_race_timer_arm(u32 arg0, u32 arg1, u32 arg2)
         g14 = 0;
         i960_st_u32(I960_WORKRAM, 0x20a560, 0, (u32)g14);
         if (!logged) {
-            fprintf(stderr, "lift: race_timer_arm → 0 (20aab0==0xf0)\n");
+            lift_log( "lift: race_timer_arm → 0 (20aab0==0xf0)\n");
             fflush(stderr);
             logged = 1;
         }

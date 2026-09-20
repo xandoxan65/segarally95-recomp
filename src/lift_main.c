@@ -31,7 +31,7 @@ int main(int argc, char **argv)
             return i960_lift_cgm_decode_run(&viewer_opts);
         if (viewer_opts.viewer_boot)
             return i960_lift_boot_screen_run(&viewer_opts);
-        fprintf(stderr, "lift: --viewer expects boot\n");
+        fprintf(stderr, "lift: no boot mode selected (use the default, or --harness)\n");
         return 1;
     }
 

@@ -3,6 +3,7 @@
 // @rom 0x11040 +0x360 comm_attract_inner_5
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "comm_attract_script_frame.h"
 #include "lift_syms.h"
@@ -129,7 +130,7 @@ void comm_attract_inner_5(u32 arg0, u32 arg1, u32 arg2)
     (void)arg1;
     (void)arg2;
 
-    fprintf(stderr, "lift: inner5 enter\n");
+    lift_log( "lift: inner5 enter\n");
 
     /* @0x11040 */
     comm_attract_script_frame_bind_fp();
@@ -190,5 +191,5 @@ void comm_attract_inner_5(u32 arg0, u32 arg1, u32 arg2)
     geo_fifo_bootstrap(0, 0, 0);
     comm_attract_script_frame_setup(0, 0, 0);
     comm_attract_inner_5_script_dispatch();
-    fprintf(stderr, "lift: inner5 done\n");
+    lift_log( "lift: inner5 done\n");
 }

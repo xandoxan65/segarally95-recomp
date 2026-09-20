@@ -8,6 +8,7 @@
 // @rom 0x1dd30 +0x1f0 game_start_race_cgm_seed
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_rom.h"
@@ -38,7 +39,7 @@ void game_start_race_cgm_seed(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_cgm_seed (catalog @ 0x2888754)\n");
+        lift_log( "lift: race_cgm_seed (catalog @ 0x2888754)\n");
         fflush(stderr);
         logged = 1;
     }

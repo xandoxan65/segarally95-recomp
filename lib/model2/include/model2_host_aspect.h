@@ -9,6 +9,7 @@
 #define MODEL2_HOST_ASPECT_H
 
 #include <stdio.h>
+#include "lift_log.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -78,7 +79,7 @@ static inline void model2_host_apply_fov_scale(float *fx, float *fy)
     if ((!fx || sx == 1.f) && (!fy || sy == 1.f))
         return;
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: host FOV scale (%.4g,%.4g) aspect=%s raw_focal=(%.4g,%.4g)\n",
                 sx, sy,
                 model2_host_aspect_is_widescreen() ? "16:9" : "4:3",

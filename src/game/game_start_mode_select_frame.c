@@ -4,6 +4,7 @@
 // @rom 0x13ce0 +0x370 game_start_mode_select_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_memory.h"
@@ -271,7 +272,7 @@ static void game_start_redraw_mode_icons(void)
         static int s_logged;
 
         if (!s_logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: mode_select icon batch=%u g3_b=%u limit=%u — reseed\n",
                     (unsigned)batch, (unsigned)g3_b, (unsigned)limit);
             s_logged = 1;
@@ -349,7 +350,7 @@ void game_start_mode_select_frame(u32 arg0, u32 arg1, u32 arg2)
             g0 = scene_lookup_fn(2u, (u32)g1);
             i960_st_u32(I960_WORKRAM, 0x202230, 0, (u32)g0);
             if ((u32)g0 != prev) {
-                fprintf(stderr,
+                lift_log(
                         "lift: mode_select choice %u→%u steer=0x%02x\n",
                         (unsigned)prev, (unsigned)g0, (unsigned)steer);
             }

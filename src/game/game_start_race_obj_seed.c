@@ -11,6 +11,7 @@
 // @rom 0x21918 +0x38 game_start_race_obj_seed_practice
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 
@@ -28,7 +29,7 @@ void game_start_race_obj_seed_practice(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_seed_practice\n");
+        lift_log( "lift: race_obj_seed_practice\n");
         fflush(stderr);
         logged = 1;
     }
@@ -58,7 +59,7 @@ void game_start_race_obj_seed(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_obj_seed\n");
+        lift_log( "lift: race_obj_seed\n");
         fflush(stderr);
         logged = 1;
     }

@@ -2,6 +2,7 @@
 // @rom 0x10940 +0x4f0 comm_attract_inner_3
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "comm_attract_script_frame.h"
@@ -21,12 +22,12 @@
 
 static void attract_tile_string_draw(u32 dest_fp_off, u32 str_vaddr, u32 link)
 {
-    fprintf(stderr, "lift: string_draw dest=fp+%#x str=%#x link=%#x\n",
+    lift_log( "lift: string_draw dest=fp+%#x str=%#x link=%#x\n",
             dest_fp_off, str_vaddr, link);
     comm_attract_script_frame_bind_fp();
     g3 = ATTRACT_TILE_SCALE;
     tile_attract_string_draw((void *)(fp + dest_fp_off), str_vaddr, link);
-    fprintf(stderr, "lift: string_draw done\n");
+    lift_log( "lift: string_draw done\n");
 }
 
 static void comm_attract_inner_3_draw_pair(u32 str_a, u32 str_b)
@@ -270,14 +271,14 @@ void comm_attract_inner_3(u32 arg0, u32 arg1, u32 arg2)
     (void)arg1;
     (void)arg2;
 
-    fprintf(stderr, "lift: inner3 enter\n");
+    lift_log( "lift: inner3 enter\n");
 
     /* @0x10944 */
     comm_attract_script_frame_bind_fp();
     if (comm_attract_slot_scan(0, 0, 0) == 0)
         return;
 
-    fprintf(stderr, "lift: inner3 after slot_scan\n");
+    lift_log( "lift: inner3 after slot_scan\n");
 
     /* @0x10950 — board comm update (unlifted). */
     i960_call_rom(0xd9d0);
@@ -336,14 +337,14 @@ void comm_attract_inner_3(u32 arg0, u32 arg1, u32 arg2)
     }
 
     /* @0x10A3C–0x10A40 */
-    fprintf(stderr, "lift: inner3 before geo_fifo + script\n");
+    lift_log( "lift: inner3 before geo_fifo + script\n");
     geo_fifo_bootstrap(0, 0, 0);
-    fprintf(stderr, "lift: inner3 after geo_fifo\n");
-    fprintf(stderr, "lift: inner3 before script_frame_setup\n");
+    lift_log( "lift: inner3 after geo_fifo\n");
+    lift_log( "lift: inner3 before script_frame_setup\n");
     comm_attract_script_frame_setup(0, 0, 0);
-    fprintf(stderr, "lift: inner3 after script_frame_setup\n");
-    fprintf(stderr, "lift: inner3 before script_dispatch script=%u\n",
+    lift_log( "lift: inner3 after script_frame_setup\n");
+    lift_log( "lift: inner3 before script_dispatch script=%u\n",
             (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a7c4, 0));
     comm_attract_inner_3_script_dispatch();
-    fprintf(stderr, "lift: inner3 done\n");
+    lift_log( "lift: inner3 done\n");
 }

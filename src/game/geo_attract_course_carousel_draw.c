@@ -3,6 +3,7 @@
 // @rom 0x3bcc0 +0xe0 geo_attract_course_carousel_draw
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "lift_syms.h"
@@ -74,7 +75,7 @@ u32 geo_attract_course_carousel_draw(u32 arg0, void * arg1, u32 arg2)
 
             if (changed || s_span_log < 8u
                 || ((course_ix == 0u) && (s_span_log % 45u) == 0u)) {
-                fprintf(stderr,
+                lift_log(
                         "lift: carousel course=%u tab=%u cam=%u span_a=%u "
                         "span_b=%#x env921862=%d%s query=(%.3g,%.3g,%.3g) "
                         "slot_g0=%#x\n",

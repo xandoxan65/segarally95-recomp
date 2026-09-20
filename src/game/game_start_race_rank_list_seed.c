@@ -9,6 +9,7 @@
 // @rom 0x47330 +0x150 game_start_race_rank_list_seed
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_rom.h"
@@ -57,7 +58,7 @@ void game_start_race_rank_list_seed(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_rank_list_seed dest=%#x\n", dest);
+        lift_log( "lift: race_rank_list_seed dest=%#x\n", dest);
         fflush(stderr);
         logged = 1;
     }
@@ -108,7 +109,7 @@ void game_start_race_rank_list_seed(u32 arg0, u32 arg1, u32 arg2)
     i960_st_u32(I960_WORKRAM, cursor_a, 4, (u32)-1);
 
     if (logged == 1) {
-        fprintf(stderr, "lift: race_rank_list rows=%u\n", (unsigned)rows);
+        lift_log( "lift: race_rank_list rows=%u\n", (unsigned)rows);
         fflush(stderr);
         logged = 2;
     }

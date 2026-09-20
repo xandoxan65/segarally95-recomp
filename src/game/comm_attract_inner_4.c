@@ -3,6 +3,7 @@
 // @rom 0x10e30 +0x200 comm_attract_inner_4
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "lift_syms.h"
 #include "model2_memory.h"
@@ -62,7 +63,7 @@ static void comm_attract_inner_4_animate_tail(void)
     i960_st_u32(I960_WORKRAM, 0x20a7d4, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x20a7d8, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, inner + 1u);
-    fprintf(stderr, "lift: inner4 reseed → inner %u tex=%#x\n",
+    lift_log( "lift: inner4 reseed → inner %u tex=%#x\n",
             (unsigned)(inner + 1u), tex_desc);
 }
 
@@ -144,6 +145,6 @@ void comm_attract_inner_4(u32 arg0, u32 arg1, u32 arg2)
         for (i = 0; i < 0x4000u; i += 2u)
             if (i960_ld_u16(I960_ABS, 0x01004000u, i) != 0)
                 nz++;
-        fprintf(stderr, "lift: inner4 splash bind (post-carousel) L1_nz=%u\n", nz);
+        lift_log( "lift: inner4 splash bind (post-carousel) L1_nz=%u\n", nz);
     }
 }

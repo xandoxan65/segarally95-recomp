@@ -1,5 +1,6 @@
 #include "model2_snd_scsp.h"
 #include "model2_snd_rom.h"
+#include "model2_snd.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -427,7 +428,7 @@ static void keyon_execute(void)
         if (kyonb && s->eg_state == EG_RELEASE) {
             slot_recalc(s);
             slot_start(s);
-            if (g_logged_keyon < 12u) {
+            if (model2_snd_log_enabled() && g_logged_keyon < 12u) {
                 unsigned disdl = (unsigned)((s->r[11] >> 13) & 7u);
                 unsigned k;
                 const u8 *pcm;

@@ -2,7 +2,7 @@
  *
  * Flow (disasm @ 0x1AA30): SOUND INITIALIZE → countdown → copyright → attract modes.
  * Headless: stops after I960_HOST_MAX_DISPATCH (default 20000) or milestone halt.
- * Live (--live): runs until the SDL window is closed (Escape / quit).
+ * The SDL window runs until it is closed (Escape / quit). --headless does not open one.
  */
 
 #include "track_viewer.h"
@@ -13,6 +13,7 @@
 #include "model2_nvram.h"
 #include "model2_geo_lift.h"
 #include "sys24_viewer.h"
+#include "lift_log.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,12 +52,11 @@ int i960_lift_boot_screen_run(const track_viewer_opts_t *opts)
     }
 
     dump = opts->palette_dump;
-    if (!dump || !*dump)
-        dump = "build/lift/boot_copyright";
 
-    fprintf(stderr,
-            "lift: boot screen — cold boot, dump=%s%s%s\n",
-            dump,
+    lift_status(
+            "lift: boot screen — cold boot%s%s%s%s\n",
+            (dump && *dump) ? ", dump=" : "",
+            (dump && *dump) ? dump : "",
             opts->live_view ? " (live SDL — close window to exit)" : "",
             opts->skip_practice ? " (--practice desert / Delta MT)" : "");
 
@@ -117,7 +117,7 @@ int i960_lift_boot_screen_run(const track_viewer_opts_t *opts)
     /* Load battery-backed SRAM + COUNTRY/coin options before cold boot. */
     (void)model2_nvram_load(NULL);
 
-    if (opts->live_view && sys24_viewer_open("segamod2 — boot screen") != 0)
+    if (opts->live_view && sys24_viewer_open("Sega Rally Championship 95 Arcade") != 0)
         return 1;
     if (opts->live_view)
         i960_host_frame_present();
@@ -133,7 +133,7 @@ int i960_lift_boot_screen_run(const track_viewer_opts_t *opts)
 
     sys24_viewer_shutdown();
 
-    fprintf(stderr, "lift: boot screen ended\n");
+    lift_status("lift: boot screen ended\n");
     g0 = 0;
     return 0;
 }

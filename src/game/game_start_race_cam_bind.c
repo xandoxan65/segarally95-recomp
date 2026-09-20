@@ -16,6 +16,7 @@
 // @rom 0x20310 +0x74 game_start_race_cam_bind
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host_staging.h"
 #include "model2_rom.h"
@@ -41,7 +42,7 @@ void game_start_race_cam_bind(u32 arg0, u32 arg1, u32 arg2)
 
         i960_st_u32(I960_WORKRAM, CAM_SLOT, 0, handler);
         if (!logged_install || prev != handler) {
-            fprintf(stderr,
+            lift_log(
                     "lift: race_cam_bind install handler=0x%x (rom 0x%x)%s\n",
                     (unsigned)handler,
                     (unsigned)i960_host_resolve_call_target(handler),
@@ -76,7 +77,7 @@ void game_start_race_cam_bind(u32 arg0, u32 arg1, u32 arg2)
         return;
 
     if (!logged_invoke) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_cam_bind invoke handler=0x%x (rom 0x%x)\n",
                 (unsigned)handler,
                 (unsigned)i960_host_resolve_call_target(handler));

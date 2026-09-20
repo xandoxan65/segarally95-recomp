@@ -4,6 +4,7 @@
 // @rom 0x15030 +0x1c8 game_start_select_confirm
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include <stdio.h>
@@ -133,7 +134,7 @@ success:
 done_ok:
     fp = fp_save;
     g0 = 1;
-    fprintf(stderr, "lift: select_confirm ok course=%u\n",
+    lift_log( "lift: select_confirm ok course=%u\n",
             (unsigned)i960_ld_u32(I960_WORKRAM, 0x214354, 0));
     return 1u;
 }

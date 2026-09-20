@@ -5,6 +5,7 @@
 // @rom 0xf6d0 +0xf0 comm_attract_board_frame
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -56,6 +57,6 @@ void comm_attract_board_frame(u32 arg0, u32 arg1, u32 arg2)
 
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x202098, 0, 3);
-    fprintf(stderr, "lift: game start — mode 3 (plays left %u)\n",
+    lift_log( "lift: game start — mode 3 (plays left %u)\n",
             (unsigned)i960_ld_u16(I960_ABS, 0x01d00022u, 0));
 }

@@ -8,6 +8,7 @@
 // @rom 0x3f410 +0xa0 geo_attract_record_index
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host_staging.h"
 
@@ -27,7 +28,7 @@ void geo_attract_record_index(u32 arg0, u32 arg1, u32 arg2)
     /* @0x3F410: cmpibg 0,g0 → ret when g0 < 0. */
     if ((i32)arg0 < 0) {
         if (!logged) {
-            fprintf(stderr, "lift: record_index skip span=%d (negative)\n",
+            lift_log( "lift: record_index skip span=%d (negative)\n",
                     (int)arg0);
             fflush(stderr);
             logged = 1;
@@ -39,7 +40,7 @@ void geo_attract_record_index(u32 arg0, u32 arg1, u32 arg2)
     /* @0x3F41C: cmpobl g0,head — ret if g0 >= head. */
     if (arg0 >= head) {
         if (!logged) {
-            fprintf(stderr,
+            lift_log(
                     "lift: record_index skip span=%u >= head=%u\n",
                     (unsigned)arg0, (unsigned)head);
             fflush(stderr);
@@ -65,7 +66,7 @@ void geo_attract_record_index(u32 arg0, u32 arg1, u32 arg2)
     if (!logged) {
         u32 rec0 = i960_ld_u32(I960_WORKRAM, 0x215390, 0);
 
-        fprintf(stderr,
+        lift_log(
                 "lift: record_index window [%u,%u) head=%u span=%u "
                 "215390[0]=%#x tag0=%#x h4=%#x\n",
                 (unsigned)idx_a, (unsigned)idx_b, (unsigned)head,
@@ -105,7 +106,7 @@ void geo_attract_record_index(u32 arg0, u32 arg1, u32 arg2)
                 idx_a -= head;
         }
         if (logged == 1) {
-            fprintf(stderr, "lift: record_index callx=%u\n", callx);
+            lift_log( "lift: record_index callx=%u\n", callx);
             fflush(stderr);
             logged = 2;
         }

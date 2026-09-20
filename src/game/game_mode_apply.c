@@ -3,6 +3,7 @@
 // @rom 0x3650 +0x54 game_mode_apply
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -57,6 +58,6 @@ void game_mode_apply(u32 arg0, u32 arg1, u32 arg2)
         /* Fresh tile banks — attract may have left transparent/geo-punch maps. */
         tile_map_banks_clear(0, 0, 0);
         model2_nvram_mark_dirty();
-        fprintf(stderr, "lift: TEST → mode 4 (operator menu)\n");
+        lift_log( "lift: TEST → mode 4 (operator menu)\n");
     }
 }

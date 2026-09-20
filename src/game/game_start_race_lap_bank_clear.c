@@ -11,6 +11,7 @@
 // @rom 0x1c830 +0x78 game_start_race_lap_bank_clear
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 #include "i960_host.h"
 
@@ -30,7 +31,7 @@ void game_start_race_lap_bank_clear(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     if (!logged) {
-        fprintf(stderr, "lift: race_lap_bank_clear g0=%#x\n", (unsigned)saved);
+        lift_log( "lift: race_lap_bank_clear g0=%#x\n", (unsigned)saved);
         fflush(stderr);
         logged = 1;
     }

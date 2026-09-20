@@ -6,8 +6,8 @@
 /* Host viewer options (boot screen, CGM decode, geo FIFO decode). */
 
 typedef struct track_viewer_opts {
-    const char *palette_dump;  /* palette / framebuffer snapshot dir */
-    int viewer_boot;           /* 1 = attract boot path (--viewer boot) */
+    const char *palette_dump;  /* --palette-dump DIR; NULL = do not write a snapshot */
+    int viewer_boot;           /* 1 = cold-boot viewer (default unless --harness) */
     int live_view;             /* 1 = SDL live framebuffer (boot default) */
     int headless;              /* 1 = force PNG-only boot (--headless) */
     const char *record_path;   /* --record FILE.avi|mp4 (ffmpeg pipe, async) */

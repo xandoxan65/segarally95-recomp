@@ -4,6 +4,7 @@
 // @rom 0x1b4d0 +0x80 game_start_phase_0
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -47,5 +48,5 @@ void game_start_phase_0(u32 arg0, u32 arg1, u32 arg2)
     sub = i960_ld_u32(I960_WORKRAM, 0x20209c, 0) + 2u;
     i960_st_u32(I960_WORKRAM, 0x20209c, 0, sub);
 
-    fprintf(stderr, "lift: game_start_phase_0 → submode %u\n", (unsigned)sub);
+    lift_log( "lift: game_start_phase_0 → submode %u\n", (unsigned)sub);
 }

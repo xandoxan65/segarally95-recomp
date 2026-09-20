@@ -10,6 +10,7 @@
  */
 
 #include "model2_geo_gl.h"
+#include "lift_log.h"
 
 #ifdef I960_HOST_HAVE_GL
 
@@ -220,7 +221,7 @@ static void upload_sheets(void)
     free(r8);
     g_sheets_uploaded = 1;
     g_sheets_gen_uploaded = gen;
-    fprintf(stderr, "lift: geo index sheets uploaded (2048x1024 R8) gen=%u\n",
+    lift_log( "lift: geo index sheets uploaded (2048x1024 R8) gen=%u\n",
             (unsigned)gen);
 }
 
@@ -387,7 +388,7 @@ void model2_geo_gl_tex_init(void)
         return;
     if (build_program() != 0) {
         if (!g_logged_shader) {
-            fprintf(stderr, "lift: geo textured shader unavailable — flat fallback\n");
+            lift_log( "lift: geo textured shader unavailable — flat fallback\n");
             g_logged_shader = 1;
         }
         return;
@@ -502,7 +503,7 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
      */
     if (model2_geo_gl_want_flat()) {
         if (!logged_flat) {
-            fprintf(stderr,
+            lift_log(
                     "lift: geo flat draw (I960_GEO_FLAT) tris=%u — same latch "
                     "as attract textured path\n",
                     ntris);
@@ -636,7 +637,7 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
 
             if (!logged_stencil) {
                 glGetIntegerv(GL_STENCIL_BITS, &bits);
-                fprintf(stderr,
+                lift_log(
                         "lift: geo fillmap stencil_bits=%d solid=%u "
                         "opaque_tex=%u cutout=%u\n",
                         (int)bits, solid_end,
@@ -739,7 +740,7 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
     }
 
     if (!logged_batches) {
-        fprintf(stderr, "lift: geo draw batches=%u tris=%u lut_cache=%u\n", batches,
+        lift_log( "lift: geo draw batches=%u tris=%u lut_cache=%u\n", batches,
                 ntris, g_lut_cache_n);
         logged_batches = 1;
     }

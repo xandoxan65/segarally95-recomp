@@ -12,6 +12,7 @@
 // @rom 0x1c450 +0x280 game_start_race_prg_budget
 
 #include "i960_lift.h"
+#include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
@@ -214,7 +215,7 @@ void game_start_race_prg_budget(u32 arg0, u32 arg1, u32 arg2)
     i960_st_u32(I960_WORKRAM, 0x214344, 0, (u32)r6);
 
     if (!logged) {
-        fprintf(stderr,
+        lift_log(
                 "lift: race_prg_budget 214344=%u 20aac4=%u 214348=%d zoom=%u\n",
                 (unsigned)(u32)r6, (unsigned)g3, (int)r4, (unsigned)g13);
         fflush(stderr);
