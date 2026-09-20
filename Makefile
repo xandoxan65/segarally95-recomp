@@ -35,7 +35,12 @@ else
   LIFT_GL_LIBS   := $(if $(shell pkg-config --exists gl 2>/dev/null && echo yes),$(shell pkg-config --libs gl),-lGL)
 endif
 
+ifeq ($(UNAME_S),Linux) # POSIX_C_SOURCE necessary for Linux compile (clock_gettime under -std=c99)
+LIFT_POSIX := -D_POSIX_C_SOURCE=200809L
+endif
+
 LIFT_CFLAGS   := -std=c99 -Wall -Wextra -Wno-unused-parameter \
+	$(LIFT_POSIX) \
 	-Isrc -Iinclude \
 	-Ilib/model2/include \
 	-Ilib/model2/host \
@@ -44,6 +49,7 @@ LIFT_CFLAGS   := -std=c99 -Wall -Wextra -Wno-unused-parameter \
 	-Ilib/model2/tgp/include \
 	-Ilib/model2/snd/include \
 	$(LIFT_PNG_CFLAGS) $(LIFT_SDL_CFLAGS) $(LIFT_GL_CFLAGS)
+
 LIFT_LDFLAGS  := $(LIFT_PNG_LIBS) $(LIFT_SDL_LIBS) $(LIFT_GL_LIBS) -lpthread -lm
 
 LIFT_BUILD    := build/lift
@@ -123,22 +129,22 @@ lift: lift-check $(LIFT_BIN) $(REFERENCE) $(MAIN_DATA)
 libmodel2_geo:
 	$(MAKE) -C $(LIFT_GEO_DIR) \
 	  CC="$(LIFT_CC)" \
-	  CFLAGS="-std=c99 -Wall -Wextra -Wno-unused-parameter -O2 $(LIFT_PNG_CFLAGS) $(LIFT_SDL_CFLAGS) $(LIFT_GL_CFLAGS)"
+	  CFLAGS="-std=c99 $(LIFT_POSIX) -Wall -Wextra -Wno-unused-parameter -O2 $(LIFT_PNG_CFLAGS) $(LIFT_SDL_CFLAGS) $(LIFT_GL_CFLAGS)"
 
 libmodel2_hw:
 	$(MAKE) -C $(LIFT_HW_DIR) \
 	  CC="$(LIFT_CC)" \
-	  CFLAGS="-std=c99 -Wall -Wextra -Wno-unused-parameter -O2"
+	  CFLAGS="-std=c99 $(LIFT_POSIX) -Wall -Wextra -Wno-unused-parameter -O2"
 
 libmodel2_tgp:
 	$(MAKE) -C $(LIFT_TGP_DIR) \
 	  CC="$(LIFT_CC)" \
-	  CFLAGS="-std=c99 -Wall -Wextra -Wno-unused-parameter -O2"
+	  CFLAGS="-std=c99 $(LIFT_POSIX) -Wall -Wextra -Wno-unused-parameter -O2"
 
 libmodel2_snd:
 	$(MAKE) -C $(LIFT_SND_DIR) \
 	  CC="$(LIFT_CC)" \
-	  CFLAGS="-std=c99 -Wall -Wextra -Wno-unused-parameter -O2"
+	  CFLAGS="-std=c99 $(LIFT_POSIX) -Wall -Wextra -Wno-unused-parameter -O2"
 
 # Optional: regenerate entry/glue only when tools are cloned.
 lift-main:

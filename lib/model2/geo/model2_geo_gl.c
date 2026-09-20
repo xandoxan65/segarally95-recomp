@@ -24,6 +24,10 @@
 
 #if defined(__APPLE__)
 #include <OpenGL/gl.h>
+#elif defined(__linux__)
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/gl.h>
+#include <GL/glext.h>
 #else
 #include <GL/gl.h>
 #endif
