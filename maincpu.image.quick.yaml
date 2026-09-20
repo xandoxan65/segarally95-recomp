@@ -1,0 +1,19 @@
+# Fast stitch: explicit regions only (reference ROM fill until compile returns).
+reference: out/i960/maincpu_deinterleaved.bin
+output: out/maincpu/maincpu_rebuilt.bin
+report: out/maincpu/maincpu_image.json
+
+options:
+  include_disasm_manifest: false
+  include_src_c: false
+  require_region_match: true
+  on_fail: keep_rom
+
+regions:
+  - name: maincpu_reset_entry
+    kind: asm
+    path: asm/boot/maincpu_000420_150.asm
+    start: 0x000420
+    length: 0x150
+    length: 0x80
+    priority: 120

@@ -1,0 +1,5 @@
+# Manual subsystem overrides for disasm slices (path relative to decomp/disasm/).
+# Example:
+# overrides:
+#   maincpu/maincpu_042000_800.asm: scene
+overrides: {}

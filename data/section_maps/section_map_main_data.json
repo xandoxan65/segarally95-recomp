@@ -1,0 +1,1687 @@
+{
+  "generated_at": "2026-07-05T06:34:11.691298+00:00",
+  "image": "main_data",
+  "rom_bytes": 12582912,
+  "base_vaddr": "0x02000000",
+  "summary": "12288 KiB main_data; semantic islands for catalog, draw script, placement stream, CGM blocks; gaps filled by 1 MiB coarse chunks in layout.",
+  "regions": [
+    {
+      "name": "scene_geometry_tables",
+      "start": "0x02864b40",
+      "end": "0x0286a980",
+      "size": 24128,
+      "confidence": "high",
+      "notes": "CPU draw entries, catalog, draw script, placement stream (parser-derived bounds)",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_00",
+      "start": "0x0205fbc0",
+      "end": "0x02067660",
+      "size": 31392,
+      "confidence": "high",
+      "notes": "CGM magic block version=7",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_01",
+      "start": "0x02067660",
+      "end": "0x0206a160",
+      "size": 11008,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_02",
+      "start": "0x0206a160",
+      "end": "0x0206a814",
+      "size": 1716,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_03",
+      "start": "0x0206a814",
+      "end": "0x0206aec8",
+      "size": 1716,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_04",
+      "start": "0x0206aec8",
+      "end": "0x0206b57c",
+      "size": 1716,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_05",
+      "start": "0x0206b57c",
+      "end": "0x0206c4b4",
+      "size": 3896,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_06",
+      "start": "0x0206c4b4",
+      "end": "0x0206d3ec",
+      "size": 3896,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_07",
+      "start": "0x0206d3ec",
+      "end": "0x0206e324",
+      "size": 3896,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_08",
+      "start": "0x0206e324",
+      "end": "0x02075da4",
+      "size": 31360,
+      "confidence": "high",
+      "notes": "CGM magic block version=7",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_09",
+      "start": "0x02075da4",
+      "end": "0x0207ffcc",
+      "size": 41512,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_10",
+      "start": "0x0207ffcc",
+      "end": "0x02087808",
+      "size": 30780,
+      "confidence": "high",
+      "notes": "CGM magic block version=6",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_11",
+      "start": "0x02087808",
+      "end": "0x02087dc4",
+      "size": 1468,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_12",
+      "start": "0x02087dc4",
+      "end": "0x0208ad44",
+      "size": 12160,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_13",
+      "start": "0x0208ad44",
+      "end": "0x0208c448",
+      "size": 5892,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_14",
+      "start": "0x0208c448",
+      "end": "0x0208e9e4",
+      "size": 9628,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_15",
+      "start": "0x0208e9e4",
+      "end": "0x02090214",
+      "size": 6192,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_16",
+      "start": "0x02090214",
+      "end": "0x0209089c",
+      "size": 1672,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_17",
+      "start": "0x0209089c",
+      "end": "0x02090c70",
+      "size": 980,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_18",
+      "start": "0x02090c70",
+      "end": "0x0209283c",
+      "size": 7116,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_19",
+      "start": "0x0209283c",
+      "end": "0x02093944",
+      "size": 4360,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_20",
+      "start": "0x02093944",
+      "end": "0x02093c70",
+      "size": 812,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_21",
+      "start": "0x02093c70",
+      "end": "0x020b65f4",
+      "size": 141700,
+      "confidence": "high",
+      "notes": "CGM magic block version=34",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_22",
+      "start": "0x020b65f4",
+      "end": "0x020bb108",
+      "size": 19220,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_23",
+      "start": "0x020bb108",
+      "end": "0x020bb6a0",
+      "size": 1432,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_24",
+      "start": "0x020bb6a0",
+      "end": "0x020bc974",
+      "size": 4820,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_25",
+      "start": "0x020bc974",
+      "end": "0x020bd3dc",
+      "size": 2664,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_26",
+      "start": "0x020bd3dc",
+      "end": "0x020cb068",
+      "size": 56460,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_27",
+      "start": "0x020cb068",
+      "end": "0x020d9458",
+      "size": 58352,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_28",
+      "start": "0x020d9458",
+      "end": "0x020e7fa8",
+      "size": 60240,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_29",
+      "start": "0x020e7fa8",
+      "end": "0x020f8b40",
+      "size": 68504,
+      "confidence": "high",
+      "notes": "CGM magic block version=16",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_30",
+      "start": "0x020f8b40",
+      "end": "0x020fb2e0",
+      "size": 10144,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_31",
+      "start": "0x020fb2e0",
+      "end": "0x020fe200",
+      "size": 12064,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_32",
+      "start": "0x020fe200",
+      "end": "0x02101ebc",
+      "size": 15548,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_33",
+      "start": "0x02101ebc",
+      "end": "0x0210af4c",
+      "size": 37008,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_34",
+      "start": "0x0210af4c",
+      "end": "0x0210b440",
+      "size": 1268,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_35",
+      "start": "0x0210b440",
+      "end": "0x0210bd34",
+      "size": 2292,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_36",
+      "start": "0x0210bd34",
+      "end": "0x0210c698",
+      "size": 2404,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_37",
+      "start": "0x0210c698",
+      "end": "0x0210cf40",
+      "size": 2216,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_38",
+      "start": "0x0210cf40",
+      "end": "0x02111120",
+      "size": 16864,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_39",
+      "start": "0x02111120",
+      "end": "0x02112498",
+      "size": 4984,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_40",
+      "start": "0x02112498",
+      "end": "0x02112980",
+      "size": 1256,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_41",
+      "start": "0x02112980",
+      "end": "0x021166f4",
+      "size": 15732,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_42",
+      "start": "0x021166f4",
+      "end": "0x02118f78",
+      "size": 10372,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_43",
+      "start": "0x02118f78",
+      "end": "0x0211c42c",
+      "size": 13492,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_44",
+      "start": "0x0211c42c",
+      "end": "0x02122804",
+      "size": 25560,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_45",
+      "start": "0x02122804",
+      "end": "0x02123b54",
+      "size": 4944,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_46",
+      "start": "0x02123b54",
+      "end": "0x02124ddc",
+      "size": 4744,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_47",
+      "start": "0x02124ddc",
+      "end": "0x02133d98",
+      "size": 61372,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_48",
+      "start": "0x02133d98",
+      "end": "0x02142d54",
+      "size": 61372,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_49",
+      "start": "0x02142d54",
+      "end": "0x02150eec",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_50",
+      "start": "0x02150eec",
+      "end": "0x0215f084",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_51",
+      "start": "0x0215f084",
+      "end": "0x0216d21c",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_52",
+      "start": "0x0216d21c",
+      "end": "0x0217b3b4",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_53",
+      "start": "0x0217b3b4",
+      "end": "0x0218954c",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_54",
+      "start": "0x0218954c",
+      "end": "0x021976e4",
+      "size": 57752,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_55",
+      "start": "0x021976e4",
+      "end": "0x021a66a0",
+      "size": 61372,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_56",
+      "start": "0x021a66a0",
+      "end": "0x021b4938",
+      "size": 58008,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_57",
+      "start": "0x021b4938",
+      "end": "0x021c2ab0",
+      "size": 57720,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_58",
+      "start": "0x021c2ab0",
+      "end": "0x021d1a6c",
+      "size": 61372,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_59",
+      "start": "0x021d1a6c",
+      "end": "0x021e0a28",
+      "size": 61372,
+      "confidence": "high",
+      "notes": "CGM magic block version=14",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_60",
+      "start": "0x021e0a28",
+      "end": "0x021e0f38",
+      "size": 1296,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_61",
+      "start": "0x021e0f38",
+      "end": "0x021e164c",
+      "size": 1812,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_62",
+      "start": "0x021e164c",
+      "end": "0x021f5c44",
+      "size": 83448,
+      "confidence": "high",
+      "notes": "CGM magic block version=18",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_63",
+      "start": "0x021f5c44",
+      "end": "0x021f66ec",
+      "size": 2728,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_64",
+      "start": "0x021f66ec",
+      "end": "0x021f8408",
+      "size": 7452,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_66",
+      "start": "0x0286a980",
+      "end": "0x0286b830",
+      "size": 3760,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_67",
+      "start": "0x0286b830",
+      "end": "0x0286c134",
+      "size": 2308,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_68",
+      "start": "0x0286c134",
+      "end": "0x0286e20c",
+      "size": 8408,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_69",
+      "start": "0x0286e20c",
+      "end": "0x0286ef9c",
+      "size": 3472,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_70",
+      "start": "0x0286ef9c",
+      "end": "0x02871014",
+      "size": 8312,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_71",
+      "start": "0x02871014",
+      "end": "0x0287312c",
+      "size": 8472,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_72",
+      "start": "0x0287312c",
+      "end": "0x02873ebc",
+      "size": 3472,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_73",
+      "start": "0x02873ebc",
+      "end": "0x02874c6c",
+      "size": 3504,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_74",
+      "start": "0x02874c6c",
+      "end": "0x02876f88",
+      "size": 8988,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_75",
+      "start": "0x02876f88",
+      "end": "0x02877d58",
+      "size": 3536,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_76",
+      "start": "0x02877d58",
+      "end": "0x02878d34",
+      "size": 4060,
+      "confidence": "high",
+      "notes": "CGM magic block version=12",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_77",
+      "start": "0x02878d34",
+      "end": "0x02879db0",
+      "size": 4220,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_78",
+      "start": "0x02879db0",
+      "end": "0x02883e98",
+      "size": 41192,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_79",
+      "start": "0x02883e98",
+      "end": "0x0288475c",
+      "size": 2244,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_80",
+      "start": "0x0288475c",
+      "end": "0x02886654",
+      "size": 7928,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_81",
+      "start": "0x02886654",
+      "end": "0x0288830c",
+      "size": 7352,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_82",
+      "start": "0x0288830c",
+      "end": "0x02888754",
+      "size": 1096,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_83",
+      "start": "0x02888754",
+      "end": "0x028898c4",
+      "size": 4464,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_84",
+      "start": "0x028898c4",
+      "end": "0x0288a114",
+      "size": 2128,
+      "confidence": "high",
+      "notes": "CGM magic block version=11",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_85",
+      "start": "0x0288a114",
+      "end": "0x0288a508",
+      "size": 1012,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_86",
+      "start": "0x0288a508",
+      "end": "0x0288ab90",
+      "size": 1672,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_87",
+      "start": "0x0288ab90",
+      "end": "0x0288b01c",
+      "size": 1164,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_88",
+      "start": "0x0288b01c",
+      "end": "0x0288b8c0",
+      "size": 2212,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_89",
+      "start": "0x0288b8c0",
+      "end": "0x0288ba60",
+      "size": 416,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_90",
+      "start": "0x0288ba60",
+      "end": "0x0288cf60",
+      "size": 5376,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_91",
+      "start": "0x0288cf60",
+      "end": "0x02897e00",
+      "size": 44704,
+      "confidence": "high",
+      "notes": "CGM magic block version=11",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_92",
+      "start": "0x02897e00",
+      "end": "0x0289a500",
+      "size": 9984,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_93",
+      "start": "0x0289a500",
+      "end": "0x0289aa10",
+      "size": 1296,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_94",
+      "start": "0x0289aa10",
+      "end": "0x0289bc78",
+      "size": 4712,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_95",
+      "start": "0x0289bc78",
+      "end": "0x0289c0e8",
+      "size": 1136,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_96",
+      "start": "0x0289c0e8",
+      "end": "0x0289c558",
+      "size": 1136,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_97",
+      "start": "0x0289c558",
+      "end": "0x028a670c",
+      "size": 41396,
+      "confidence": "high",
+      "notes": "CGM magic block version=10",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_98",
+      "start": "0x028a670c",
+      "end": "0x028a920c",
+      "size": 11008,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_99",
+      "start": "0x028a920c",
+      "end": "0x028ae89c",
+      "size": 22160,
+      "confidence": "high",
+      "notes": "CGM magic block version=34",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_100",
+      "start": "0x028ae89c",
+      "end": "0x028af104",
+      "size": 2152,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_101",
+      "start": "0x028af104",
+      "end": "0x028b1ecc",
+      "size": 11720,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_102",
+      "start": "0x028b1ecc",
+      "end": "0x028b2b00",
+      "size": 3124,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_103",
+      "start": "0x028b2b00",
+      "end": "0x028b3914",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_104",
+      "start": "0x028b3914",
+      "end": "0x028b4728",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_105",
+      "start": "0x028b4728",
+      "end": "0x028b541c",
+      "size": 3316,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_106",
+      "start": "0x028b541c",
+      "end": "0x028b61d0",
+      "size": 3508,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_107",
+      "start": "0x028b61d0",
+      "end": "0x028b6fa4",
+      "size": 3540,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_108",
+      "start": "0x028b6fa4",
+      "end": "0x028b7c58",
+      "size": 3252,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_109",
+      "start": "0x028b7c58",
+      "end": "0x028b8a6c",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_110",
+      "start": "0x028b8a6c",
+      "end": "0x028b98c0",
+      "size": 3668,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_111",
+      "start": "0x028b98c0",
+      "end": "0x028ba734",
+      "size": 3700,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_112",
+      "start": "0x028ba734",
+      "end": "0x028bb528",
+      "size": 3572,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_113",
+      "start": "0x028bb528",
+      "end": "0x028bc41c",
+      "size": 3828,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_114",
+      "start": "0x028bc41c",
+      "end": "0x028bd2f0",
+      "size": 3796,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_115",
+      "start": "0x028bd2f0",
+      "end": "0x028be144",
+      "size": 3668,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_116",
+      "start": "0x028be144",
+      "end": "0x028befd8",
+      "size": 3732,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_117",
+      "start": "0x028befd8",
+      "end": "0x028bfeac",
+      "size": 3796,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_118",
+      "start": "0x028bfeac",
+      "end": "0x028c3818",
+      "size": 14700,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_119",
+      "start": "0x028c3818",
+      "end": "0x028c5da8",
+      "size": 9616,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_120",
+      "start": "0x028c5da8",
+      "end": "0x028c7694",
+      "size": 6380,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_121",
+      "start": "0x028c7694",
+      "end": "0x028ca924",
+      "size": 12944,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_122",
+      "start": "0x028ca924",
+      "end": "0x028ccaf8",
+      "size": 8660,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_123",
+      "start": "0x028ccaf8",
+      "end": "0x028d0248",
+      "size": 14160,
+      "confidence": "high",
+      "notes": "CGM magic block version=16",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_124",
+      "start": "0x028d0248",
+      "end": "0x02a6a980",
+      "size": 1681208,
+      "confidence": "high",
+      "notes": "CGM magic block version=30",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_125",
+      "start": "0x02a6a980",
+      "end": "0x02a6b830",
+      "size": 3760,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_126",
+      "start": "0x02a6b830",
+      "end": "0x02a6c134",
+      "size": 2308,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_127",
+      "start": "0x02a6c134",
+      "end": "0x02a6e20c",
+      "size": 8408,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_128",
+      "start": "0x02a6e20c",
+      "end": "0x02a6ef9c",
+      "size": 3472,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_129",
+      "start": "0x02a6ef9c",
+      "end": "0x02a71014",
+      "size": 8312,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_130",
+      "start": "0x02a71014",
+      "end": "0x02a7312c",
+      "size": 8472,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_131",
+      "start": "0x02a7312c",
+      "end": "0x02a73ebc",
+      "size": 3472,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_132",
+      "start": "0x02a73ebc",
+      "end": "0x02a74c6c",
+      "size": 3504,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_133",
+      "start": "0x02a74c6c",
+      "end": "0x02a76f88",
+      "size": 8988,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_134",
+      "start": "0x02a76f88",
+      "end": "0x02a77d58",
+      "size": 3536,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_135",
+      "start": "0x02a77d58",
+      "end": "0x02a78d34",
+      "size": 4060,
+      "confidence": "high",
+      "notes": "CGM magic block version=12",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_136",
+      "start": "0x02a78d34",
+      "end": "0x02a79db0",
+      "size": 4220,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_137",
+      "start": "0x02a79db0",
+      "end": "0x02a83e98",
+      "size": 41192,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_138",
+      "start": "0x02a83e98",
+      "end": "0x02a8475c",
+      "size": 2244,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_139",
+      "start": "0x02a8475c",
+      "end": "0x02a86654",
+      "size": 7928,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_140",
+      "start": "0x02a86654",
+      "end": "0x02a8830c",
+      "size": 7352,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_141",
+      "start": "0x02a8830c",
+      "end": "0x02a88754",
+      "size": 1096,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_142",
+      "start": "0x02a88754",
+      "end": "0x02a898c4",
+      "size": 4464,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_143",
+      "start": "0x02a898c4",
+      "end": "0x02a8a114",
+      "size": 2128,
+      "confidence": "high",
+      "notes": "CGM magic block version=11",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_144",
+      "start": "0x02a8a114",
+      "end": "0x02a8a508",
+      "size": 1012,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_145",
+      "start": "0x02a8a508",
+      "end": "0x02a8ab90",
+      "size": 1672,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_146",
+      "start": "0x02a8ab90",
+      "end": "0x02a8b01c",
+      "size": 1164,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_147",
+      "start": "0x02a8b01c",
+      "end": "0x02a8b8c0",
+      "size": 2212,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_148",
+      "start": "0x02a8b8c0",
+      "end": "0x02a8ba60",
+      "size": 416,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_149",
+      "start": "0x02a8ba60",
+      "end": "0x02a8cf60",
+      "size": 5376,
+      "confidence": "high",
+      "notes": "CGM magic block version=13",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_150",
+      "start": "0x02a8cf60",
+      "end": "0x02a97e00",
+      "size": 44704,
+      "confidence": "high",
+      "notes": "CGM magic block version=11",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_151",
+      "start": "0x02a97e00",
+      "end": "0x02a9a500",
+      "size": 9984,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_152",
+      "start": "0x02a9a500",
+      "end": "0x02a9aa10",
+      "size": 1296,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_153",
+      "start": "0x02a9aa10",
+      "end": "0x02a9bc78",
+      "size": 4712,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_154",
+      "start": "0x02a9bc78",
+      "end": "0x02a9c0e8",
+      "size": 1136,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_155",
+      "start": "0x02a9c0e8",
+      "end": "0x02a9c558",
+      "size": 1136,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_156",
+      "start": "0x02a9c558",
+      "end": "0x02aa670c",
+      "size": 41396,
+      "confidence": "high",
+      "notes": "CGM magic block version=10",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_157",
+      "start": "0x02aa670c",
+      "end": "0x02aa920c",
+      "size": 11008,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_158",
+      "start": "0x02aa920c",
+      "end": "0x02aae89c",
+      "size": 22160,
+      "confidence": "high",
+      "notes": "CGM magic block version=34",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_159",
+      "start": "0x02aae89c",
+      "end": "0x02aaf104",
+      "size": 2152,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_160",
+      "start": "0x02aaf104",
+      "end": "0x02ab1ecc",
+      "size": 11720,
+      "confidence": "high",
+      "notes": "CGM magic block version=9",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_161",
+      "start": "0x02ab1ecc",
+      "end": "0x02ab2b00",
+      "size": 3124,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_162",
+      "start": "0x02ab2b00",
+      "end": "0x02ab3914",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_163",
+      "start": "0x02ab3914",
+      "end": "0x02ab4728",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_164",
+      "start": "0x02ab4728",
+      "end": "0x02ab541c",
+      "size": 3316,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_165",
+      "start": "0x02ab541c",
+      "end": "0x02ab61d0",
+      "size": 3508,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_166",
+      "start": "0x02ab61d0",
+      "end": "0x02ab6fa4",
+      "size": 3540,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_167",
+      "start": "0x02ab6fa4",
+      "end": "0x02ab7c58",
+      "size": 3252,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_168",
+      "start": "0x02ab7c58",
+      "end": "0x02ab8a6c",
+      "size": 3604,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_169",
+      "start": "0x02ab8a6c",
+      "end": "0x02ab98c0",
+      "size": 3668,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_170",
+      "start": "0x02ab98c0",
+      "end": "0x02aba734",
+      "size": 3700,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_171",
+      "start": "0x02aba734",
+      "end": "0x02abb528",
+      "size": 3572,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_172",
+      "start": "0x02abb528",
+      "end": "0x02abc41c",
+      "size": 3828,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_173",
+      "start": "0x02abc41c",
+      "end": "0x02abd2f0",
+      "size": 3796,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_174",
+      "start": "0x02abd2f0",
+      "end": "0x02abe144",
+      "size": 3668,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_175",
+      "start": "0x02abe144",
+      "end": "0x02abefd8",
+      "size": 3732,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_176",
+      "start": "0x02abefd8",
+      "end": "0x02abfeac",
+      "size": 3796,
+      "confidence": "high",
+      "notes": "CGM magic block version=1",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_177",
+      "start": "0x02abfeac",
+      "end": "0x02ac3818",
+      "size": 14700,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_178",
+      "start": "0x02ac3818",
+      "end": "0x02ac5da8",
+      "size": 9616,
+      "confidence": "high",
+      "notes": "CGM magic block version=4",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_179",
+      "start": "0x02ac5da8",
+      "end": "0x02ac7694",
+      "size": 6380,
+      "confidence": "high",
+      "notes": "CGM magic block version=2",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_180",
+      "start": "0x02ac7694",
+      "end": "0x02aca924",
+      "size": 12944,
+      "confidence": "high",
+      "notes": "CGM magic block version=3",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_181",
+      "start": "0x02aca924",
+      "end": "0x02accaf8",
+      "size": 8660,
+      "confidence": "high",
+      "notes": "CGM magic block version=5",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_182",
+      "start": "0x02accaf8",
+      "end": "0x02ad0248",
+      "size": 14160,
+      "confidence": "high",
+      "notes": "CGM magic block version=16",
+      "anchors": []
+    },
+    {
+      "name": "cgm_palette_183",
+      "start": "0x02ad0248",
+      "end": "0x02ad1248",
+      "size": 4096,
+      "confidence": "high",
+      "notes": "CGM magic block version=30",
+      "anchors": []
+    }
+  ],
+  "anchors": [
+    {
+      "address": "0x02864b40",
+      "label": "object_catalog",
+      "confidence": "high"
+    },
+    {
+      "address": "0x028656c0",
+      "label": "draw_script",
+      "confidence": "high"
+    },
+    {
+      "address": "0x02867c20",
+      "label": "placement_stream",
+      "confidence": "high"
+    }
+  ],
+  "limitations": [
+    "Semantic region ends come from existing parsers, not guessed spans.",
+    "Coarse main_data_XX chunks are layout-only fillers for roundtrip verify.",
+    "CGM blocks may overlap coarse chunks unless layout partition deduplicates."
+  ]
+}

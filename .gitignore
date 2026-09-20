@@ -1,0 +1,17 @@
+/out/
+/build/
+/log
+ROMS/*
+!ROMS/README.md
+!ROMS/manifest.yaml
+!ROMS/srallyc-b/.gitkeep
+/tools/
+*.o
+*.a
+.DS_Store
+__pycache__/
+/maincpu/
+/main_data/
+lib/model2/*/build/
+*.bin
+!disasm/**/*.bin

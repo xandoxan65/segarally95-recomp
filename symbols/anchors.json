@@ -1,0 +1,796 @@
+{
+  "generated_at": "2026-07-05T12:40:27.129072+00:00",
+  "maincpu_labels": [
+    {
+      "address": "0x00000000",
+      "name": "boot_rom_header",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x000000b0",
+      "name": "boot_prcb",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00000310",
+      "name": "boot_entry",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00000420",
+      "name": "maincpu_reset_entry",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00000570",
+      "name": "post_reset_dispatch",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00001490",
+      "name": "irq_init_major",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00001560",
+      "name": "irq_mask_helper",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00001650",
+      "name": "irq_timer_arm",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00001780",
+      "name": "irq_enable_dispatch",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x000018d8",
+      "name": "irq_dispatcher",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00003150",
+      "name": "game_dispatch_main",
+      "section": "game_logic_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00003c00",
+      "name": "math_thunk_palette",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00004ba8",
+      "name": "placement_cursor_reset",
+      "section": "boot_early_init",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00009b70",
+      "name": "ui_course_strings",
+      "confidence": "high",
+      "category": "rodata",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x00012d00",
+      "name": "course_palette_init",
+      "section": "scene_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x000146a8",
+      "name": "scene_classifier",
+      "section": "scene_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00014760",
+      "name": "scene_root_table",
+      "confidence": "high",
+      "category": "rodata",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x00014788",
+      "name": "scene_lookup_fn",
+      "section": "scene_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00015524",
+      "name": "scene_descriptor_loader",
+      "section": "scene_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00016164",
+      "name": "scene_matrix_init",
+      "section": "scene_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00023cc8",
+      "name": "placement_geo_feeder",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00025c68",
+      "name": "irq_timer0_latch",
+      "section": "irq_infrastructure",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00026918",
+      "name": "palram_colorbase_upload",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x000282d0",
+      "name": "copy_catalog_index_table",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00029c10",
+      "name": "draw_scene_dispatch",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00029eb0",
+      "name": "catalog_draw_setup",
+      "confidence": "high",
+      "category": "code",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x00029fac",
+      "name": "cgm_record_loop",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0002a050",
+      "name": "cgm_leading_colorbase",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0002a0f8",
+      "name": "cgm_record_dispatch",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0002a120",
+      "name": "cgm_1111_flush",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0002a200",
+      "name": "palram_batch_upload",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0002a2e0",
+      "name": "cgm_digit_staging",
+      "section": "game_logic_geo_core",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x000322f0",
+      "name": "placement_float_adjust",
+      "section": "game_logic_extended",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00034e40",
+      "name": "vehicle_assembly_catalog",
+      "confidence": "high",
+      "category": "rodata",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x00034e88",
+      "name": "vehicle_draw_list",
+      "confidence": "high",
+      "category": "rodata",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x0003ef70",
+      "name": "catalog_draw_variant",
+      "section": "game_logic_extended",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0003f040",
+      "name": "object_name_strings",
+      "confidence": "high",
+      "category": "rodata",
+      "source": "i960_section_map.ROM_ANCHORS"
+    },
+    {
+      "address": "0x00044f00",
+      "name": "draw_car_primary",
+      "section": "game_logic_extended",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0005cdc8",
+      "name": "libc_strcpy",
+      "section": "libc_runtime",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0005ce18",
+      "name": "libc_scanf_setup",
+      "section": "libc_runtime",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0005cec0",
+      "name": "libc_printf",
+      "section": "libc_runtime",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0005cf50",
+      "name": "libc_printf_dispatch",
+      "section": "libc_runtime",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0005daa0",
+      "name": "libc_memcpy",
+      "section": "libc_runtime",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x00083600",
+      "name": "late_code_island",
+      "section": "rodata_pointer_tables",
+      "source": "decomp/symbols/functions.yaml"
+    },
+    {
+      "address": "0x0020a290",
+      "name": "geo_workram_write_ptr",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x0020a8c4",
+      "name": "scene_batch_index",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x0020b940",
+      "name": "placement_cursor",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x00214354",
+      "name": "course_variant_index",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x00215380",
+      "name": "course_select_index",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x00217184",
+      "name": "vehicle_state_byte",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005b375c",
+      "name": "scene_metadata_table",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005b42e0",
+      "name": "scene_matrix_base",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005b4340",
+      "name": "catalog_index_table",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005ca210",
+      "name": "catalog_dispatch_by_slot",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005ca280",
+      "name": "catalog_dispatch_by_quad",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005e3df0",
+      "name": "vehicle_catalog_index_a",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005e3df8",
+      "name": "vehicle_catalog_index_b",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    },
+    {
+      "address": "0x005e3e00",
+      "name": "vehicle_matrix_table",
+      "space": "workram",
+      "source": "i960_memory.WORKRAM_SCENE_SYMBOLS"
+    }
+  ],
+  "memory_constants": [
+    {
+      "name": "MAINCPU_BASE",
+      "address": "0x00000000",
+      "space": "other"
+    },
+    {
+      "name": "MAINCPU_SIZE",
+      "address": "0x00100000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "WORKRAM_BASE",
+      "address": "0x00500000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "WORKRAM_SIZE",
+      "address": "0x00100000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_REGS_BASE",
+      "address": "0x00800000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_REGS_SIZE",
+      "address": "0x00004000",
+      "space": "other"
+    },
+    {
+      "name": "GEO_WRITE_START",
+      "address": "0x00801008",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_READ_START",
+      "address": "0x00803008",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_PRG_FIFO",
+      "address": "0x00804000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "MAIN_DATA_A",
+      "address": "0x02000000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "MAIN_DATA_B",
+      "address": "0x06000000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "MAIN_DATA_SIZE",
+      "address": "0x02000000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "BUFFERRAM_BASE",
+      "address": "0x00900000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "BUFFERRAM_SIZE",
+      "address": "0x00020000",
+      "space": "other"
+    },
+    {
+      "name": "TEXTURERAM0_BASE",
+      "address": "0x12000000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "TEXTURERAM1_BASE",
+      "address": "0x12400000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "TEXTURERAM_BANK_SIZE",
+      "address": "0x00200000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURERAM0_MIRROR",
+      "address": "0x00200000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "LUMARAM_BASE",
+      "address": "0x12800000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "LUMARAM_SIZE",
+      "address": "0x00020000",
+      "space": "other"
+    },
+    {
+      "name": "COPRO_FIFO",
+      "address": "0x00884000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COPRO_FN_PORT",
+      "address": "0x00880000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURE_SHEET_BANK0_VADDR",
+      "address": "0x02200000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "TEXTURE_SHEET_BANK1_VADDR",
+      "address": "0x02400000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_FN",
+      "address": "0x00003940",
+      "space": "other"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_STATE",
+      "address": "0x0020227c",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_SRC_PTR",
+      "address": "0x0020224c",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_DST_BASE",
+      "address": "0x00202240",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_DST_PTR",
+      "address": "0x00202244",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "TEXTURE_UPLOAD_JUMP_TABLE",
+      "address": "0x005a2880",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_OP_MATRIX",
+      "address": "0x05800000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "GEO_OP_OBJECT",
+      "address": "0x00800000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_OP_END",
+      "address": "0x07800000",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "CATALOG_VADDR",
+      "address": "0x02864b40",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "CATALOG_ENTRY_COUNT",
+      "address": "0x0000030e",
+      "space": "other"
+    },
+    {
+      "name": "PLACEMENT_STREAM_VADDR",
+      "address": "0x02867c20",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "PLACEMENT_STREAM_WORD",
+      "address": "0x00219f08",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "PLACEMENT_GROUP_026_WORD",
+      "address": "0x00219f08",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "PLACEMENT_GROUP_026_VADDR",
+      "address": "0x02867c20",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "SCENE_ROOT_TABLE_ROM",
+      "address": "0x00014760",
+      "space": "other"
+    },
+    {
+      "name": "SCENE_METADATA_TABLE",
+      "address": "0x005b375c",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "CATALOG_INDEX_TABLE",
+      "address": "0x005b4340",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "SCENE_BATCH_INDEX",
+      "address": "0x0020a8c4",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COURSE_SELECT_INDEX",
+      "address": "0x00215380",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COURSE_VARIANT_INDEX",
+      "address": "0x00214354",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "SCENE_MATRIX_BASE",
+      "address": "0x005b42e0",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "PLACEMENT_CURSOR",
+      "address": "0x0020b940",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "GEO_WORKRAM_WRITE_PTR",
+      "address": "0x0020a290",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "CATALOG_DISPATCH_BY_SLOT",
+      "address": "0x005ca210",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "CATALOG_DISPATCH_BY_QUAD",
+      "address": "0x005ca280",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "CATALOG_INDEX_BY_VARIANT",
+      "address": "0x005b34e0",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COURSE_HANDLER_TABLE",
+      "address": "0x005de190",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COURSE_SCENE_ROOT_TABLE",
+      "address": "0x005ddfc0",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "COURSE_SCENE_POOL_PTR_ROM",
+      "address": "0x0003efd0",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_DRAW_CATALOG_FN",
+      "address": "0x00044f00",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_GEO_FIFO",
+      "address": "0x00884000",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_CATALOG_INDEX_A",
+      "address": "0x005e3df0",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_CATALOG_INDEX_B",
+      "address": "0x005e3df8",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_MATRIX_TABLE",
+      "address": "0x005e3e00",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_MATRIX_FLAGS",
+      "address": "0x005e3e0c",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_BATCH_CATALOG_INDEX",
+      "address": "0x005e4220",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_JUMP_TABLE",
+      "address": "0x005e421c",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_STATE_BYTE",
+      "address": "0x00217184",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_MODE_FLAG",
+      "address": "0x00202098",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_SELECT_SLOT",
+      "address": "0x002142c8",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_SELECT_MODE",
+      "address": "0x002142d4",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_SELECT_PARAM",
+      "address": "0x002142d0",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_ASSEMBLY_CATALOG_ROM",
+      "address": "0x00034e40",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_DRAW_LIST_ROM",
+      "address": "0x00034e88",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_CATALOG_SINGLE_FN",
+      "address": "0x0002b420",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_CATALOG_BATCH_FN",
+      "address": "0x0002b290",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_CAR_REGISTER_FN",
+      "address": "0x00034f40",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_CAR_SETUP_FN",
+      "address": "0x00033e90",
+      "space": "other"
+    },
+    {
+      "name": "TEXTURE_COPRO_CLUSTER_FN",
+      "address": "0x00504e90",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_CAR_LOOKUP_FN",
+      "address": "0x0002b0b0",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_WORKRAM_ROOTS_ROM",
+      "address": "0x0003efc4",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_WORKRAM_EXT_ROM",
+      "address": "0x0003f000",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_RACE_FX_CATALOG_A",
+      "address": "0x02867dc0",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "VEHICLE_RACE_FX_CATALOG_B",
+      "address": "0x02867e00",
+      "space": "main_data_vaddr"
+    },
+    {
+      "name": "VEHICLE_DESCRIPTOR_ROM_START",
+      "address": "0x00043830",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_DESCRIPTOR_ROM_END",
+      "address": "0x00043a00",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_OBJECT_SETUP_FN",
+      "address": "0x000439d0",
+      "space": "other"
+    },
+    {
+      "name": "DRAW_CATALOG_SEQUENCE_FN",
+      "address": "0x000280d0",
+      "space": "other"
+    },
+    {
+      "name": "COPY_CATALOG_INDEX_TABLE_FN",
+      "address": "0x000282d0",
+      "space": "other"
+    },
+    {
+      "name": "VEHICLE_STAGING_WORKRAM_A",
+      "address": "0x005e2890",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "VEHICLE_STAGING_WORKRAM_B",
+      "address": "0x005e2900",
+      "space": "maincpu_rom"
+    },
+    {
+      "name": "CATALOG_INDEX_ROM_BIAS",
+      "address": "0x00000400",
+      "space": "other"
+    }
+  ]
+}

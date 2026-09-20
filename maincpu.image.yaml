@@ -1,0 +1,21 @@
+# Stitch compiled asm/C regions into a full 1 MiB maincpu image.
+# Gaps and failed compiles stay as reference ROM bytes (static fill).
+reference: out/i960/maincpu_deinterleaved.bin
+output: out/maincpu/maincpu_rebuilt.bin
+report: out/maincpu/maincpu_image.json
+
+options:
+  include_disasm_manifest: false
+  # Lifted semantic C under src/ is not ROM-compiled yet.
+  include_src_c: false
+  require_region_match: true
+  on_fail: keep_rom
+
+# Explicit regions (higher priority wins on overlap).
+regions:
+  - name: maincpu_reset_entry
+    kind: asm
+    path: asm/boot/maincpu_000420_150.asm
+    start: 0x000420
+    length: 0x150
+    priority: 120

@@ -1,0 +1,8503 @@
+{
+  "version": 1,
+  "functions": {
+    "0x5daa0": {
+      "name": "libc_memcpy_liftkit_test",
+      "addr": "0x5daa0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x2d28",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x1d00000",
+          "g1": "rom:0x1d00c68",
+          "g2": "rom:0xc68"
+        },
+        {
+          "caller": "0x2e10",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x1d00c68",
+          "g1": "rom:0x1d00000",
+          "g2": "rom:0xc68"
+        },
+        {
+          "caller": "0x2d28",
+          "file": "disasm/maincpu/maincpu_002c80_150.asm",
+          "g0": "rom:0x1d00000",
+          "g1": "rom:0x1d00c68",
+          "g2": "rom:0xc68"
+        },
+        {
+          "caller": "0x22c60",
+          "file": "disasm/maincpu/maincpu_022b60_150.asm",
+          "g0": "rom:0x1a12000",
+          "g1": "rom:0x20a590",
+          "g2": null
+        },
+        {
+          "caller": "0x2682c",
+          "file": "disasm/maincpu/maincpu_026700_300.asm",
+          "g0": null,
+          "g1": null,
+          "g2": "*(u32*)..."
+        }
+      ]
+    },
+    "0x5cdc8": {
+      "name": "libc_strcpy",
+      "addr": "0x5cdc8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "dst",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "src",
+          "type": "const void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x5cec0": {
+      "name": "libc_printf",
+      "addr": "0x5cec0",
+      "kind": "frame",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g13",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "frame",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret",
+          "save_reg": "g13",
+          "clear_on_entry": true
+        },
+        "caller_scratch": [
+          "r4",
+          "r5"
+        ],
+        "callee_scratch": [
+          "r4",
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "fmt",
+          "type": "const char *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [
+        "g10",
+        "g8"
+      ],
+      "clobbers": [
+        "g13",
+        "r4",
+        "r5",
+        "r6",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x4d6c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a3d30",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5744",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4328",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x5ca4",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5e7c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x29a0c",
+          "file": "disasm/maincpu/maincpu_029900_300.asm",
+          "g0": "rom:0x5c89b0",
+          "g1": "r5",
+          "g2": "r4"
+        }
+      ],
+      "notes": "Additional varargs marshalled via fp+0x70 / g13 va-block; g1/g2 usage varies by call site."
+    },
+    "0x420": {
+      "name": "maincpu_reset_entry",
+      "addr": "0x420",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x328",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0xb0": {
+      "name": "boot_prcb",
+      "addr": "0xb0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x0": {
+      "name": "boot_rom_header",
+      "addr": "0x0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": []
+    },
+    "0x310": {
+      "name": "boot_entry",
+      "addr": "0x310",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x330",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x340",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x350",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x360",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x370",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x18d8": {
+      "name": "irq_dispatcher",
+      "addr": "0x18d8",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x1650": {
+      "name": "irq_timer_arm",
+      "addr": "0x1650",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g6",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x18fc",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1910",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1924",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1938",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x1560": {
+      "name": "irq_mask_helper",
+      "addr": "0x1560",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x194c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1960",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1974",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1988",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x19fc",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x1490": {
+      "name": "irq_init_major",
+      "addr": "0x1490",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x15e0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1834",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x1780": {
+      "name": "irq_enable_dispatch",
+      "addr": "0x1780",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x25c68": {
+      "name": "irq_timer0_latch",
+      "addr": "0x25c68",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x570": {
+      "name": "post_reset_dispatch",
+      "addr": "0x570",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x3150": {
+      "name": "game_dispatch_main",
+      "addr": "0x3150",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x1758": {
+      "name": "game_irq_wr_stub",
+      "addr": "0x1758",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": []
+    },
+    "0x1a7b8": {
+      "name": "game_comm_aa24_seed",
+      "addr": "0x1a7b8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": []
+    },
+    "0x3f4b8": {
+      "name": "game_workram_bx_stub",
+      "addr": "0x3f4b8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": []
+    },
+    "0x32fa0": {
+      "name": "game_staging_init",
+      "addr": "0x32fa0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": [
+        {
+          "caller": "0x3164",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3164",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3164",
+          "file": "disasm/maincpu/maincpu_003160_30.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x31650": {
+      "name": "game_subsys_init_stub",
+      "addr": "0x31650",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": [
+        {
+          "caller": "0x3168",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3168",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3168",
+          "file": "disasm/maincpu/maincpu_003160_30.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0xccb0": {
+      "name": "comm_board_dispatch",
+      "addr": "0xccb0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x319c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": "rom:0x11802323"
+        },
+        {
+          "caller": "0x319c",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": "rom:0x11802323"
+        },
+        {
+          "caller": "0x319c",
+          "file": "disasm/maincpu/maincpu_003180_30.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x33e18": {
+      "name": "game_staging_bx",
+      "addr": "0x33e18",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": []
+    },
+    "0x323a0": {
+      "name": "game_d6_tracker_init",
+      "addr": "0x323a0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x31650",
+          "file": "disasm/maincpu/maincpu_031650_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x32a0": {
+      "name": "game_cold_boot_init",
+      "addr": "0x32a0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x316c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x316c",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x316c",
+          "file": "disasm/maincpu/maincpu_003160_30.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x5cd38": {
+      "name": "format_scan_bx_stub",
+      "addr": "0x5cd38",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": []
+    },
+    "0x3650": {
+      "name": "game_mode_apply",
+      "addr": "0x3650",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x318c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": "rom:0x11802323"
+        },
+        {
+          "caller": "0x324c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x318c",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": "rom:0x11802323"
+        },
+        {
+          "caller": "0x324c",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x318c",
+          "file": "disasm/maincpu/maincpu_003160_30.asm",
+          "g0": "rom:0x1e240",
+          "g1": null,
+          "g2": "rom:0x11802323"
+        }
+      ]
+    },
+    "0x8f28": {
+      "name": "backup_sram_sync",
+      "addr": "0x8f28",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g7",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g7",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x1aa30": {
+      "name": "game_inner_dispatch_test",
+      "addr": "0x1aa30",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x4ca8": {
+      "name": "copro_fifo_init",
+      "addr": "0x4ca8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x22b60": {
+      "name": "game_frame_update",
+      "addr": "0x22b60",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x323c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x323c",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x3940": {
+      "name": "texture_bank_select",
+      "addr": "0x3940",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3248",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x3750",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x375c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x3248",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        }
+      ]
+    },
+    "0x3eca8": {
+      "name": "geo_fifo_emit",
+      "addr": "0x3eca8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x3ec78": {
+      "name": "geo_fifo_preset",
+      "addr": "0x3ec78",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": []
+    },
+    "0x36b0": {
+      "name": "game_seed_globals",
+      "addr": "0x36b0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x32a0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32a0",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32a0",
+          "file": "disasm/maincpu/maincpu_003280_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32a0",
+          "file": "disasm/maincpu/maincpu_0032a0_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x3720": {
+      "name": "geo_renderer_init",
+      "addr": "0x3720",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x32c8",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32c8",
+          "file": "disasm/maincpu/maincpu_003150_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32c8",
+          "file": "disasm/maincpu/maincpu_003280_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x32c8",
+          "file": "disasm/maincpu/maincpu_0032a0_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x39540": {
+      "name": "geo_view_params",
+      "addr": "0x39540",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x2920",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3710",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x2920",
+          "file": "disasm/maincpu/maincpu_002920_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3710",
+          "file": "disasm/maincpu/maincpu_003650_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3710",
+          "file": "disasm/maincpu/maincpu_0036b0_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x4658": {
+      "name": "geo_reg_bootstrap",
+      "addr": "0x4658",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x4708": {
+      "name": "geo_mode_setup",
+      "addr": "0x4708",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x4590": {
+      "name": "geo_lumaram_pattern",
+      "addr": "0x4590",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3734",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3734",
+          "file": "disasm/maincpu/maincpu_003650_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3734",
+          "file": "disasm/maincpu/maincpu_003720_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x4ac0": {
+      "name": "geo_fifo_bootstrap",
+      "addr": "0x4ac0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "r10",
+        "r11",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x4e94",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a3e30",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x50e0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5334",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x162e0",
+          "file": "disasm/maincpu/maincpu_016000_400.asm",
+          "g0": "rom:0x9d",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x3c80": {
+      "name": "geo_palette_lut_upload",
+      "addr": "0x3c80",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3720",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x4bc0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3720",
+          "file": "disasm/maincpu/maincpu_003650_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3720",
+          "file": "disasm/maincpu/maincpu_0036b0_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3720",
+          "file": "disasm/maincpu/maincpu_003720_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x4350": {
+      "name": "geo_lumaram_init",
+      "addr": "0x4350",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3724",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x4bc4",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3724",
+          "file": "disasm/maincpu/maincpu_003650_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3724",
+          "file": "disasm/maincpu/maincpu_0036b0_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3724",
+          "file": "disasm/maincpu/maincpu_003720_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x23cc8": {
+      "name": "placement_geo_feeder",
+      "addr": "0x23cc8",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r3",
+        "r4",
+        "r5",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x29c10": {
+      "name": "draw_scene_dispatch",
+      "addr": "0x29c10",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r11",
+        "r12",
+        "r14",
+        "r4",
+        "r5",
+        "r6",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0xc148",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12c90",
+          "file": "disasm/maincpu/maincpu_012b80_220.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12cac",
+          "file": "disasm/maincpu/maincpu_012b80_220.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12d10",
+          "file": "disasm/maincpu/maincpu_012b80_220.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12d34",
+          "file": "disasm/maincpu/maincpu_012b80_220.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x3c18": {
+      "name": "geo_fp_lerp3",
+      "addr": "0x3c18",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g6",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g6",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0xfa00": {
+      "name": "comm_attract_board_dispatch",
+      "addr": "0xfa00",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x5cf50": {
+      "name": "libc_printf_dispatch",
+      "addr": "0x5cf50",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r12",
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g11",
+        "g4",
+        "g8",
+        "g9",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r5",
+        "r7",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x5cf00",
+          "file": "disasm/maincpu/maincpu_05cdc8_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cf00",
+          "file": "disasm/maincpu/maincpu_05ce00_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cf00",
+          "file": "disasm/maincpu/maincpu_05ce18_300.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cf00",
+          "file": "disasm/maincpu/maincpu_05cec0_300.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x29fac": {
+      "name": "cgm_record_loop",
+      "addr": "0x29fac",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "r4",
+        "r6"
+      ],
+      "call_sites": []
+    },
+    "0x5ce18": {
+      "name": "libc_scanf_setup",
+      "addr": "0x5ce18",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g3",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g3",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x2a050": {
+      "name": "cgm_leading_colorbase",
+      "addr": "0x2a050",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5",
+          "r9"
+        ],
+        "callee_scratch": [
+          "r10",
+          "r7",
+          "r8"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "r10",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x29f34",
+          "file": "disasm/maincpu/maincpu_029c10_800.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": "r9"
+        },
+        {
+          "caller": "0x29f34",
+          "file": "disasm/maincpu/maincpu_029d60_300.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": "r9"
+        },
+        {
+          "caller": "0x29f34",
+          "file": "disasm/maincpu/maincpu_029eb0_190.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": "r9"
+        },
+        {
+          "caller": "0x29f34",
+          "file": "disasm/maincpu/maincpu_029eb0_200.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": "r9"
+        },
+        {
+          "caller": "0x29f34",
+          "file": "disasm/maincpu/maincpu_029eb0_600.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": "r9"
+        }
+      ]
+    },
+    "0x5d7e8": {
+      "name": "cgm_template_emit",
+      "addr": "0x5d7e8",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g4",
+        "g5",
+        "g8",
+        "r10",
+        "r11",
+        "r3",
+        "r4",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": []
+    },
+    "0x27008": {
+      "name": "boot_tile_opcode_dispatch",
+      "addr": "0x27008",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x27130": {
+      "name": "boot_tile_script_run",
+      "addr": "0x27130",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x4e64",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a3e30",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5084",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4050",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x52e4",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a42b0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5ea8",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4e14",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5eb4",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4e14",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x2a2e0": {
+      "name": "cgm_digit_staging",
+      "addr": "0x2a2e0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "call_sites": []
+    },
+    "0x2a0f8": {
+      "name": "cgm_record_dispatch",
+      "addr": "0x2a0f8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x2a120": {
+      "name": "cgm_1111_flush",
+      "addr": "0x2a120",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": []
+    },
+    "0x2a200": {
+      "name": "palram_batch_upload",
+      "addr": "0x2a200",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x29958": {
+      "name": "cgm_thunk_walk",
+      "addr": "0x29958",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g0",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g1",
+          "g2",
+          "g0"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g0",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g1",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [],
+      "call_sites": []
+    },
+    "0x29eb0": {
+      "name": "catalog_draw_setup",
+      "addr": "0x29eb0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r11",
+          "r12",
+          "r14",
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [
+        "g0"
+      ],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "r10",
+        "r11",
+        "r12",
+        "r14",
+        "r15",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0xc084",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": "rom:0x28ae89c"
+        },
+        {
+          "caller": "0xc0a8",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": "rom:0x288a114"
+        },
+        {
+          "caller": "0xc0cc",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": "rom:0x288ab90"
+        },
+        {
+          "caller": "0xc0f0",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": "rom:0x28898c4"
+        },
+        {
+          "caller": "0xc114",
+          "file": "disasm/maincpu/maincpu_00c060_100.asm",
+          "g0": "0",
+          "g1": "0",
+          "g2": "rom:0x288b01c"
+        }
+      ]
+    },
+    "0x5d1c8": {
+      "name": "cgm_printf_handler_hash",
+      "addr": "0x5d1c8",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x5d304": {
+      "name": "cgm_printf_handler_digit",
+      "addr": "0x5d304",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x5d3dc": {
+      "name": "cgm_printf_handler_d",
+      "addr": "0x5d3dc",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r13",
+        "r15",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x5d714": {
+      "name": "cgm_printf_handler_u",
+      "addr": "0x5d714",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g4",
+        "g5",
+        "g6",
+        "g8",
+        "r13",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x5d9b4": {
+      "name": "libc_printf_dispatch_tail",
+      "addr": "0x5d9b4",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "r11",
+        "r12"
+      ],
+      "call_sites": []
+    },
+    "0x28990": {
+      "name": "tile_attract_string_draw",
+      "addr": "0x28990",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4"
+        ],
+        "callee_scratch": [
+          "r10"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "r10",
+        "r12",
+        "r13",
+        "r4",
+        "r5",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x1116c",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": null,
+          "g1": "rom:0x28e9258",
+          "g2": null
+        },
+        {
+          "caller": "0x11190",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": "r4",
+          "g1": "rom:0x28f99ac",
+          "g2": null
+        },
+        {
+          "caller": "0x111e8",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": null,
+          "g1": "rom:0xad414",
+          "g2": null
+        },
+        {
+          "caller": "0x11208",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": null,
+          "g1": "rom:0xa93c8",
+          "g2": null
+        },
+        {
+          "caller": "0x11238",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": null,
+          "g1": "rom:0x28e9258",
+          "g2": null
+        }
+      ]
+    },
+    "0x27bd8": {
+      "name": "tile_attract_angle_fixup",
+      "addr": "0x27bd8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x104a0": {
+      "name": "comm_attract_script_frame_setup",
+      "addr": "0x104a0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4"
+      ],
+      "call_sites": []
+    },
+    "0x10310": {
+      "name": "comm_attract_script_glyph_dispatch",
+      "addr": "0x10310",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x106f0",
+          "file": "disasm/maincpu/maincpu_0104a0_264.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x10700",
+          "file": "disasm/maincpu/maincpu_0104a0_264.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x106f0",
+          "file": "disasm/maincpu/maincpu_0104a0_280.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x10700",
+          "file": "disasm/maincpu/maincpu_0104a0_280.asm",
+          "g0": null,
+          "g1": "0",
+          "g2": null
+        }
+      ]
+    },
+    "0x3f1b8": {
+      "name": "comm_attract_course_chain_prep",
+      "addr": "0x3f1b8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x3f1f8": {
+      "name": "comm_attract_course_chain_restore",
+      "addr": "0x3f1f8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": []
+    },
+    "0x3f220": {
+      "name": "comm_attract_course_record_copy",
+      "addr": "0x3f220",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5",
+          "r6"
+        ],
+        "callee_scratch": [
+          "r4",
+          "r6"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r6"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3f3a4",
+          "file": "disasm/maincpu/maincpu_03f2f0_100.asm",
+          "g0": "r6",
+          "g1": "r5",
+          "g2": null
+        },
+        {
+          "caller": "0x3f3c4",
+          "file": "disasm/maincpu/maincpu_03f2f0_100.asm",
+          "g0": "r6",
+          "g1": "r5",
+          "g2": null
+        },
+        {
+          "caller": "0x3f3d8",
+          "file": "disasm/maincpu/maincpu_03f2f0_100.asm",
+          "g0": "r6",
+          "g1": "r5",
+          "g2": null
+        },
+        {
+          "caller": "0x3f3a4",
+          "file": "disasm/maincpu/maincpu_03f2f0_120.asm",
+          "g0": "r6",
+          "g1": "r5",
+          "g2": null
+        },
+        {
+          "caller": "0x3f3c4",
+          "file": "disasm/maincpu/maincpu_03f2f0_120.asm",
+          "g0": "r6",
+          "g1": "r5",
+          "g2": null
+        }
+      ]
+    },
+    "0x3f2f0": {
+      "name": "comm_attract_course_init",
+      "addr": "0x3f2f0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x11000",
+          "file": "disasm/maincpu/maincpu_010e30_210.asm",
+          "g0": "rom:0x9a",
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x1156c",
+          "file": "disasm/maincpu/maincpu_0113a0_200.asm",
+          "g0": "rom:0x9a",
+          "g1": "0",
+          "g2": null
+        },
+        {
+          "caller": "0x16a3c",
+          "file": "disasm/maincpu/maincpu_016540_600.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1bae0",
+          "file": "disasm/maincpu/maincpu_01b900_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x1bae0",
+          "file": "disasm/maincpu/maincpu_01b940_280.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x11b90": {
+      "name": "comm_attract_geo_script_finish",
+      "addr": "0x11b90",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x247d0": {
+      "name": "geo_attract_object_pen",
+      "addr": "0x247d0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4",
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x12960",
+          "file": "disasm/maincpu/maincpu_011b90_e80.asm",
+          "g0": "r4",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x129f8",
+          "file": "disasm/maincpu/maincpu_011b90_e80.asm",
+          "g0": "r4",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12960",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "r4",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x129f8",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "r4",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12a10",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "r5",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        }
+      ]
+    },
+    "0x23a80": {
+      "name": "geo_attract_glyph_emit",
+      "addr": "0x23a80",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r3"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x24838",
+          "file": "disasm/maincpu/maincpu_0247d0_400.asm",
+          "g0": null,
+          "g1": "g6",
+          "g2": null
+        },
+        {
+          "caller": "0x248f8",
+          "file": "disasm/maincpu/maincpu_0247d0_400.asm",
+          "g0": null,
+          "g1": null,
+          "g2": "rom:0x270f"
+        },
+        {
+          "caller": "0x24838",
+          "file": "disasm/maincpu/maincpu_0247d0_70.asm",
+          "g0": null,
+          "g1": "g6",
+          "g2": null
+        }
+      ]
+    },
+    "0x31fc0": {
+      "name": "geo_attract_copro_submit",
+      "addr": "0x31fc0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r10",
+        "r11",
+        "r12",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x12a14",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "r5",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12a14",
+          "file": "disasm/maincpu/maincpu_012a00_40.asm",
+          "g0": null,
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12a14",
+          "file": "disasm/maincpu/maincpu_012a08_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": "rom:0x1869f"
+        }
+      ]
+    },
+    "0x3f410": {
+      "name": "geo_attract_record_index",
+      "addr": "0x3f410",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x12a24",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "r5",
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12a24",
+          "file": "disasm/maincpu/maincpu_012a00_40.asm",
+          "g0": null,
+          "g1": "rom:0x3f800000",
+          "g2": "rom:0x1869f"
+        },
+        {
+          "caller": "0x12a24",
+          "file": "disasm/maincpu/maincpu_012a08_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": "rom:0x1869f"
+        }
+      ]
+    },
+    "0x3b200": {
+      "name": "geo_attract_course_slot_call",
+      "addr": "0x3b200",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4",
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3bcd8",
+          "file": "disasm/maincpu/maincpu_03bcc0_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3bda4",
+          "file": "disasm/maincpu/maincpu_03bcc0_200.asm",
+          "g0": "r4",
+          "g1": "r4",
+          "g2": "r5"
+        },
+        {
+          "caller": "0x3bcd8",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3bda4",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": "r4",
+          "g1": "r4",
+          "g2": "r5"
+        },
+        {
+          "caller": "0x3bcd8",
+          "file": "disasm/maincpu/maincpu_03bcc0_e0.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x3bcc0": {
+      "name": "geo_attract_course_carousel_draw",
+      "addr": "0x3bcc0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r7",
+          "r8"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x12a88",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12a88",
+          "file": "disasm/maincpu/maincpu_012a08_100.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x32150": {
+      "name": "geo_attract_copro_object",
+      "addr": "0x32150",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r12",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x320bc",
+          "file": "disasm/maincpu/maincpu_031fc0_190.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": null
+        },
+        {
+          "caller": "0x320bc",
+          "file": "disasm/maincpu/maincpu_031fc0_400.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": null
+        }
+      ]
+    },
+    "0x3b9b0": {
+      "name": "geo_attract_course_prg_mode",
+      "addr": "0x3b9b0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r12",
+          "r4",
+          "r7"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g11",
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "r11",
+        "r15",
+        "r4",
+        "r7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3bd68",
+          "file": "disasm/maincpu/maincpu_03bcc0_200.asm",
+          "g0": "r7",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x3bd68",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": "r7",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x3c084",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": null,
+          "g1": "r12",
+          "g2": null
+        },
+        {
+          "caller": "0x3bd68",
+          "file": "disasm/maincpu/maincpu_03bcc0_e0.asm",
+          "g0": "r7",
+          "g1": "r4",
+          "g2": null
+        }
+      ]
+    },
+    "0x3b7c0": {
+      "name": "geo_attract_course_catalog_span",
+      "addr": "0x3b7c0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r12",
+          "r4",
+          "r5",
+          "r6"
+        ],
+        "callee_scratch": [
+          "r4",
+          "r5",
+          "r6",
+          "r7"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3bd80",
+          "file": "disasm/maincpu/maincpu_03bcc0_200.asm",
+          "g0": "r6",
+          "g1": "r4",
+          "g2": "r5"
+        },
+        {
+          "caller": "0x3be24",
+          "file": "disasm/maincpu/maincpu_03bcc0_200.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3bd80",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": "r6",
+          "g1": "r4",
+          "g2": "r5"
+        },
+        {
+          "caller": "0x3be24",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x3c0a4",
+          "file": "disasm/maincpu/maincpu_03bcc0_400.asm",
+          "g0": null,
+          "g1": "r12",
+          "g2": "r4"
+        }
+      ]
+    },
+    "0x317b0": {
+      "name": "geo_attract_object_extra",
+      "addr": "0x317b0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r12",
+          "r15"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x240a8",
+          "file": "disasm/maincpu/maincpu_023a80_640.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x240a8",
+          "file": "disasm/maincpu/maincpu_023a80_800.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x240a8",
+          "file": "disasm/maincpu/maincpu_023cc8_900.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x24548",
+          "file": "disasm/maincpu/maincpu_023cc8_900.asm",
+          "g0": "g1",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x4958": {
+      "name": "geo_fifo_matrix_emit",
+      "addr": "0x4958",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g3",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g3",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "payload_vaddr",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x282d0": {
+      "name": "copy_catalog_index_table",
+      "addr": "0x282d0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r10",
+          "r11",
+          "r9"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g12",
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x33c00": {
+      "name": "geo_attract_fp_series",
+      "addr": "0x33c00",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r11"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r4",
+        "r5",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x12054",
+          "file": "disasm/maincpu/maincpu_011b90_500.asm",
+          "g0": null,
+          "g1": "rom:0x3f800000",
+          "g2": null
+        },
+        {
+          "caller": "0x12054",
+          "file": "disasm/maincpu/maincpu_011b90_e80.asm",
+          "g0": null,
+          "g1": "rom:0x3f800000",
+          "g2": null
+        },
+        {
+          "caller": "0x12164",
+          "file": "disasm/maincpu/maincpu_011b90_e80.asm",
+          "g0": "rom:0x5ae400",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x12054",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": null,
+          "g1": "rom:0x3f800000",
+          "g2": null
+        },
+        {
+          "caller": "0x12164",
+          "file": "disasm/maincpu/maincpu_011b90_efc.asm",
+          "g0": "rom:0x5ae400",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x39a90": {
+      "name": "geo_view_pitch_smooth",
+      "addr": "0x39a90",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x34f8c",
+          "file": "disasm/maincpu/maincpu_034d80_280.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34f8c",
+          "file": "disasm/maincpu/maincpu_034f00_200.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x39b80": {
+      "name": "geo_view_trig_scale",
+      "addr": "0x39b80",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x39d8c",
+          "file": "disasm/maincpu/maincpu_039af0_430.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x39c40": {
+      "name": "geo_view_mode_apply",
+      "addr": "0x39c40",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6",
+        "r7"
+      ],
+      "call_sites": []
+    },
+    "0x39750": {
+      "name": "geo_view_scene_apply",
+      "addr": "0x39750",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r12",
+        "r14",
+        "r15",
+        "r4",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x1633c",
+          "file": "disasm/maincpu/maincpu_016000_400.asm",
+          "g0": "rom:0xac",
+          "g1": "rom:0x50",
+          "g2": null
+        },
+        {
+          "caller": "0x37ec0",
+          "file": "disasm/maincpu/maincpu_037870_750.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x37ec0",
+          "file": "disasm/maincpu/maincpu_037c00_400.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x37870": {
+      "name": "geo_view_frame_update",
+      "addr": "0x37870",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r11",
+          "r15",
+          "r3",
+          "r9"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g12",
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x388d0": {
+      "name": "geo_view_input_gate",
+      "addr": "0x388d0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x379f4",
+          "file": "disasm/maincpu/maincpu_037870_750.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x37a34",
+          "file": "disasm/maincpu/maincpu_037870_750.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x379f4",
+          "file": "disasm/maincpu/maincpu_037870_a00.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x37a34",
+          "file": "disasm/maincpu/maincpu_037870_a00.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x379f4",
+          "file": "disasm/maincpu/maincpu_037870_e00.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x38958": {
+      "name": "geo_view_sqrt_mix_a",
+      "addr": "0x38958",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x389b8": {
+      "name": "geo_view_sqrt_mix_b",
+      "addr": "0x389b8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x38a18": {
+      "name": "geo_view_sin_mix",
+      "addr": "0x38a18",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x3aa38": {
+      "name": "geo_view_pitch_blend",
+      "addr": "0x3aa38",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x38680": {
+      "name": "geo_view_latch_apply",
+      "addr": "0x38680",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r10"
+        ],
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x382f4",
+          "file": "disasm/maincpu/maincpu_037870_e00.asm",
+          "g0": null,
+          "g1": "r10",
+          "g2": null
+        },
+        {
+          "caller": "0x382f4",
+          "file": "disasm/maincpu/maincpu_0382e0_200.asm",
+          "g0": null,
+          "g1": "r10",
+          "g2": null
+        }
+      ]
+    },
+    "0x3a320": {
+      "name": "geo_view_matrix_prep",
+      "addr": "0x3a320",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r6",
+          "r8"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r10",
+        "r11",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x378f4",
+          "file": "disasm/maincpu/maincpu_037870_750.asm",
+          "g0": null,
+          "g1": "rom:0x214254",
+          "g2": null
+        },
+        {
+          "caller": "0x378f4",
+          "file": "disasm/maincpu/maincpu_037870_a00.asm",
+          "g0": null,
+          "g1": "rom:0x214254",
+          "g2": null
+        },
+        {
+          "caller": "0x378f4",
+          "file": "disasm/maincpu/maincpu_037870_e00.asm",
+          "g0": null,
+          "g1": "rom:0x214254",
+          "g2": null
+        }
+      ]
+    },
+    "0x3b008": {
+      "name": "geo_view_matrix_slot_init",
+      "addr": "0x3b008",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g7",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g7",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x3af58": {
+      "name": "geo_view_matrix_slot_step",
+      "addr": "0x3af58",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x3ac50": {
+      "name": "geo_view_matrix_slot_fill",
+      "addr": "0x3ac50",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5"
+        ],
+        "callee_scratch": [
+          "r4",
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4",
+        "r5",
+        "r6",
+        "r7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3a450",
+          "file": "disasm/maincpu/maincpu_03a320_704.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": null
+        }
+      ]
+    },
+    "0x3aae8": {
+      "name": "geo_view_angle_frac",
+      "addr": "0x3aae8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g7",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g7",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x3ae50": {
+      "name": "geo_view_matrix_mode_gate",
+      "addr": "0x3ae50",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3a910",
+          "file": "disasm/maincpu/maincpu_03a320_704.asm",
+          "g0": null,
+          "g1": "r5",
+          "g2": null
+        }
+      ]
+    },
+    "0x3b128": {
+      "name": "geo_view_control_byte_apply",
+      "addr": "0x3b128",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0x34f40": {
+      "name": "geo_view_scene_frame",
+      "addr": "0x34f40",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x37200": {
+      "name": "geo_view_copro_vec_push",
+      "addr": "0x37200",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g12",
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "r12",
+        "r4",
+        "r5",
+        "r6",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x35b84",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35bb0",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35bec",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35c24",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35b84",
+          "file": "disasm/maincpu/maincpu_034e40_1c00.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x34078": {
+      "name": "geo_view_scene_epilogue",
+      "addr": "0x34078",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x34ce0": {
+      "name": "geo_view_mode_latch",
+      "addr": "0x34ce0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x36ddc",
+          "file": "disasm/maincpu/maincpu_034f40_22b4.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x36ddc",
+          "file": "disasm/maincpu/maincpu_034f40_2800.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x33e90": {
+      "name": "geo_view_object_bind",
+      "addr": "0x33e90",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x34fb0",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34fb0",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34fb0",
+          "file": "disasm/maincpu/maincpu_034d80_280.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34fb0",
+          "file": "disasm/maincpu/maincpu_034f00_200.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34fb0",
+          "file": "disasm/maincpu/maincpu_034f40_22b4.asm",
+          "g0": "0",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x2b0b0": {
+      "name": "geo_view_slot_word_pack",
+      "addr": "0x2b0b0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4"
+        ],
+        "callee_scratch": [
+          "r12",
+          "r9"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r10",
+        "r11",
+        "r12",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x34fc4",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": "0",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x34fc4",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": "0",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x34fc4",
+          "file": "disasm/maincpu/maincpu_034d80_280.asm",
+          "g0": "0",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x34fc4",
+          "file": "disasm/maincpu/maincpu_034f00_200.asm",
+          "g0": "0",
+          "g1": "r4",
+          "g2": null
+        },
+        {
+          "caller": "0x34fc4",
+          "file": "disasm/maincpu/maincpu_034f40_22b4.asm",
+          "g0": "0",
+          "g1": "r4",
+          "g2": null
+        }
+      ]
+    },
+    "0x2abc0": {
+      "name": "geo_view_table_index_a",
+      "addr": "0x2abc0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r9"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x346d8",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": "g10",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34724",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": "g10",
+          "g1": "r9",
+          "g2": "0"
+        },
+        {
+          "caller": "0x346d8",
+          "file": "disasm/maincpu/maincpu_034380_800.asm",
+          "g0": "g10",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x34724",
+          "file": "disasm/maincpu/maincpu_034380_800.asm",
+          "g0": "g10",
+          "g1": "r9",
+          "g2": "0"
+        },
+        {
+          "caller": "0x346d8",
+          "file": "disasm/maincpu/maincpu_034380_958.asm",
+          "g0": "g10",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x2acc0": {
+      "name": "geo_view_table_index_b",
+      "addr": "0x2acc0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4",
+          "r9"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r10",
+        "r4",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x3470c",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": null,
+          "g1": "r9",
+          "g2": "0"
+        },
+        {
+          "caller": "0x3470c",
+          "file": "disasm/maincpu/maincpu_034380_800.asm",
+          "g0": null,
+          "g1": "r9",
+          "g2": "0"
+        },
+        {
+          "caller": "0x3470c",
+          "file": "disasm/maincpu/maincpu_034380_958.asm",
+          "g0": null,
+          "g1": "r9",
+          "g2": "0"
+        },
+        {
+          "caller": "0x35710",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": "0"
+        },
+        {
+          "caller": "0x35710",
+          "file": "disasm/maincpu/maincpu_034f40_22b4.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": "0"
+        }
+      ]
+    },
+    "0x27b28": {
+      "name": "geo_view_float_clamp",
+      "addr": "0x27b28",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g1",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g2",
+          "g1"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g1",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g6",
+        "g7"
+      ],
+      "call_sites": []
+    },
+    "0x5cce8": {
+      "name": "geo_rng_u8",
+      "addr": "0x5cce8",
+      "kind": "leaf_bx",
+      "calling_convention": "i960_gregs",
+      "link_reg": "g2",
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_bx",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "bx",
+          "save_reg": "g2",
+          "clear_on_entry": true
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x34380": {
+      "name": "geo_view_scene_prep",
+      "addr": "0x34380",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r13"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g12",
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r10",
+        "r11",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x35218",
+          "file": "disasm/maincpu/maincpu_034380_1000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35218",
+          "file": "disasm/maincpu/maincpu_034ce0_2000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35218",
+          "file": "disasm/maincpu/maincpu_034f40_22b4.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35218",
+          "file": "disasm/maincpu/maincpu_034f40_2800.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x35218",
+          "file": "disasm/maincpu/maincpu_035200_40.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x2aed0": {
+      "name": "geo_view_slot_word_probe",
+      "addr": "0x2aed0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r11",
+          "r12"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r4",
+        "r6",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x2b134",
+          "file": "disasm/maincpu/maincpu_02b0b0_150.asm",
+          "g0": "r11",
+          "g1": null,
+          "g2": "r12"
+        },
+        {
+          "caller": "0x2b134",
+          "file": "disasm/maincpu/maincpu_02b0b0_200.asm",
+          "g0": "r11",
+          "g1": null,
+          "g2": "r12"
+        },
+        {
+          "caller": "0x2b134",
+          "file": "disasm/maincpu/maincpu_02b0b0_300.asm",
+          "g0": "r11",
+          "g1": null,
+          "g2": "r12"
+        },
+        {
+          "caller": "0x2b134",
+          "file": "disasm/maincpu/maincpu_02b0b0_a8.asm",
+          "g0": "r11",
+          "g1": null,
+          "g2": "r12"
+        },
+        {
+          "caller": "0x2b134",
+          "file": "disasm/maincpu/maincpu_02b0b0_c4.asm",
+          "g0": "r11",
+          "g1": null,
+          "g2": "r12"
+        }
+      ]
+    },
+    "0x5e30": {
+      "name": "geo_scene_string_prep",
+      "addr": "0x5e30",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4",
+        "r8"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x587c",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x5c50": {
+      "name": "geo_scene_row_print",
+      "addr": "0x5c50",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r5"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x5ed0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4e18",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5ed0",
+          "file": "disasm/maincpu/maincpu_005e30_100.asm",
+          "g0": "rom:0x5a4e18",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5ed0",
+          "file": "disasm/maincpu/maincpu_005e30_1e8.asm",
+          "g0": "rom:0x5a4e18",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5ed0",
+          "file": "disasm/maincpu/maincpu_005e30_200.asm",
+          "g0": "rom:0x5a4e18",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5ed0",
+          "file": "disasm/maincpu/maincpu_005e30_c0.asm",
+          "g0": "rom:0x5a4e18",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x5cc0": {
+      "name": "geo_scene_glyph_pair",
+      "addr": "0x5cc0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "r4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x5e98",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5e98",
+          "file": "disasm/maincpu/maincpu_005e30_100.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5e98",
+          "file": "disasm/maincpu/maincpu_005e30_1e8.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5e98",
+          "file": "disasm/maincpu/maincpu_005e30_200.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5e98",
+          "file": "disasm/maincpu/maincpu_005e30_80.asm",
+          "g0": "rom:0x5a4e00",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x29100": {
+      "name": "boot_tile_script_gate",
+      "addr": "0x29100",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "caller_scratch": [
+          "r4"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x5cac",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cf0",
+          "file": "disasm/maincpu/maincpu_000000_6000.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cac",
+          "file": "disasm/maincpu/maincpu_005c50_64.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cac",
+          "file": "disasm/maincpu/maincpu_005c50_80.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x5cf0",
+          "file": "disasm/maincpu/maincpu_005cc0_38.asm",
+          "g0": "r4",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x11040": {
+      "name": "comm_attract_inner_5",
+      "addr": "0x11040",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4"
+      ],
+      "call_sites": []
+    },
+    "0x115a0": {
+      "name": "comm_attract_inner_7",
+      "addr": "0x115a0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5"
+      ],
+      "call_sites": []
+    },
+    "0x16540": {
+      "name": "comm_attract_board_tick",
+      "addr": "0x16540",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6",
+        "r7"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x13810",
+          "file": "disasm/maincpu/maincpu_013810_40.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x4e90": {
+      "name": "geo_draw_frame_entry",
+      "addr": "0x4e90",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        },
+        "callee_scratch": [
+          "r10"
+        ]
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "r10",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8"
+      ],
+      "call_sites": []
+    },
+    "0x10e30": {
+      "name": "comm_attract_inner_4",
+      "addr": "0x10e30",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g3",
+        "g4",
+        "g5",
+        "g6"
+      ],
+      "call_sites": []
+    },
+    "0xd9d0": {
+      "name": "comm_attract_board_poll",
+      "addr": "0xd9d0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "void *",
+          "pointer": true
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "void *",
+          "pointer": true
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g13",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x11050",
+          "file": "disasm/maincpu/maincpu_011040_360.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x115b0",
+          "file": "disasm/maincpu/maincpu_0115a0_270.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x115b0",
+          "file": "disasm/maincpu/maincpu_0115a0_400.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        },
+        {
+          "caller": "0x115b0",
+          "file": "disasm/maincpu/maincpu_0115a0_4e0.asm",
+          "g0": null,
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x7fd0": {
+      "name": "test_menu_exit",
+      "addr": "0x7fd0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": []
+    },
+    "0x6400": {
+      "name": "test_menu_input",
+      "addr": "0x6400",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x61e0": {
+      "name": "test_menu_input_draw",
+      "addr": "0x61e0",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5"
+      ],
+      "call_sites": [
+        {
+          "caller": "0x6438",
+          "file": "disasm/maincpu/maincpu_006400_300.asm",
+          "g0": "rom:0x5a53f0",
+          "g1": null,
+          "g2": null
+        }
+      ]
+    },
+    "0x6f80": {
+      "name": "test_menu_game_assign",
+      "addr": "0x6f80",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [
+        {
+          "reg": "g0",
+          "type": "u32"
+        }
+      ],
+      "callee_saved": [],
+      "clobbers": [
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "r10",
+        "r11",
+        "r12",
+        "r4",
+        "r5",
+        "r8",
+        "r9"
+      ],
+      "call_sites": []
+    },
+    "0x1fa20": {
+      "name": "game_start_race_cam_desert",
+      "addr": "0x1fa20",
+      "kind": "leaf_ret",
+      "calling_convention": "i960_gregs",
+      "link_reg": null,
+      "convention": {
+        "model": "model2_i960",
+        "kind": "leaf_ret",
+        "arg_regs": [
+          "g0",
+          "g1",
+          "g2"
+        ],
+        "link": {
+          "reg": "g14",
+          "return_via": "ret"
+        }
+      },
+      "params": [
+        {
+          "reg": "g0",
+          "name": "arg0",
+          "type": "u32"
+        },
+        {
+          "reg": "g1",
+          "name": "arg1",
+          "type": "u32"
+        },
+        {
+          "reg": "g2",
+          "name": "arg2",
+          "type": "u32"
+        }
+      ],
+      "returns": [],
+      "callee_saved": [],
+      "clobbers": [
+        "g10",
+        "g11",
+        "g12",
+        "g13",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9",
+        "r12",
+        "r13",
+        "r14",
+        "r15",
+        "r3",
+        "r4",
+        "r8"
+      ],
+      "call_sites": []
+    }
+  }
+}

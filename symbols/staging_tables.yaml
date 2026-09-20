@@ -1,0 +1,94 @@
+# Workram function-pointer tables copied from ROM @ 0x1000 (maincpu_reset_entry).
+# Staged VA = MODEL2_WORKRAM_STAGING_VADDR + (ROM_PC - MODEL2_ROM_STAGING_SRC).
+# Resolve: i960_host_resolve_call_target(staged_va) → canonical ROM PC.
+
+tables:
+  - name: post_reset_main_engine
+  # ROM header @ 0x1000 (callx target after reset).
+    rom_pc: 0x00003150
+    staged_workram: 0x005a2150
+    fn: game_dispatch_main
+
+  - name: game_mode_dispatch
+  # workram @ 0x5A2110 — indexed by (0x202098 & 15) << 2 in game_dispatch_main @ 0x3214.
+    workram_base: 0x005a2110
+    slot_stride: 4
+    slot_count: 16
+    slots:
+      - { index: 0, staged: 0x005b9a30, rom: 0x0001aa30, fn: game_inner_dispatch }
+      - { index: 1, staged: 0x005abc70, rom: 0x0000cc70, fn: tile_attract_mode_dispatch }
+      - { index: 2, staged: 0x005aea00, rom: 0x0000fa00, fn: comm_attract_board_dispatch }
+      - { index: 3, staged: 0x005ba8c0, rom: 0x0001b8c0, fn: attract_mode3_dispatch }
+      - { index: 4, staged: 0x005a4830, rom: 0x00005830, fn: geo_scene_mode_dispatch }
+      - { index: 6, staged: 0x005a3dd0, rom: 0x00004dd0, fn: geo_submode_dispatch }
+
+  - name: test_menu_handlers
+  # workram @ 0x5A7120 — ROM mirror of table @ 0x8120; indexed by cursor in geo_scene_mode_dispatch.
+    workram_base: 0x005a7120
+    slot_stride: 4
+    slot_count: 11
+    slots:
+      - { index: 0, staged: 0x005a7840, rom: 0x00008840, fn: test_menu_memory }
+      - { index: 1, staged: 0x005a5400, rom: 0x00006400, fn: test_menu_input }
+      - { index: 2, staged: 0x005a7b00, rom: 0x00008b00, fn: test_menu_sound }
+      - { index: 3, staged: 0x005a5a20, rom: 0x00006a20, fn: test_menu_crt }
+      - { index: 4, staged: 0x005aae30, rom: 0x0000be30, fn: test_menu_coin }
+      - { index: 5, staged: 0x005a5f80, rom: 0x00006f80, fn: test_menu_game_assign }
+      - { index: 6, staged: 0x005a6670, rom: 0x00007670, fn: test_menu_output }
+      - { index: 7, staged: 0x005a6d80, rom: 0x00007d80, fn: test_menu_drive }
+      - { index: 8, staged: 0x005a93d0, rom: 0x0000a3d0, fn: test_menu_bookkeeping }
+      - { index: 9, staged: 0x005a6910, rom: 0x00007910, fn: test_menu_backup }
+      - { index: 10, staged: 0x005a6fd0, rom: 0x00007fd0, fn: test_menu_exit }
+
+  - name: attract_mode3_subdispatch
+  # workram @ 0x5BA7D0 — indexed by (0x20209c & 15) << 2 in attract_mode3_dispatch.
+  # Phase 0 advances 20209c by 2 (skips link sync @ [1]). Solo timer stays −1;
+  # obj_seed then runs 0x217e0 (car table) via cmpibge 0,timer.
+  # obj_bind @ 0x23110: cmpible 0,timer → 0x22e20 when timer >= 0; else 0x22c70
+  # publishes 0x213b40 into 0x213980 (solo practice takes 0x22c70).
+    workram_base: 0x005ba7d0
+    slot_stride: 4
+    slot_count: 8
+    slots:
+      - { index: 0, staged: 0x005ba4d0, rom: 0x0001b4d0, fn: game_start_phase_0 }
+      - { index: 1, staged: 0x005ba710, rom: 0x0001b710, fn: null }
+      - { index: 2, staged: 0x005b3160, rom: 0x00014160, fn: game_start_display_setup }
+      - { index: 3, staged: 0x005b3440, rom: 0x00014440, fn: game_start_mode_select }
+      - { index: 4, staged: 0x005bb090, rom: 0x0001c090, fn: game_start_champ_enter }
+      - { index: 5, staged: 0x005bb0e0, rom: 0x0001c0e0, fn: attract_scene_slot_dispatch }
+      - { index: 6, staged: 0x005bb140, rom: 0x0001c140, fn: game_start_practice_enter }
+      - { index: 7, staged: 0x005bb1a0, rom: 0x0001c1a0, fn: game_start_practice_slot_dispatch }
+
+  - name: race_sub_handlers
+    # workram @ 0x5BBA10 — indexed by (0x2020a8 >> 1) in game_start_race_sub_dispatch.
+    # staged → rom via staged − 0x59f000 (same as other race leaves).
+    workram_base: 0x005bba10
+    slot_stride: 4
+    slots:
+      - { index: 0, staged: 0x005bba70, rom: 0x0001ca70, fn: game_start_race_slot0 }
+      - { index: 1, staged: 0x005bbd20, rom: 0x0001cd20, fn: game_start_race_slot1 }
+      - { index: 2, staged: 0x005bbe30, rom: 0x0001ce30, fn: game_start_race_slot2 }
+      - { index: 3, staged: 0x005bc160, rom: 0x0001d160, fn: game_start_race_slot3 }
+
+  - name: race_geo_prg_handlers
+    # Installed into 0x20ab50 by game_start_race_geo_prg_slot; callx each race_frame.
+    slots:
+      - { staged: 0x005c0330, rom: 0x00021330, fn: game_start_race_geo_prg_thunk }
+      - { staged: 0x005c0340, rom: 0x00021340, fn: game_start_race_geo_prg_hud_go }
+      - { staged: 0x005c01f0, rom: 0x000211f0, fn: game_start_race_countdown_prg }
+
+  - name: race_camera_handlers
+    # Installed into 0x20ab4c by game_start_race_cam_bind; callx from race_frame.
+    slots:
+      - { staged: 0x005bea20, rom: 0x0001fa20, fn: game_start_race_cam_desert }
+      - { staged: 0x005bedc0, rom: 0x0001fdc0, fn: game_start_race_cam_chase }
+      - { staged: 0x005bef60, rom: 0x0001ff60, fn: game_start_race_cam_chase_alt }
+      - { staged: 0x005be1d0, rom: 0x0001f1d0, fn: game_start_race_cam_seed }
+
+  - name: race_course_obj_handlers
+    # Installed into course-event +4 by init_4 / init_21; callx from record_index.
+    slots:
+      - { staged: 0x005ca580, rom: 0x0002b580, fn: game_start_race_course_obj_init_4 }
+      - { staged: 0x005ca420, rom: 0x0002b420, fn: game_start_race_course_obj_draw_4 }
+                    - { staged: 0x005cab80, rom: 0x0002bb80, fn: game_start_race_course_obj_init_21 }
+      - { staged: 0x005cab50, rom: 0x0002bb50, fn: game_start_race_course_obj_draw_21 }

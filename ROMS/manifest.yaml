@@ -1,0 +1,40 @@
+# Expected MAME ROM files for srallyc-b (Revision B target).
+# Used by ./build split / ./verify — not committed to git.
+
+game: srallyc-b
+revision: B
+rom_dir: ROMS/srallyc-b
+
+images:
+  maincpu:
+    description: i960 maincpu program (1 MiB, interleaved EPROM pair)
+    load: ROM_LOAD32_WORD
+    files:
+      - epr-17888b.12
+      - epr-17889b.13
+
+  main_data:
+    description: Main data ROM (12 MiB, three interleaved pairs)
+    load: ROM_LOAD32_WORD
+    pairs:
+      - [mpr-17746.10, mpr-17747.11]
+      - [mpr-17744.8, mpr-17745.9]
+      - [mpr-17884.6, mpr-17885.7]
+
+  polygons:
+    description: Polygon object pool (used for main_data section map refresh)
+    pairs:
+      - [mpr-17748.16, mpr-17750.20]
+      - [mpr-17749.17, mpr-17751.21]
+
+optional:
+  - epr-17890a.30
+  - mpr-17753.25
+  - mpr-17752.24
+  - mpr-17754.28
+  - mpr-17755.29
+
+aliases:
+  mpr-17754.28: mpr-17754.29
+  mpr-17755.29: mpr-17755.28
+  epr-17890a.30: epr-17890.30

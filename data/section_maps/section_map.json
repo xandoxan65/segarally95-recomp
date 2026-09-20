@@ -1,0 +1,1367 @@
+{
+  "generated_at": "2026-07-05T06:34:07.970384+00:00",
+  "image": "maincpu",
+  "rom_bytes": 1048576,
+  "used_bytes": 775528,
+  "used_end": "0x0bd568",
+  "fill_start": "0x0bd568",
+  "last_geo_port_ref": "0x05ad38",
+  "summary": "~757 KiB used program ROM; geo-heavy code in 0x020000\u20130x050000; libc @ 0x05C000; rodata/tables 0x060000\u20130x0bd568; 0xFF fill after.",
+  "regions": [
+    {
+      "name": "boot_early_init",
+      "start": "0x000000",
+      "end": "0x006000",
+      "size": 24576,
+      "confidence": "high",
+      "notes": "Vectors, early init, geo clusters @ 0x34EC/0x4724/0x5040",
+      "anchors": [
+        {
+          "address": "0x003c00",
+          "label": "math_thunk_palette",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x004ba8",
+          "label": "placement_cursor_reset",
+          "confidence": "high",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "service_diagnostic_rodata",
+      "start": "0x006000",
+      "end": "0x010000",
+      "size": 40960,
+      "confidence": "high",
+      "notes": "I/O and service menu format strings (CHUTE, SHIFT, VR, \u2026)",
+      "anchors": [
+        {
+          "address": "0x009b70",
+          "label": "ui_course_strings",
+          "confidence": "high",
+          "category": "rodata"
+        }
+      ]
+    },
+    {
+      "name": "scene_infrastructure",
+      "start": "0x010000",
+      "end": "0x020000",
+      "size": 65536,
+      "confidence": "medium",
+      "notes": "Scene tables @ 0x14760, classifier/lookup, scene-init clusters",
+      "anchors": [
+        {
+          "address": "0x012d00",
+          "label": "scene_setup_init",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x0146a8",
+          "label": "scene_classifier",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x014760",
+          "label": "scene_root_table",
+          "confidence": "high",
+          "category": "rodata"
+        },
+        {
+          "address": "0x014788",
+          "label": "scene_lookup_fn",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x015524",
+          "label": "scene_descriptor_loader",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x016164",
+          "label": "scene_matrix_init",
+          "confidence": "high",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "game_logic_geo_core",
+      "start": "0x020000",
+      "end": "0x030000",
+      "size": 65536,
+      "confidence": "high",
+      "notes": "Placement feeder, draw dispatch, heaviest geo FIFO density",
+      "anchors": [
+        {
+          "address": "0x023cc8",
+          "label": "placement_geo_feeder",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x0282d0",
+          "label": "copy_catalog_index_table",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x029c10",
+          "label": "draw_scene_dispatch",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x029eb0",
+          "label": "catalog_draw_setup",
+          "confidence": "high",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "game_logic_extended",
+      "start": "0x030000",
+      "end": "0x050000",
+      "size": 131072,
+      "confidence": "medium",
+      "notes": "Vehicle draw, catalog tables, object-name rodata",
+      "anchors": [
+        {
+          "address": "0x0322f0",
+          "label": "placement_float_adjust",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x034e40",
+          "label": "vehicle_assembly_catalog",
+          "confidence": "high",
+          "category": "rodata"
+        },
+        {
+          "address": "0x034e88",
+          "label": "vehicle_draw_list",
+          "confidence": "high",
+          "category": "rodata"
+        },
+        {
+          "address": "0x03ef70",
+          "label": "catalog_draw_variant",
+          "confidence": "medium",
+          "category": "code"
+        },
+        {
+          "address": "0x03f040",
+          "label": "object_name_strings",
+          "confidence": "high",
+          "category": "rodata"
+        },
+        {
+          "address": "0x044f00",
+          "label": "draw_car_primary",
+          "confidence": "high",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "late_code",
+      "start": "0x050000",
+      "end": "0x05c000",
+      "size": 49152,
+      "confidence": "medium",
+      "notes": "Geo activity tapers; last geo port refs ~0x5AD38; last geo port ref @ 0x05ad38",
+      "anchors": []
+    },
+    {
+      "name": "libc_runtime",
+      "start": "0x05c000",
+      "end": "0x05e000",
+      "size": 8192,
+      "confidence": "high",
+      "notes": "C stdio/memcpy (printf, sprintf dispatch, strcpy, memcpy)",
+      "anchors": [
+        {
+          "address": "0x05cdc8",
+          "label": "libc_strcpy",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x05cec0",
+          "label": "libc_printf",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x05cf50",
+          "label": "libc_printf_dispatch",
+          "confidence": "high",
+          "category": "code"
+        },
+        {
+          "address": "0x05daa0",
+          "label": "libc_memcpy",
+          "confidence": "high",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "post_libc_glue",
+      "start": "0x05e000",
+      "end": "0x060000",
+      "size": 8192,
+      "confidence": "low",
+      "notes": "Short transition between libc and rodata band",
+      "anchors": []
+    },
+    {
+      "name": "rodata_pointer_tables",
+      "start": "0x060000",
+      "end": "0x0bd568",
+      "size": 382312,
+      "confidence": "medium",
+      "notes": "Dense strings, main_data pointer tables, UI text; little geo",
+      "anchors": [
+        {
+          "address": "0x083600",
+          "label": "late_code_island",
+          "confidence": "low",
+          "category": "code"
+        }
+      ]
+    },
+    {
+      "name": "erase_fill",
+      "start": "0x0bd568",
+      "end": "0x100000",
+      "size": 273048,
+      "confidence": "high",
+      "notes": "0xFF padding to 1 MiB image size",
+      "anchors": []
+    }
+  ],
+  "buckets_64k": [
+    {
+      "start": "0x000000",
+      "end": "0x010000",
+      "printable_pct": 28.8,
+      "ff_pct": 1.3,
+      "geo_port_refs": 169,
+      "main_data_ptr_refs": 27,
+      "workram_ptr_refs": 2167,
+      "call_bal_ops": 688,
+      "tags": [
+        "geo_code",
+        "code_heavy"
+      ]
+    },
+    {
+      "start": "0x010000",
+      "end": "0x020000",
+      "printable_pct": 29.3,
+      "ff_pct": 0.7,
+      "geo_port_refs": 679,
+      "main_data_ptr_refs": 144,
+      "workram_ptr_refs": 2502,
+      "call_bal_ops": 694,
+      "tags": [
+        "geo_code",
+        "code_heavy"
+      ]
+    },
+    {
+      "start": "0x020000",
+      "end": "0x030000",
+      "printable_pct": 31.3,
+      "ff_pct": 1.0,
+      "geo_port_refs": 1104,
+      "main_data_ptr_refs": 63,
+      "workram_ptr_refs": 1260,
+      "call_bal_ops": 321,
+      "tags": [
+        "geo_code",
+        "code_heavy"
+      ]
+    },
+    {
+      "start": "0x030000",
+      "end": "0x040000",
+      "printable_pct": 29.4,
+      "ff_pct": 1.0,
+      "geo_port_refs": 903,
+      "main_data_ptr_refs": 113,
+      "workram_ptr_refs": 1172,
+      "call_bal_ops": 186,
+      "tags": [
+        "geo_code",
+        "code_mixed"
+      ]
+    },
+    {
+      "start": "0x040000",
+      "end": "0x050000",
+      "printable_pct": 25.2,
+      "ff_pct": 1.8,
+      "geo_port_refs": 673,
+      "main_data_ptr_refs": 109,
+      "workram_ptr_refs": 833,
+      "call_bal_ops": 168,
+      "tags": [
+        "geo_code",
+        "code_mixed"
+      ]
+    },
+    {
+      "start": "0x050000",
+      "end": "0x060000",
+      "printable_pct": 21.4,
+      "ff_pct": 0.6,
+      "geo_port_refs": 227,
+      "main_data_ptr_refs": 37,
+      "workram_ptr_refs": 243,
+      "call_bal_ops": 39,
+      "tags": [
+        "geo_code"
+      ]
+    },
+    {
+      "start": "0x060000",
+      "end": "0x070000",
+      "printable_pct": 44.5,
+      "ff_pct": 0.1,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 198,
+      "workram_ptr_refs": 74,
+      "call_bal_ops": 42,
+      "tags": [
+        "main_data_tables",
+        "strings"
+      ]
+    },
+    {
+      "start": "0x070000",
+      "end": "0x080000",
+      "printable_pct": 23.5,
+      "ff_pct": 0.2,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 326,
+      "workram_ptr_refs": 232,
+      "call_bal_ops": 94,
+      "tags": [
+        "main_data_tables"
+      ]
+    },
+    {
+      "start": "0x080000",
+      "end": "0x090000",
+      "printable_pct": 34.9,
+      "ff_pct": 0.6,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 142,
+      "workram_ptr_refs": 239,
+      "call_bal_ops": 4,
+      "tags": [
+        "main_data_tables"
+      ]
+    },
+    {
+      "start": "0x090000",
+      "end": "0x0a0000",
+      "printable_pct": 28.5,
+      "ff_pct": 0.2,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 347,
+      "workram_ptr_refs": 320,
+      "call_bal_ops": 1,
+      "tags": [
+        "main_data_tables"
+      ]
+    },
+    {
+      "start": "0x0a0000",
+      "end": "0x0b0000",
+      "printable_pct": 39.5,
+      "ff_pct": 0.3,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 70,
+      "workram_ptr_refs": 86,
+      "call_bal_ops": 0,
+      "tags": [
+        "strings"
+      ]
+    },
+    {
+      "start": "0x0b0000",
+      "end": "0x0c0000",
+      "printable_pct": 34.4,
+      "ff_pct": 16.8,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 60,
+      "workram_ptr_refs": 86,
+      "call_bal_ops": 4,
+      "tags": []
+    },
+    {
+      "start": "0x0c0000",
+      "end": "0x0d0000",
+      "printable_pct": 0.0,
+      "ff_pct": 100.0,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 0,
+      "workram_ptr_refs": 0,
+      "call_bal_ops": 0,
+      "tags": [
+        "erase_fill"
+      ]
+    },
+    {
+      "start": "0x0d0000",
+      "end": "0x0e0000",
+      "printable_pct": 0.0,
+      "ff_pct": 100.0,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 0,
+      "workram_ptr_refs": 0,
+      "call_bal_ops": 0,
+      "tags": [
+        "erase_fill"
+      ]
+    },
+    {
+      "start": "0x0e0000",
+      "end": "0x0f0000",
+      "printable_pct": 0.0,
+      "ff_pct": 100.0,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 0,
+      "workram_ptr_refs": 0,
+      "call_bal_ops": 0,
+      "tags": [
+        "erase_fill"
+      ]
+    },
+    {
+      "start": "0x0f0000",
+      "end": "0x100000",
+      "printable_pct": 0.0,
+      "ff_pct": 100.0,
+      "geo_port_refs": 0,
+      "main_data_ptr_refs": 0,
+      "workram_ptr_refs": 0,
+      "call_bal_ops": 0,
+      "tags": [
+        "erase_fill"
+      ]
+    }
+  ],
+  "string_density_16k": [
+    {
+      "bucket_start": "0x000000",
+      "string_count": 5
+    },
+    {
+      "bucket_start": "0x004000",
+      "string_count": 67
+    },
+    {
+      "bucket_start": "0x008000",
+      "string_count": 69
+    },
+    {
+      "bucket_start": "0x00c000",
+      "string_count": 28
+    },
+    {
+      "bucket_start": "0x018000",
+      "string_count": 11
+    },
+    {
+      "bucket_start": "0x024000",
+      "string_count": 105
+    },
+    {
+      "bucket_start": "0x028000",
+      "string_count": 9
+    },
+    {
+      "bucket_start": "0x038000",
+      "string_count": 12
+    },
+    {
+      "bucket_start": "0x03c000",
+      "string_count": 7
+    },
+    {
+      "bucket_start": "0x05c000",
+      "string_count": 5
+    },
+    {
+      "bucket_start": "0x060000",
+      "string_count": 133
+    },
+    {
+      "bucket_start": "0x064000",
+      "string_count": 246
+    },
+    {
+      "bucket_start": "0x068000",
+      "string_count": 298
+    },
+    {
+      "bucket_start": "0x06c000",
+      "string_count": 74
+    },
+    {
+      "bucket_start": "0x070000",
+      "string_count": 8
+    },
+    {
+      "bucket_start": "0x074000",
+      "string_count": 121
+    },
+    {
+      "bucket_start": "0x078000",
+      "string_count": 86
+    },
+    {
+      "bucket_start": "0x07c000",
+      "string_count": 131
+    },
+    {
+      "bucket_start": "0x080000",
+      "string_count": 125
+    },
+    {
+      "bucket_start": "0x084000",
+      "string_count": 46
+    },
+    {
+      "bucket_start": "0x088000",
+      "string_count": 191
+    },
+    {
+      "bucket_start": "0x08c000",
+      "string_count": 153
+    },
+    {
+      "bucket_start": "0x090000",
+      "string_count": 71
+    },
+    {
+      "bucket_start": "0x094000",
+      "string_count": 22
+    },
+    {
+      "bucket_start": "0x098000",
+      "string_count": 6
+    },
+    {
+      "bucket_start": "0x09c000",
+      "string_count": 8
+    },
+    {
+      "bucket_start": "0x0a0000",
+      "string_count": 3
+    },
+    {
+      "bucket_start": "0x0a4000",
+      "string_count": 4
+    },
+    {
+      "bucket_start": "0x0a8000",
+      "string_count": 11
+    },
+    {
+      "bucket_start": "0x0ac000",
+      "string_count": 12
+    },
+    {
+      "bucket_start": "0x0b0000",
+      "string_count": 15
+    },
+    {
+      "bucket_start": "0x0b4000",
+      "string_count": 18
+    },
+    {
+      "bucket_start": "0x0b8000",
+      "string_count": 20
+    }
+  ],
+  "anchors": [
+    {
+      "address": "0x003c00",
+      "label": "math_thunk_palette",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x004ba8",
+      "label": "placement_cursor_reset",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x012d00",
+      "label": "scene_setup_init",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x0146a8",
+      "label": "scene_classifier",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x014760",
+      "label": "scene_root_table",
+      "confidence": "high",
+      "category": "rodata"
+    },
+    {
+      "address": "0x014788",
+      "label": "scene_lookup_fn",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x015524",
+      "label": "scene_descriptor_loader",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x016164",
+      "label": "scene_matrix_init",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x023cc8",
+      "label": "placement_geo_feeder",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x0282d0",
+      "label": "copy_catalog_index_table",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x029c10",
+      "label": "draw_scene_dispatch",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x029eb0",
+      "label": "catalog_draw_setup",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x0322f0",
+      "label": "placement_float_adjust",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x034e40",
+      "label": "vehicle_assembly_catalog",
+      "confidence": "high",
+      "category": "rodata"
+    },
+    {
+      "address": "0x034e88",
+      "label": "vehicle_draw_list",
+      "confidence": "high",
+      "category": "rodata"
+    },
+    {
+      "address": "0x03ef70",
+      "label": "catalog_draw_variant",
+      "confidence": "medium",
+      "category": "code"
+    },
+    {
+      "address": "0x03f040",
+      "label": "object_name_strings",
+      "confidence": "high",
+      "category": "rodata"
+    },
+    {
+      "address": "0x044f00",
+      "label": "draw_car_primary",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x05cdc8",
+      "label": "libc_strcpy",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x05cec0",
+      "label": "libc_printf",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x05cf50",
+      "label": "libc_printf_dispatch",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x05daa0",
+      "label": "libc_memcpy",
+      "confidence": "high",
+      "category": "code"
+    },
+    {
+      "address": "0x009b70",
+      "label": "ui_course_strings",
+      "confidence": "high",
+      "category": "rodata"
+    },
+    {
+      "address": "0x083600",
+      "label": "late_code_island",
+      "confidence": "low",
+      "category": "code"
+    }
+  ],
+  "symbol_anchors": [
+    {
+      "address": "0x0280d0",
+      "label": "draw_catalog_sequence",
+      "source": "i960_memory"
+    },
+    {
+      "address": "0x0282d0",
+      "label": "copy_catalog_index_table",
+      "source": "i960_memory"
+    },
+    {
+      "address": "0x044f00",
+      "label": "vehicle_draw_catalog_fn",
+      "source": "i960_memory"
+    },
+    {
+      "address": "0x014760",
+      "label": "scene_root_table",
+      "source": "i960_memory"
+    },
+    {
+      "address": "0x034e40",
+      "label": "vehicle_assembly_catalog",
+      "source": "i960_memory"
+    },
+    {
+      "address": "0x034e88",
+      "label": "vehicle_draw_list",
+      "source": "i960_memory"
+    }
+  ],
+  "geo_clusters": [
+    {
+      "id": 0,
+      "rom_start": "0x0034ec",
+      "rom_end": "0x0035e0",
+      "ref_count": 2,
+      "main_data_ptr_count": 1,
+      "main_data_ptrs": [
+        "0x0035cc"
+      ]
+    },
+    {
+      "id": 1,
+      "rom_start": "0x004724",
+      "rom_end": "0x0047d8",
+      "ref_count": 2,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 2,
+      "rom_start": "0x005040",
+      "rom_end": "0x005664",
+      "ref_count": 5,
+      "main_data_ptr_count": 5,
+      "main_data_ptrs": [
+        "0x0051c8",
+        "0x005208",
+        "0x00543c",
+        "0x005548",
+        "0x00563c"
+      ]
+    },
+    {
+      "id": 3,
+      "rom_start": "0x013e60",
+      "rom_end": "0x013f20",
+      "ref_count": 2,
+      "main_data_ptr_count": 1,
+      "main_data_ptrs": [
+        "0x013e84"
+      ]
+    },
+    {
+      "id": 4,
+      "rom_start": "0x0149c8",
+      "rom_end": "0x014aa8",
+      "ref_count": 2,
+      "main_data_ptr_count": 2,
+      "main_data_ptrs": [
+        "0x0149ec",
+        "0x014a88"
+      ]
+    },
+    {
+      "id": 5,
+      "rom_start": "0x015524",
+      "rom_end": "0x01598c",
+      "ref_count": 5,
+      "main_data_ptr_count": 19,
+      "main_data_ptrs": [
+        "0x015548",
+        "0x015550",
+        "0x015558",
+        "0x015568",
+        "0x0156b0",
+        "0x0156bc",
+        "0x0156c4",
+        "0x0156cc",
+        "0x015788",
+        "0x0157c0",
+        "0x0157cc",
+        "0x0157d4"
+      ]
+    },
+    {
+      "id": 6,
+      "rom_start": "0x018a2c",
+      "rom_end": "0x019220",
+      "ref_count": 4,
+      "main_data_ptr_count": 3,
+      "main_data_ptrs": [
+        "0x018c50",
+        "0x018f0c",
+        "0x01920c"
+      ]
+    },
+    {
+      "id": 7,
+      "rom_start": "0x01b388",
+      "rom_end": "0x01b388",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 8,
+      "rom_start": "0x02066c",
+      "rom_end": "0x02066c",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 9,
+      "rom_start": "0x0215bc",
+      "rom_end": "0x0215bc",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 10,
+      "rom_start": "0x023cc8",
+      "rom_end": "0x024750",
+      "ref_count": 8,
+      "main_data_ptr_count": 15,
+      "main_data_ptrs": [
+        "0x023cf0",
+        "0x023dd4",
+        "0x023e38",
+        "0x023ee4",
+        "0x023fe0",
+        "0x02401c",
+        "0x02422c",
+        "0x024268",
+        "0x024360",
+        "0x0243bc",
+        "0x024408",
+        "0x0244d8"
+      ]
+    },
+    {
+      "id": 11,
+      "rom_start": "0x024bc0",
+      "rom_end": "0x024bc0",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 12,
+      "rom_start": "0x027a90",
+      "rom_end": "0x0281f8",
+      "ref_count": 4,
+      "main_data_ptr_count": 5,
+      "main_data_ptrs": [
+        "0x027ab8",
+        "0x027dd8",
+        "0x027e14",
+        "0x028034",
+        "0x0281e4"
+      ]
+    },
+    {
+      "id": 13,
+      "rom_start": "0x028634",
+      "rom_end": "0x028634",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 14,
+      "rom_start": "0x02b364",
+      "rom_end": "0x02b518",
+      "ref_count": 2,
+      "main_data_ptr_count": 1,
+      "main_data_ptrs": [
+        "0x02b394"
+      ]
+    },
+    {
+      "id": 15,
+      "rom_start": "0x0320a4",
+      "rom_end": "0x0320a4",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 16,
+      "rom_start": "0x0324f0",
+      "rom_end": "0x032614",
+      "ref_count": 2,
+      "main_data_ptr_count": 1,
+      "main_data_ptrs": [
+        "0x032600"
+      ]
+    },
+    {
+      "id": 17,
+      "rom_start": "0x03b88c",
+      "rom_end": "0x03b88c",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 18,
+      "rom_start": "0x03bd64",
+      "rom_end": "0x03c2e0",
+      "ref_count": 4,
+      "main_data_ptr_count": 3,
+      "main_data_ptrs": [
+        "0x03bdf8",
+        "0x03c05c",
+        "0x03c2bc"
+      ]
+    },
+    {
+      "id": 19,
+      "rom_start": "0x03fafc",
+      "rom_end": "0x03fafc",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 20,
+      "rom_start": "0x041dc8",
+      "rom_end": "0x041dc8",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 21,
+      "rom_start": "0x042d2c",
+      "rom_end": "0x043684",
+      "ref_count": 8,
+      "main_data_ptr_count": 27,
+      "main_data_ptrs": [
+        "0x042d50",
+        "0x042d58",
+        "0x042d60",
+        "0x042d70",
+        "0x042e00",
+        "0x042e08",
+        "0x042e10",
+        "0x042e18",
+        "0x042f40",
+        "0x042f78",
+        "0x042f80",
+        "0x042f88"
+      ]
+    },
+    {
+      "id": 22,
+      "rom_start": "0x04439c",
+      "rom_end": "0x04439c",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 23,
+      "rom_start": "0x044974",
+      "rom_end": "0x044974",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 24,
+      "rom_start": "0x04502c",
+      "rom_end": "0x045cb0",
+      "ref_count": 7,
+      "main_data_ptr_count": 13,
+      "main_data_ptrs": [
+        "0x0450c4",
+        "0x045130",
+        "0x045190",
+        "0x0452c4",
+        "0x045308",
+        "0x045444",
+        "0x04549c",
+        "0x0454f0",
+        "0x045660",
+        "0x0456ac",
+        "0x0456f8",
+        "0x045a9c"
+      ]
+    },
+    {
+      "id": 25,
+      "rom_start": "0x0484b4",
+      "rom_end": "0x0484b4",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 26,
+      "rom_start": "0x049908",
+      "rom_end": "0x049908",
+      "ref_count": 1,
+      "main_data_ptr_count": 0,
+      "main_data_ptrs": []
+    },
+    {
+      "id": 27,
+      "rom_start": "0x049dec",
+      "rom_end": "0x049fc4",
+      "ref_count": 2,
+      "main_data_ptr_count": 3,
+      "main_data_ptrs": [
+        "0x049e1c",
+        "0x049e60",
+        "0x049fb0"
+      ]
+    }
+  ],
+  "disasm_coverage_intervals": [
+    {
+      "start": "0x0032ec",
+      "end": "0x0037f0",
+      "bytes": 1284
+    },
+    {
+      "start": "0x003940",
+      "end": "0x003e48",
+      "bytes": 1288
+    },
+    {
+      "start": "0x004524",
+      "end": "0x0049e8",
+      "bytes": 1220
+    },
+    {
+      "start": "0x004a00",
+      "end": "0x004d0c",
+      "bytes": 780
+    },
+    {
+      "start": "0x004e40",
+      "end": "0x005870",
+      "bytes": 2608
+    },
+    {
+      "start": "0x012d00",
+      "end": "0x012f0c",
+      "bytes": 524
+    },
+    {
+      "start": "0x013238",
+      "end": "0x013444",
+      "bytes": 524
+    },
+    {
+      "start": "0x013b58",
+      "end": "0x014130",
+      "bytes": 1496
+    },
+    {
+      "start": "0x014530",
+      "end": "0x014cb8",
+      "bytes": 1928
+    },
+    {
+      "start": "0x015324",
+      "end": "0x015b98",
+      "bytes": 2164
+    },
+    {
+      "start": "0x016000",
+      "end": "0x01640c",
+      "bytes": 1036
+    },
+    {
+      "start": "0x01882c",
+      "end": "0x019430",
+      "bytes": 3076
+    },
+    {
+      "start": "0x023ac8",
+      "end": "0x024960",
+      "bytes": 3736
+    },
+    {
+      "start": "0x026670",
+      "end": "0x026a0c",
+      "bytes": 924
+    },
+    {
+      "start": "0x026a10",
+      "end": "0x026d4c",
+      "bytes": 828
+    },
+    {
+      "start": "0x026e18",
+      "end": "0x02746c",
+      "bytes": 1620
+    },
+    {
+      "start": "0x027890",
+      "end": "0x0286dc",
+      "bytes": 3660
+    },
+    {
+      "start": "0x028e20",
+      "end": "0x02902c",
+      "bytes": 524
+    },
+    {
+      "start": "0x029780",
+      "end": "0x02a85c",
+      "bytes": 4316
+    },
+    {
+      "start": "0x02b0b0",
+      "end": "0x02b6dc",
+      "bytes": 1580
+    },
+    {
+      "start": "0x02ba80",
+      "end": "0x02bc8c",
+      "bytes": 524
+    },
+    {
+      "start": "0x031680",
+      "end": "0x031888",
+      "bytes": 520
+    },
+    {
+      "start": "0x0322f0",
+      "end": "0x03264c",
+      "bytes": 860
+    },
+    {
+      "start": "0x033000",
+      "end": "0x03370c",
+      "bytes": 1804
+    },
+    {
+      "start": "0x033e90",
+      "end": "0x03409c",
+      "bytes": 524
+    },
+    {
+      "start": "0x034d80",
+      "end": "0x03500c",
+      "bytes": 652
+    },
+    {
+      "start": "0x035c80",
+      "end": "0x035e08",
+      "bytes": 392
+    },
+    {
+      "start": "0x039b00",
+      "end": "0x039d5c",
+      "bytes": 604
+    },
+    {
+      "start": "0x039e00",
+      "end": "0x039f5c",
+      "bytes": 348
+    },
+    {
+      "start": "0x03bb64",
+      "end": "0x03c4f0",
+      "bytes": 2444
+    },
+    {
+      "start": "0x03ec00",
+      "end": "0x03f37c",
+      "bytes": 1916
+    },
+    {
+      "start": "0x042000",
+      "end": "0x04280c",
+      "bytes": 2060
+    },
+    {
+      "start": "0x042b2c",
+      "end": "0x043d0c",
+      "bytes": 4576
+    },
+    {
+      "start": "0x044e2c",
+      "end": "0x045ec0",
+      "bytes": 4244
+    },
+    {
+      "start": "0x046098",
+      "end": "0x0463a4",
+      "bytes": 780
+    },
+    {
+      "start": "0x058380",
+      "end": "0x05878c",
+      "bytes": 1036
+    },
+    {
+      "start": "0x05cdc8",
+      "end": "0x05da6c",
+      "bytes": 3236
+    },
+    {
+      "start": "0x05de00",
+      "end": "0x05e00c",
+      "bytes": 524
+    },
+    {
+      "start": "0x072200",
+      "end": "0x07260c",
+      "bytes": 1036
+    },
+    {
+      "start": "0x07ac54",
+      "end": "0x07ad80",
+      "bytes": 300
+    },
+    {
+      "start": "0x082000",
+      "end": "0x08230c",
+      "bytes": 780
+    },
+    {
+      "start": "0x083600",
+      "end": "0x083b0c",
+      "bytes": 1292
+    },
+    {
+      "start": "0x094454",
+      "end": "0x094580",
+      "bytes": 300
+    },
+    {
+      "start": "0x097e70",
+      "end": "0x097f9c",
+      "bytes": 300
+    }
+  ],
+  "track_report_refs": {
+    "ui_courses": {
+      "desert": {
+        "rom_offset": "0x009b70",
+        "text": "DESERT   COURSE"
+      },
+      "forest": {
+        "rom_offset": "0x009b90",
+        "text": "FOREST   COURSE"
+      },
+      "mountain": {
+        "rom_offset": "0x009bb0",
+        "text": "MOUNTAIN COURSE"
+      },
+      "championship": {
+        "rom_offset": "0x009bd0",
+        "text": "CHAMPIONSHIP"
+      }
+    },
+    "placement_cursor": {
+      "workram_vaddr": "0x0020b940",
+      "geo_workram_write_ptr": "0x0020a290",
+      "reset_site": "0x00004ba8",
+      "feeder_cluster": "0x00023cc8",
+      "advance_rule": "cursor += catalog_entry.obc after each ldq 0x2864b40[index*16]",
+      "float_adjust_fn": "0x000322f0",
+      "draw_script_obc_meaning": "exclusive end placement index (snapshot of 0x20B940 after layer)"
+    },
+    "scene_init": {
+      "classifier_fn": "0x000146a8",
+      "lookup_fn": "0x00014788",
+      "catalog_index_read": "ld 0x5b4340[0x20a8c4*4] @ 0x15690 \u2192 catalog row"
+    }
+  },
+  "related_images": [
+    {
+      "name": "main_data",
+      "vaddr": "0x02000000",
+      "mirror": "0x06000000",
+      "notes": "Object catalog @ 0x02864B40, placement @ 0x02867C20 \u2014 separate ROM, not in maincpu map"
+    },
+    {
+      "name": "workram",
+      "vaddr": "0x00500000",
+      "notes": "Runtime tables (0x5B4340 catalog index, scene roots); not in ROM"
+    }
+  ],
+  "limitations": [
+    "Region boundaries are heuristic; 0x060000\u20130x0BD600 code vs rodata split is not proven.",
+    "Bucket printable% is inflated by 0x0020xxxx workram pointer immediates in code.",
+    "Disasm coverage is ~5%; regions are scan/anchor-driven, not full CFG analysis.",
+    "Not sufficient for splat-style auto-split without a second code/data pass."
+  ]
+}

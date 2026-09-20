@@ -1,0 +1,36 @@
+Our goal is acheive full emulation using lifted code for i960 and emulated hardware.
+
+All code must start with uplifted code and then be corrected to be sematic equivalent of original i960 code.
+
+Do not invent new code based on direct analysis of i960 code.
+
+Do not use heuristics on rom contents. Base all code on uplift of i960 code.
+
+We don't need both Python and uplifted versions of the same disasm code.
+Uplifted code moves us closer to the final objective. Python code does not.
+
+Final objective is running game with no i960 code.
+Target fidelity is original hardware or better — not "same as MAME including its limitations."
+
+use the python tool that invokes MAME to get disassembler output. DO not create or halluicinate lifted code without valid disassembler input
+
+We have been successfully creating lifted code from MAME assembler output, and then modifying the "C" code to match semantics for many days. We used this approach to get the copyright text displayed on the live preview window.
+We want to continue the same process to create valid lifted code for he CGM pipline as part of the effort to create a ful emulator. Out short termgoal is to get the splash screens working, which is wy we are looking at the CGM block decoding.
+
+Splash path: lifted catalog_draw_setup @ 0x2879db0 paints sys24 tiles; the host
+viewer composites them opaquely during splash hold (no black-punch, no stale
+PRG mesh). OpenGL for geometry (+ later color/texture from lifted colorbase)
+is an accepted forward path after splash looks correct.
+
+## Attract / 3D transform stack (current plan)
+
+Closed stack: uplifted camera/TGP composition → GEO 0x0B matrix (via TGP 0x05) →
+object pose → project from GEO 0x09/0x03. Use MAME model2 sources only as a
+reference for operator contracts (matrix/focus/window/project formula), never as
+acceptance criteria. Host OpenGL is a transform debugger, not a second renderer.
+Do not invent FOV, look-at, or mesh auto-frame. Prefer fixing uplifted camera
+modes (script_finish jump table) and TGP HLE from disasm; validate meshes against
+the Python track viewer. Defer a full rasterizer port until this stack is trusted.
+script_finish uses a private host frame for scene/delta locals (not fp=sp — that
+segfaulted with attract bind_fp + sp leak). Mode 7: vec_scale keeps unit temps at
+caller 0x40(fp). See attract-transform-stack.mdc.
