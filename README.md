@@ -10,7 +10,7 @@ cd segarally95-recomp
 make lift
 ```
 
-Produces `build/lift/decomp_lift`. **No Python is required** for the default `make lift` — it compiles the committed `src/lift_main.c` and friends with gcc/`cc` only.
+Produces `build/segamod2`. **No Python is required** for the default `make lift` — it compiles the committed `src/lift_main.c` and friends with gcc/`cc` only.
 
 ### Optional tools
 

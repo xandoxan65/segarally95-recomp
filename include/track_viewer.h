@@ -5,7 +5,7 @@
 
 /* Track viewer — lifted palette + asset export for the web viewer.
  *
- * Run:  decomp_lift --viewer track --course desert [--out DIR] [--palette-only]
+ * Run:  segamod2 --viewer track --course desert [--out DIR] [--palette-only]
  *
  * Palette: geo_renderer_init builds colorxlat (0x3C80 + 0x4350 over ROM
  * 0x5A2EB4). GEO colorbases come from lifted boot/refresh/mode5

@@ -1,4 +1,4 @@
-/* CLI for decomp_lift host modes (--viewer, --help). */
+/* CLI for segamod2 host modes (--viewer, --help). */
 
 #include "track_viewer.h"
 #include "model2_snd.h"
@@ -66,7 +66,7 @@ static void defaults(track_viewer_opts_t *opts)
 void track_viewer_cli_help(void)
 {
     fprintf(stderr,
-            "decomp_lift — lifted i960 harness\n"
+            "segamod2 — lifted i960 harness\n"
             "\n"
             "Viewer:\n"
             "  --viewer track [--course desert] [--out DIR] [--palette-only] [--geo-frames N]\n"

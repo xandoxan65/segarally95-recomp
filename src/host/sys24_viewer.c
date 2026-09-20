@@ -275,7 +275,7 @@ int sys24_viewer_open(const char *title)
 
 #ifndef I960_HOST_HAVE_SDL
     fprintf(stderr,
-            "lift: live view requested but decomp_lift was built without SDL2 "
+            "lift: live view requested but segamod2 was built without SDL2 "
             "(install SDL2 dev package and rebuild)\n");
     return -1;
 #else

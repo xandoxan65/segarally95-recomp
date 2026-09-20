@@ -1,6 +1,6 @@
 # Sega Rally Championship (1995) — host-compiled lift
 #
-#   make lift        # compile + link decomp_lift (default; gcc only, no Python)
+#   make lift        # compile + link segamod2 (default; gcc only, no Python)
 #   make lift-main   # regenerate lift_main / host glue (requires tools/)
 #   make clean
 
@@ -47,7 +47,7 @@ LIFT_CFLAGS   := -std=c99 -Wall -Wextra -Wno-unused-parameter \
 LIFT_LDFLAGS  := $(LIFT_PNG_LIBS) $(LIFT_SDL_LIBS) $(LIFT_GL_LIBS) -lpthread -lm
 
 LIFT_BUILD    := build/lift
-LIFT_BIN      := $(LIFT_BUILD)/decomp_lift
+LIFT_BIN      := $(GAME_ROOT)/build/segamod2
 
 # Portable runtime (lib/model2/host) + game-specific generated glue (src/)
 LIFT_HOST_RUNTIME := \
@@ -286,7 +286,7 @@ sync-runtime:
 	fi
 
 clean:
-	rm -rf out/maincpu build/lift $(LIFT_PROGRESS)
+	rm -rf out/maincpu build/lift build/segamod2 $(LIFT_PROGRESS)
 	$(MAKE) -C $(LIFT_GEO_DIR) clean
 	$(MAKE) -C $(LIFT_HW_DIR) clean
 	$(MAKE) -C $(LIFT_TGP_DIR) clean

@@ -13,7 +13,7 @@ validation use `src/game/`, `src/boot/`, `src/libc/`, and `src/irq/` only.
 ```bash
 cd decomp && make lift-viewer
 # or:
-./build/lift/decomp_lift --viewer track --course desert --out ../out
+./build/lift/segamod2 --viewer track --course desert --out ../out
 ```
 
 Pipeline (`lift_track_viewer.c`):
@@ -62,12 +62,12 @@ cd decomp && make lift-boot-viewer
 # skip attract / championship+course+car select → desert practice START (Delta AT):
 make lift-boot-practice
 # or:
-./build/lift/decomp_lift --viewer boot --practice
+./build/lift/segamod2 --viewer boot --practice
 # headless PNG only:
 make lift-boot-headless
 # or:
-./build/lift/decomp_lift --viewer boot --palette-dump build/lift/boot_copyright
-./build/lift/decomp_lift --viewer boot --headless --palette-dump build/lift/boot_copyright
+./build/lift/segamod2 --viewer boot --palette-dump build/lift/boot_copyright
+./build/lift/segamod2 --viewer boot --headless --palette-dump build/lift/boot_copyright
 ```
 
 Close the window or press Escape to halt. With SDL2 + OpenGL, the viewer composites
@@ -77,16 +77,16 @@ display-list path). Title bar shows `geo=<verts>/<tris>`.
 Offline FIFO decode:
 
 ```bash
-./build/lift/decomp_lift --decode-geo-fifo prg.bin --geo-summary out.json
+./build/lift/segamod2 --decode-geo-fifo prg.bin --geo-summary out.json
 ```
 
 ## Other harness modules
 
 | Module | Role |
 |--------|------|
-| `lift_cli.c` | CLI parsing for `decomp_lift` |
+| `lift_cli.c` | CLI parsing for `segamod2` |
 | `track_viewer_export.c` | Asset export stub (C bake not lifted yet) |
 | `placement_catalog_feed.c` | Catalog-row geo FIFO pushes |
 
-Palette RAM dumps come from **running `decomp_lift` with `--viewer`**.
+Palette RAM dumps come from **running `segamod2` with `--viewer`**.
 Set `SEGAMOD2_ROOT` to the segamod2 repo root when not using Makefile targets.
