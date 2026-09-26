@@ -13,6 +13,7 @@
 #include "model2_host_aspect.h"
 #include "sys24_tile.h"
 #include "sys24_viewer_record.h"
+#include "model2_snd.h"
 
 extern int model2_snd_host_audio_open(void);
 extern void model2_snd_host_audio_close(void);
@@ -25,11 +26,7 @@ extern void model2_snd_host_audio_close(void);
 #ifdef I960_HOST_HAVE_SDL
 #include <SDL.h>
 #ifdef I960_HOST_HAVE_GL
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "model2_gl.h"
 #endif
 #if defined(__APPLE__)
 #include <objc/message.h>
@@ -337,10 +334,9 @@ int sys24_viewer_open(const char *title)
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     /* MAME geo fillmap — host approximates with stencil (first texel wins). */
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-#if defined(__APPLE__)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-#endif
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     g_window = SDL_CreateWindow(
         VIEWER_TITLE,
         SDL_WINDOWPOS_CENTERED,
@@ -374,6 +370,7 @@ int sys24_viewer_open(const char *title)
     }
     /* Host timer paces frames; do not also block on display vsync. */
     SDL_GL_SetSwapInterval(0);
+    (void)model2_gl_load();
     lift_log( "lift: live viewer OpenGL composite enabled (%dx%d%s)\n",
             win_w, win_h,
             model2_host_aspect_is_widescreen() ? " aspect=16:9" : "");
@@ -1564,6 +1561,12 @@ void sys24_viewer_shutdown(void)
         SDL_DestroyWindow(g_window);
         g_window = NULL;
     }
+    /*
+     * Stop the 68k+SCSP board thread before closing SDL audio. On Windows a
+     * leftover CreateThread keeps the process alive after the window closes,
+     * and any queued WASAPI buffer keeps playing as a "ghost" tail.
+     */
+    model2_snd_reset();
     model2_snd_host_audio_close();
     if (g_open)
         SDL_Quit();

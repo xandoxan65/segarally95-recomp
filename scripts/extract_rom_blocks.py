@@ -5,6 +5,9 @@ Writes the host load images used by model2_rom_load_default():
   out/i960/maincpu_deinterleaved.bin
   out/i960/main_data_deinterleaved.bin
 
+The host binary also auto-extracts these bins on first run if they are
+missing; this script is optional (cmake --build build --target rom-blocks).
+
 Layout matches MAME ROM_LOAD32_WORD (same semantics as segamodel2-tools
 tools.rom_io.load32_word_interleave).
 """

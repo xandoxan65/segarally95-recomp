@@ -11,7 +11,7 @@ validation use `src/game/`, `src/boot/`, `src/libc/`, and `src/irq/` only.
 Default `segamod2` (no arguments) is the SDL cold-boot viewer. `--harness` is the short dispatch trace. No palette snapshot is written unless `--palette-dump` or `I960_PALETTE_DUMP` is set.
 
 ```bash
-make lift-boot-viewer
+cmake --build build --target lift-boot-viewer
 # or:
 ./build/segamod2
 ```

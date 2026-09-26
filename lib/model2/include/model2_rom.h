@@ -14,6 +14,8 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #define MODEL2_HOST_ALIGN __attribute__((aligned(16)))
+#elif defined(_MSC_VER)
+#define MODEL2_HOST_ALIGN __declspec(align(16))
 #else
 #define MODEL2_HOST_ALIGN
 #endif
@@ -55,7 +57,8 @@ u8 *model2_ram_mut(u32 vaddr);
 /* Load extracted blobs from paths (NULL → defaults under out/i960/). Returns 0 on success. */
 int model2_rom_load(const char *maincpu_path, const char *main_data_path);
 
-/* Convenience: load default paths and wire i960_mem ROM backend. */
+/* Convenience: ensure out/i960 bins exist (auto-extract from board dumps if
+ * missing), then load and wire i960_mem ROM backend. */
 int model2_rom_load_default(void);
 
 /* Require the MAME srallycb files (present, size, CRC32). 0 ok, -1 on stderr. */

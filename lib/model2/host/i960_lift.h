@@ -10,6 +10,8 @@
 #ifndef I960_LIFT_H
 #define I960_LIFT_H
 
+#include <stdint.h>
+
 /* Share integer typedefs with stand-alone model2_geo when that header is first. */
 #ifndef MODEL2_GEO_TYPES_H
 typedef unsigned char u8;
@@ -20,7 +22,6 @@ typedef signed int i32;
 typedef signed long long i64;
 #endif
 typedef char *gptr;
-typedef unsigned long uintptr_t;
 
 typedef u32 i960_u32;
 

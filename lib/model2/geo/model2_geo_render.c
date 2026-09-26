@@ -18,11 +18,7 @@
 #include <string.h>
 
 #ifdef I960_HOST_HAVE_GL
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "model2_gl.h"
 #endif
 
 enum { GEO_SCRATCH_WORDS = 8192u };

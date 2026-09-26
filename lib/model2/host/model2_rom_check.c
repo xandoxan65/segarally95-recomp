@@ -1,5 +1,14 @@
-/* Require a MAME srallycb dump before the host runs.
- * CRC32 values are the published srallycb checksums (IEEE). */
+/* Require the ROM files the host needs to run the game.
+ * CRC32 values are the published srallycb checksums (IEEE).
+ *
+ * Required:
+ *   maincpu, main_data — i960 program + data (scripts/extract_rom_blocks.py)
+ *   polygons, textures — geo object pool + sheets (first FIFO decode)
+ *   sound 68k + samples — SCSP board (host reset)
+ *
+ * Optional (soft-fail in model2_tgp_fw):
+ *   copro_data mpr-17754/55 — TGP 0x52 heightmap walk
+ */
 #include "model2_rom.h"
 #include "model2_rom_dir.h"
 
@@ -14,22 +23,26 @@ typedef struct {
     unsigned crc;
 } rom_expect_t;
 
-/* Files the host actually loads: program, main data, polygons, textures, 68k, samples. */
 static const rom_expect_t k_roms[] = {
+    /* maincpu */
     { "epr-17888b.12", NULL, 524288u, 0x95bce0b9u },
     { "epr-17889b.13", NULL, 524288u, 0x395c425eu },
+    /* main_data */
     { "mpr-17746.10", NULL, 2097152u, 0x8fe311f4u },
     { "mpr-17747.11", NULL, 2097152u, 0x543593fdu },
     { "mpr-17744.8", NULL, 2097152u, 0x71fed098u },
     { "mpr-17745.9", NULL, 2097152u, 0x8ecca705u },
     { "mpr-17884.6", NULL, 2097152u, 0x4cfc95e1u },
     { "mpr-17885.7", NULL, 2097152u, 0xa08d2467u },
+    /* polygons */
     { "mpr-17748.16", NULL, 2097152u, 0x3148a2b2u },
     { "mpr-17750.20", NULL, 2097152u, 0x232aec29u },
     { "mpr-17749.17", NULL, 2097152u, 0x0838d184u },
     { "mpr-17751.21", NULL, 2097152u, 0xed87ac62u },
+    /* textures */
     { "mpr-17753.25", NULL, 2097152u, 0x6db0eb36u },
     { "mpr-17752.24", NULL, 2097152u, 0xd6aa86ceu },
+    /* sound 68k + samples */
     { "epr-17890a.30", "epr-17890.30", 262144u, 0x5bac3fa1u },
     { "mpr-17756.31", NULL, 2097152u, 0x7725f111u },
     { "mpr-17757.32", NULL, 2097152u, 0x1616e649u },
@@ -141,7 +154,10 @@ int model2_romset_verify(void)
     }
 
     if (bad) {
-        fprintf(stderr, "segamod2: refusing to run without a valid srallycb ROM set\n");
+        fprintf(stderr,
+                "segamod2: refusing to run without required ROMs "
+                "(maincpu + main_data + polygons + textures + sound; "
+                "see ROMS/manifest.yaml)\n");
         return -1;
     }
     return 0;

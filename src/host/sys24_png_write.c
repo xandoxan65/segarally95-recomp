@@ -2,9 +2,24 @@
 
 #include "sys24_png_write.h"
 
-#include <png.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifndef I960_HOST_HAVE_PNG
+
+int sys24_write_png_rgb32(const char *path, const u32 *bitmap, int w, int h)
+{
+    (void)path;
+    (void)bitmap;
+    (void)w;
+    (void)h;
+    fprintf(stderr, "lift: PNG support not built (install libpng and reconfigure)\n");
+    return -1;
+}
+
+#else
+
+#include <png.h>
 
 int sys24_write_png_rgb32(const char *path, const u32 *bitmap, int w, int h)
 {
@@ -71,3 +86,5 @@ out:
         fclose(fp);
     return rc;
 }
+
+#endif /* I960_HOST_HAVE_PNG */

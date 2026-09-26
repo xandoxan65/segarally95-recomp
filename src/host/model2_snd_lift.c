@@ -11,6 +11,8 @@
 #include <SDL.h>
 #endif
 
+void model2_snd_host_audio_close(void);
+
 #ifdef I960_HOST_HAVE_SDL
 static SDL_AudioDeviceID g_dev;
 #endif
@@ -27,6 +29,11 @@ static void snd_audio_cb(void *userdata, Uint8 *stream, int len)
     frames = (unsigned)len / (unsigned)(2 * (int)sizeof(i16));
     model2_snd_render((signed short *)stream, frames);
 }
+
+static void snd_audio_atexit(void)
+{
+    model2_snd_host_audio_close();
+}
 #endif
 
 int model2_snd_host_audio_open(void)
@@ -37,6 +44,7 @@ int model2_snd_host_audio_open(void)
         return 0;
 #ifdef I960_HOST_HAVE_SDL
     {
+        static int atexit_registered;
         SDL_AudioSpec want, have;
 
         if (g_open)
@@ -45,7 +53,8 @@ int model2_snd_host_audio_open(void)
         want.freq = 44100;
         want.format = AUDIO_S16SYS;
         want.channels = 2;
-        want.samples = 1024;
+        /* 512 ≈ 11.6 ms — low latency; board thread caps ring to ~23 ms. */
+        want.samples = 512;
         want.callback = snd_audio_cb;
         g_dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
         if (!g_dev) {
@@ -55,8 +64,12 @@ int model2_snd_host_audio_open(void)
         }
         SDL_PauseAudioDevice(g_dev, 0);
         g_open = 1;
-        lift_log( "lift: sound audio %d Hz stereo s16 (68k+SCSP)\n",
-                have.freq);
+        if (!atexit_registered) {
+            atexit(snd_audio_atexit);
+            atexit_registered = 1;
+        }
+        lift_log( "lift: sound audio %d Hz stereo s16 buf=%d (68k+SCSP)\n",
+                have.freq, (int)have.samples);
         return 0;
     }
 #else
@@ -69,6 +82,8 @@ void model2_snd_host_audio_close(void)
 {
 #ifdef I960_HOST_HAVE_SDL
     if (g_dev) {
+        /* Stop callback first so Close does not race the board thread. */
+        SDL_PauseAudioDevice(g_dev, 1);
         SDL_CloseAudioDevice(g_dev);
         g_dev = 0;
     }

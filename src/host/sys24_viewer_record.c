@@ -72,6 +72,16 @@ static void *record_writer(void *arg)
 
 int sys24_viewer_record_start(const char *path, int width, int height, int fps)
 {
+#if defined(_WIN32)
+    (void)path;
+    (void)width;
+    (void)height;
+    (void)fps;
+    if (g_active)
+        sys24_viewer_record_stop();
+    fprintf(stderr, "lift: --record not supported on this host\n");
+    return -1;
+#else
     char cmd[1024];
     int avi;
 
@@ -85,10 +95,6 @@ int sys24_viewer_record_start(const char *path, int width, int height, int fps)
     if (fps < 1)
         fps = 60;
 
-#if defined(_WIN32)
-    fprintf(stderr, "lift: --record not supported on this host\n");
-    return -1;
-#else
     /* Packed RGB24 — BGRA with A=0 decoded as black in some MJPEG players. */
     g_frame_bytes = (size_t)width * (size_t)height * 3u;
     g_have_frame = 0;
@@ -188,7 +194,11 @@ void sys24_viewer_record_stop(void)
     pthread_join(g_thread, NULL);
 
     if (g_pipe) {
+#if defined(_WIN32)
+        int rc = _pclose(g_pipe);
+#else
         int rc = pclose(g_pipe);
+#endif
 
         g_pipe = NULL;
         if (rc != 0)

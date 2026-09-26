@@ -1,6 +1,7 @@
 #include "model2_rom.h"
 #include "lift_log.h"
 #include "i960_mem.h"
+#include "model2_rom_dir.h"
 
 #include <errno.h>
 #include <stdio.h>
@@ -14,6 +15,9 @@
 #ifndef MODEL2_ROM_DEFAULT_MAIN_DATA
 #define MODEL2_ROM_DEFAULT_MAIN_DATA "out/i960/main_data_deinterleaved.bin"
 #endif
+
+/* Extracted main_data is three ROM_LOAD32_WORD pairs (12 MiB). */
+#define MODEL2_ROM_EXTRACT_MAIN_DATA_SIZE 0x00C00000u
 
 /* MAME main_data mirror: 0x06000000 maps region+0x01000000 for 16 MiB. */
 #define MAIN_DATA_MIRROR_SIZE 0x01000000u
@@ -580,9 +584,219 @@ void model2_workram_seed_palette_gamma(void)
                           workram_rom_mirror_u32(table_base + (u32)i));
 }
 
+static int mkdir_parents(const char *path);
+
+/*
+ * MAME ROM_LOAD32_WORD: low 16 bits from low_name, high 16 from high_name.
+ * Same layout as scripts/extract_rom_blocks.py.
+ */
+static int load32_word_interleave(const char *rom_dir, const char *low_name,
+                                  const char *high_name, u8 *dst, size_t dst_cap,
+                                  size_t *out_len)
+{
+    char low_path[768], high_path[768];
+    FILE *lo = NULL, *hi = NULL;
+    long low_sz, high_sz;
+    size_t i, n_words;
+    u8 *low = NULL, *high = NULL;
+    int rc = -1;
+
+    snprintf(low_path, sizeof(low_path), "%s/%s", rom_dir, low_name);
+    snprintf(high_path, sizeof(high_path), "%s/%s", rom_dir, high_name);
+    lo = fopen(low_path, "rb");
+    hi = fopen(high_path, "rb");
+    if (!lo || !hi)
+        goto out;
+    if (fseek(lo, 0, SEEK_END) != 0 || fseek(hi, 0, SEEK_END) != 0)
+        goto out;
+    low_sz = ftell(lo);
+    high_sz = ftell(hi);
+    if (low_sz <= 0 || low_sz != high_sz || (low_sz & 1) != 0)
+        goto out;
+    n_words = (size_t)low_sz / 2u;
+    if (n_words * 4u > dst_cap)
+        goto out;
+    low = (u8 *)malloc((size_t)low_sz);
+    high = (u8 *)malloc((size_t)high_sz);
+    if (!low || !high)
+        goto out;
+    rewind(lo);
+    rewind(hi);
+    if (fread(low, 1, (size_t)low_sz, lo) != (size_t)low_sz
+        || fread(high, 1, (size_t)high_sz, hi) != (size_t)high_sz)
+        goto out;
+    for (i = 0; i < (size_t)low_sz; i += 2u) {
+        size_t wi = i / 2u;
+        dst[wi * 4u + 0u] = low[i];
+        dst[wi * 4u + 1u] = low[i + 1u];
+        dst[wi * 4u + 2u] = high[i];
+        dst[wi * 4u + 3u] = high[i + 1u];
+    }
+    if (out_len)
+        *out_len = n_words * 4u;
+    rc = 0;
+out:
+    free(low);
+    free(high);
+    if (lo)
+        fclose(lo);
+    if (hi)
+        fclose(hi);
+    return rc;
+}
+
+static int model2_rom_resolve_path(char *dst, size_t dst_sz, const char *rel)
+{
+    const char *root = getenv("SEGAMOD2_ROOT");
+
+    if (!dst || dst_sz == 0 || !rel || !rel[0])
+        return -1;
+    if (root && root[0]) {
+        int n = snprintf(dst, dst_sz, "%s/%s", root, rel);
+        return (n < 0 || (size_t)n >= dst_sz) ? -1 : 0;
+    }
+    if (strlen(rel) >= dst_sz)
+        return -1;
+    memcpy(dst, rel, strlen(rel) + 1);
+    return 0;
+}
+
+static int model2_rom_file_ok(const char *path, u32 expect_size)
+{
+    struct stat st;
+
+    if (!path || !path[0])
+        return 0;
+    if (stat(path, &st) != 0 || !S_ISREG(st.st_mode))
+        return 0;
+    return (u32)st.st_size == expect_size;
+}
+
+static int model2_rom_write_file(const char *path, const u8 *data, size_t len)
+{
+    FILE *fp;
+    char dir[768];
+    char *slash;
+    size_t n;
+
+    if (!path || !data)
+        return -1;
+    n = strlen(path);
+    if (n >= sizeof(dir))
+        return -1;
+    memcpy(dir, path, n + 1);
+    slash = strrchr(dir, '/');
+#if defined(_WIN32)
+    {
+        char *b = strrchr(dir, '\\');
+        if (b && (!slash || b > slash))
+            slash = b;
+    }
+#endif
+    if (slash) {
+        *slash = '\0';
+        if (dir[0] && mkdir_parents(dir) != 0)
+            return -1;
+    }
+    fp = fopen(path, "wb");
+    if (!fp)
+        return -1;
+    if (len && fwrite(data, 1, len, fp) != len) {
+        fclose(fp);
+        return -1;
+    }
+    fclose(fp);
+    return 0;
+}
+
+/* Build out/i960 bins from board dumps (same pairs as extract_rom_blocks.py). */
+static int model2_rom_extract_blocks(const char *maincpu_path,
+                                     const char *main_data_path)
+{
+    static const char *const main_data_pairs[][2] = {
+        { "mpr-17746.10", "mpr-17747.11" },
+        { "mpr-17744.8", "mpr-17745.9" },
+        { "mpr-17884.6", "mpr-17885.7" },
+    };
+    const char *rom_dir = model2_resolve_rom_dir();
+    u8 *maincpu = NULL;
+    u8 *main_data = NULL;
+    size_t maincpu_len = 0;
+    size_t off = 0;
+    unsigned i;
+    int rc = -1;
+
+    maincpu = (u8 *)malloc(MAINCPU_SIZE);
+    main_data = (u8 *)malloc(MODEL2_ROM_EXTRACT_MAIN_DATA_SIZE);
+    if (!maincpu || !main_data) {
+        fprintf(stderr, "lift: ROM extract alloc failed\n");
+        goto out;
+    }
+
+    if (load32_word_interleave(rom_dir, "epr-17888b.12", "epr-17889b.13",
+                               maincpu, MAINCPU_SIZE, &maincpu_len) != 0
+        || maincpu_len != MAINCPU_SIZE) {
+        fprintf(stderr,
+                "lift: failed to interleave maincpu from %s "
+                "(need epr-17888b.12 + epr-17889b.13)\n",
+                rom_dir);
+        goto out;
+    }
+
+    for (i = 0; i < 3u; i++) {
+        size_t chunk = 0;
+        size_t cap = MODEL2_ROM_EXTRACT_MAIN_DATA_SIZE - off;
+
+        if (load32_word_interleave(rom_dir, main_data_pairs[i][0],
+                                   main_data_pairs[i][1],
+                                   main_data + off, cap, &chunk) != 0) {
+            fprintf(stderr,
+                    "lift: failed to interleave main_data pair %s / %s from %s\n",
+                    main_data_pairs[i][0], main_data_pairs[i][1], rom_dir);
+            goto out;
+        }
+        off += chunk;
+    }
+    if (off != MODEL2_ROM_EXTRACT_MAIN_DATA_SIZE) {
+        fprintf(stderr, "lift: unexpected main_data extract size %zu\n", off);
+        goto out;
+    }
+
+    if (model2_rom_write_file(maincpu_path, maincpu, maincpu_len) != 0
+        || model2_rom_write_file(main_data_path, main_data, off) != 0) {
+        fprintf(stderr, "lift: failed writing extracted ROM bins\n");
+        goto out;
+    }
+
+    fprintf(stderr, "lift: extracted %s (%u bytes)\n", maincpu_path,
+            (unsigned)maincpu_len);
+    fprintf(stderr, "lift: extracted %s (%u bytes)\n", main_data_path,
+            (unsigned)off);
+    rc = 0;
+out:
+    free(maincpu);
+    free(main_data);
+    return rc;
+}
+
 int model2_rom_load_default(void)
 {
-    return model2_rom_load(MODEL2_ROM_DEFAULT_MAINCPU, MODEL2_ROM_DEFAULT_MAIN_DATA);
+    char maincpu_path[768];
+    char main_data_path[768];
+
+    if (model2_rom_resolve_path(maincpu_path, sizeof(maincpu_path),
+                                MODEL2_ROM_DEFAULT_MAINCPU) != 0
+        || model2_rom_resolve_path(main_data_path, sizeof(main_data_path),
+                                   MODEL2_ROM_DEFAULT_MAIN_DATA) != 0)
+        return -1;
+
+    if (!model2_rom_file_ok(maincpu_path, MAINCPU_SIZE)
+        || !model2_rom_file_ok(main_data_path, MODEL2_ROM_EXTRACT_MAIN_DATA_SIZE)) {
+        if (model2_rom_extract_blocks(maincpu_path, main_data_path) != 0)
+            return -1;
+    }
+
+    return model2_rom_load(maincpu_path, main_data_path);
 }
 
 const u8 *model2_palram_ptr(void)
@@ -646,8 +860,13 @@ static int mkdir_parents(const char *path)
         return -1;
     memcpy(buf, path, len + 1);
     for (p = buf + 1; *p; p++) {
+#if defined(_WIN32)
+        if (*p != '/' && *p != '\\')
+            continue;
+#else
         if (*p != '/')
             continue;
+#endif
         *p = '\0';
         if (mkdir(buf, 0755) != 0 && errno != EEXIST)
             return -1;

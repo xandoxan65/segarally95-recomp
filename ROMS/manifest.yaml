@@ -1,5 +1,5 @@
 # Expected MAME ROM files for srallyc-b (Revision B target).
-# Used by ./build split / ./verify — not committed to git.
+# Used by model2_romset_verify / extract — not committed to git.
 
 game: srallyc-b
 revision: B
@@ -22,17 +22,34 @@ images:
       - [mpr-17884.6, mpr-17885.7]
 
   polygons:
-    description: Polygon object pool (used for main_data section map refresh)
+    description: Polygon object pool (geo DL object draws)
     pairs:
       - [mpr-17748.16, mpr-17750.20]
       - [mpr-17749.17, mpr-17751.21]
 
+  textures:
+    description: Texture sheets (ROM_LOAD32_WORD)
+    pairs:
+      - [mpr-17753.25, mpr-17752.24]
+
+  sound_68k:
+    description: Sound board 68000 program
+    files:
+      - epr-17890a.30
+
+  sound_samples:
+    description: SCSP sample ROMs
+    files:
+      - mpr-17756.31
+      - mpr-17757.32
+      - mpr-17886.36
+      - mpr-17887.37
+
+# Soft-fail in model2_tgp_fw (TGP 0x52 heightmap); not gated by romset_verify.
 optional:
-  - epr-17890a.30
-  - mpr-17753.25
-  - mpr-17752.24
-  - mpr-17754.28
-  - mpr-17755.29
+  copro_data:
+    - mpr-17754.28
+    - mpr-17755.29
 
 aliases:
   mpr-17754.28: mpr-17754.29

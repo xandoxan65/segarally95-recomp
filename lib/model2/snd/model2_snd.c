@@ -20,6 +20,8 @@
 #define PCM_RATE           44100u
 #define PCM_CHUNK          256u
 #define PCM_RING           8192u
+/* Keep ≤ ~23 ms buffered so Windows Sleep overshoot cannot stack latency. */
+#define PCM_TARGET         1024u
 /* SCSP 22.5792 MHz / 2 = 11.2896 MHz 68k → 256 cycles per 44.1 kHz sample.
  * Copy pump @ 0x602A46 waits 10× ROL.L #8 (24 cyc) for $409 CA. */
 
@@ -254,6 +256,31 @@ static void *board_thread(void *arg)
         struct timespec now, rem;
 
         board_chunk();
+
+        /*
+         * If the PCM ring is already ahead of the SDL consumer (common when
+         * Sleep() coarseness makes us catch up in bursts), wait for drain
+         * instead of pushing more — that was stacking audible lag on Windows.
+         */
+        for (;;) {
+            unsigned n;
+            struct timespec wait;
+
+            if (g_thr_stop)
+                break;
+            pthread_mutex_lock(&g_pcm_mu);
+            n = g_pcm_n;
+            pthread_mutex_unlock(&g_pcm_mu);
+            if (n <= PCM_TARGET)
+                break;
+            wait.tv_sec = 0;
+            wait.tv_nsec = 1000000L; /* 1 ms */
+            nanosleep(&wait, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &deadline);
+        }
+        if (g_thr_stop)
+            break;
+
         deadline.tv_nsec += (long)((PCM_CHUNK * 1000000000ull) / PCM_RATE);
         if (deadline.tv_nsec >= 1000000000L) {
             deadline.tv_sec++;
@@ -282,10 +309,21 @@ static void thread_stop(void)
     pthread_join(g_thr, NULL);
     g_thr_on = 0;
     g_thr_stop = 0;
+    /* Drop any leftover PCM so a reopen does not play a stale tail. */
+    pthread_mutex_lock(&g_pcm_mu);
+    g_pcm_r = g_pcm_n = 0;
+    pthread_mutex_unlock(&g_pcm_mu);
+}
+
+static void snd_atexit_stop(void)
+{
+    thread_stop();
 }
 
 static int thread_start(void)
 {
+    static int atexit_registered;
+
     if (g_thr_on)
         return 0;
     g_thr_stop = 0;
@@ -301,6 +339,10 @@ static int thread_start(void)
         return -1;
     }
     g_thr_on = 1;
+    if (!atexit_registered) {
+        atexit(snd_atexit_stop);
+        atexit_registered = 1;
+    }
     lift_status("lift: sound thread 68k+SCSP @ %u Hz (TIMA from TACTL)\n",
                 PCM_RATE);
     return 0;

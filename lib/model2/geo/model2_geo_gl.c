@@ -22,15 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
-#ifndef GL_CLAMP_TO_EDGE
-#define GL_CLAMP_TO_EDGE 0x812Fu
-#endif
+#include "model2_gl.h"
 
 enum {
     LUT_CACHE_CAP = 512,
@@ -386,6 +378,7 @@ void model2_geo_gl_tex_init(void)
 {
     if (g_ready)
         return;
+    (void)model2_gl_load();
     if (build_program() != 0) {
         if (!g_logged_shader) {
             lift_log( "lift: geo textured shader unavailable — flat fallback\n");
