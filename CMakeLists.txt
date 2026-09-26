@@ -150,6 +150,12 @@ if(SEGAMOD2_HAVE_GL)
     target_link_libraries(segamod2_common INTERFACE GL)
   endif()
 endif()
+# sys24_viewer_bring_to_front uses objc_msgSend / NSApplication on Darwin.
+# SDL2 pkg-config used to pull Cocoa into the Makefile link line; CMake's
+# SDL2::SDL2 import often does not, so link it explicitly when the viewer is on.
+if(APPLE AND SEGAMOD2_HAVE_SDL2)
+  target_link_libraries(segamod2_common INTERFACE "-framework Cocoa")
+endif()
 if(PNG_FOUND)
   target_compile_definitions(segamod2_common INTERFACE I960_HOST_HAVE_PNG)
   target_link_libraries(segamod2_common INTERFACE PNG::PNG)
