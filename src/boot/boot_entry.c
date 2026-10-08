@@ -27,7 +27,7 @@ void boot_entry(u32 arg0, u32 arg1, u32 arg2)
     if (!i960_host_skip_hw_timer) {
     do {
         g4 = *(u32 *)(fp + 0x40);
-    } while ((unsigned char)g4 != 0);
+    } while ((i32)g4 != 0);
     }
     maincpu_reset_entry(g0, g1, g2);
     return;

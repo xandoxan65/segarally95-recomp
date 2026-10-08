@@ -111,7 +111,7 @@ void geo_view_frame_update(void * arg0, void * arg1, void * arg2)
         if ((g4 >> r10) & 1)
             goto L_000378b4;
         r10 = r10 - 1;
-        if (0 < (signed char)r10)
+        if (0 < (i32)r10)
             goto L_000378a8;
 
     L_000378b4:
@@ -516,7 +516,7 @@ void geo_view_frame_update(void * arg0, void * arg1, void * arg2)
 
     L_00037edc:
         g4 = i960_ld_u32(I960_WORKRAM, 0x214120, 0);
-        if ((unsigned char)g4 == 2) {
+        if ((i32)g4 == 2) {
             i960_st_u8(I960_WORKRAM, 0x202049, 0, (u8)g14);
         }
     fp0 = i960_u32_to_f64(r6);
@@ -659,7 +659,7 @@ void geo_view_frame_update(void * arg0, void * arg1, void * arg2)
         i960_st_u32(I960_WORKRAM, 0x214254, 0, (u32)g14);
     }
     g4 = i960_ld_u32(I960_WORKRAM, 0x2020b4, 0);
-    if ((unsigned char)g4 == 0)
+    if ((i32)g4 == 0)
         goto L_0003824c;
     g10 = i960_ld_u32(I960_WORKRAM, 0x214254, 0);
     fp0 = i960_u32_to_f64(g10);

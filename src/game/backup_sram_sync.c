@@ -14,7 +14,6 @@ void backup_sram_sync(u32 arg0, u32 arg1, u32 arg2)
     u32 mode;
     u32 placement;
     u32 poly_lo;
-    u32 saved_q;
     u32 geo_count;
     u32 bkp_cc;
     u32 bkp_dc;
@@ -39,22 +38,34 @@ void backup_sram_sync(u32 arg0, u32 arg1, u32 arg2)
     if ((i32)mode > 3 || (i32)mode < 2)
         goto reset_write_ptr;
 
-    saved_q = (u32)i960_ld_u64(I960_ROM, 0x1d001c0, 0);
+    /* ldq 0x1d001c0,g0 — four words; this overwrites the incoming args. */
+    g0 = i960_ld_u32(I960_ROM, 0x1d001c0, 0);
+    g1 = i960_ld_u32(I960_ROM, 0x1d001c0, 4);
+    g2 = i960_ld_u32(I960_ROM, 0x1d001c0, 8);
+    g3 = i960_ld_u32(I960_ROM, 0x1d001c0, 12);
     placement = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
     if (g1 < placement)
         g1 = placement;
 
     poly_lo = i960_ld_u16(I960_MMIO, 0x10800000, 0) & 0xffffu;
-    if ((arg2 & 0xffffu) < poly_lo) {
+    if (((u32)g2 & 0xffffu) < poly_lo) {
         /* lda 0xffff0000 — mask immediate, not a host pointer. */
-        g2 = (arg2 & 0xffff0000u) | poly_lo;
+        g2 = ((u32)g2 & 0xffff0000u) | poly_lo;
     }
 
-    i960_st_u64(I960_ROM, 0x1d001c0, 0, (u64)saved_q);
+    /* stq g0,0x1d001c0 — g1/g2 may have been updated; g0 and g3 are unchanged. */
+    i960_st_u32(I960_ROM, 0x1d001c0, 0, (u32)g0);
+    i960_st_u32(I960_ROM, 0x1d001c0, 4, (u32)g1);
+    i960_st_u32(I960_ROM, 0x1d001c0, 8, (u32)g2);
+    i960_st_u32(I960_ROM, 0x1d001c0, 12, (u32)g3);
 
     geo_count = i960_ld_u32(I960_WORKRAM, 0x2020a0, 0);
     bkp_cc = i960_ld_u32(I960_ROM, 0x1d001cc, 0);
-    g0 = (u32)i960_ld_u64(I960_ROM, 0x1d001d0, 0);
+    /* ldq 0x1d001d0,g0. */
+    g0 = i960_ld_u32(I960_ROM, 0x1d001d0, 0);
+    g1 = i960_ld_u32(I960_ROM, 0x1d001d0, 4);
+    g2 = i960_ld_u32(I960_ROM, 0x1d001d0, 8);
+    g3 = i960_ld_u32(I960_ROM, 0x1d001d0, 12);
     if (bkp_cc < geo_count) {
         i960_st_u32(I960_ROM, 0x1d001cc, 0, geo_count);
     } else if (g0 <= geo_count && g0 == 0) {
@@ -71,7 +82,11 @@ void backup_sram_sync(u32 arg0, u32 arg1, u32 arg2)
     else if (g2 != 0 && g2 > (g4 & 0xffffu))
         g2 = g4 & 0xffffu;
 
-    i960_st_u64(I960_ROM, 0x1d001d0, 0, (u64)g0);
+    /* stq g0,0x1d001d0 — word 0 and the TGP clamps on g1/g2; g3 stays. */
+    i960_st_u32(I960_ROM, 0x1d001d0, 0, (u32)g0);
+    i960_st_u32(I960_ROM, 0x1d001d0, 4, (u32)g1);
+    i960_st_u32(I960_ROM, 0x1d001d0, 8, (u32)g2);
+    i960_st_u32(I960_ROM, 0x1d001d0, 12, (u32)g3);
 
     geo_count = i960_ld_u32(I960_WORKRAM, 0x20a284, 0);
     bkp_dc = i960_ld_u32(I960_ROM, 0x1d001dc, 0);

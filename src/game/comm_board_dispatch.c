@@ -25,7 +25,7 @@ void comm_board_dispatch(u32 arg0, u32 arg1, u32 arg2)
     g2 = (uintptr_t)arg2;
 
     g4 = i960_ld_u8(I960_ROM, 0x1a10000, 0);
-    if ((unsigned char)g4 != 1) {
+    if ((i32)g4 != 1) {
         poll_count = i960_ld_u32(I960_WORKRAM, 0x20a754, 0);
         i960_st_u32(I960_WORKRAM, 0x20a758, 0, 1);
         i960_st_u32(I960_WORKRAM, 0x20a754, 0, poll_count + 1);

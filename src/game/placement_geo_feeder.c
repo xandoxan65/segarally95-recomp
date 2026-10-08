@@ -96,7 +96,7 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     r10 = *(u32 *)(fp + 0x80);
     g2 = (uintptr_t)arg2 - g4;
     r5 = r10 ^ (1u << 31);
-    if (1 > (signed char)g2) {
+    if (1 > (i32)g2) {
         g2 = 1;
     }
     g4 = i960_ld_u32(I960_WORKRAM, 0x202278, 0);
@@ -104,7 +104,15 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = g4 << 10;
     i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
     r11 = *(u32 *)(fp + 0xa0);
-    g4 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(r11 << 4));
+    /* ldq catalog[r11*16],g4 — g7 is the span compared below. */
+    {
+        u32 cat = 0x2864b40u + ((u32)r11 << 4);
+
+        g4 = i960_ld_u32(I960_ROM, cat, 0);
+        g5 = i960_ld_u32(I960_ROM, cat, 4);
+        g6 = i960_ld_u32(I960_ROM, cat, 8);
+        g7 = i960_ld_u32(I960_ROM, cat, 12);
+    }
     *(u32 *)(fp + 0x60) = (u32)g4;
     *(u32 *)(fp + 0x64) = (u32)g5;
     *(u32 *)(fp + 0x68) = (u32)g6;
@@ -118,9 +126,12 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
 
     L_00023e58:
         *(u32 *)(fp + 0x6c) = (u32)g2;
-        r8 = (u32)*((u64 *)(fp + 0x60));
         g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
-        i960_st_u64(I960_MMIO, 0x804000, 0, (u64)r8);
+        /* stq r8,0x804000 — the four frame words, last one clamped. */
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x60));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x64));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x68));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x6c));
         r9 = *(u32 *)(fp + 0x50);
         g4 = g4 + g2;
         i960_st_u32(I960_WORKRAM, 0x20b940, 0, (u32)g4);
@@ -144,28 +155,38 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
         if (!((g4 >> 4) & 1))
             goto L_00023f18;
         g5 = *(u32 *)(g12 + 0x14);
-        if ((unsigned char)g5 != 0) {
+        if ((i32)g5 != 0) {
             g4 = i960_ld_u32(I960_WORKRAM, 0x202278, 0);
             g4 = g4 & 3;
             g4 = g4 << 10;
             i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
-            g0 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(g5 << 4));
+            /* ldq catalog[g5*16],g0. */
+            {
+                u32 cat = 0x2864b40u + ((u32)g5 << 4);
+
+                g0 = i960_ld_u32(I960_ROM, cat, 0);
+                g1 = i960_ld_u32(I960_ROM, cat, 4);
+                g2 = i960_ld_u32(I960_ROM, cat, 8);
+                g3 = i960_ld_u32(I960_ROM, cat, 12);
+            }
             *(u32 *)(fp + 0x70) = (u32)g0;
             *(u32 *)(fp + 0x74) = (u32)g1;
             *(u32 *)(fp + 0x78) = (u32)g2;
             g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
             *(u32 *)(fp + 0x7c) = (u32)g3;
-            r8 = (u32)*((u64 *)(fp + 0x70));
             g4 = g4 + g3;
             i960_st_u32(I960_WORKRAM, 0x20b940, 0, (u32)g4);
-            i960_st_u64(I960_MMIO, 0x804000, 0, (u64)r8);
+            i960_mmio_write_u32(0x804000, (u32)g0);
+            i960_mmio_write_u32(0x804000, (u32)g1);
+            i960_mmio_write_u32(0x804000, (u32)g2);
+            i960_mmio_write_u32(0x804000, (u32)g3);
         }
 
     L_00023f18:
         g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
         g13 = 0;
         g4 = r3 - g4;
-        if (1 < (signed char)g4) {
+        if (1 < (i32)g4) {
             r9 = *(u32 *)(fp + 0x90);
             r4 = *(u32 *)(fp + 0xb0);
             g7 = r9 + 4;
@@ -207,15 +228,28 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = 3 & g4;
     g4 = g4 << 10;
     i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
-    g0 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(g5 << 4));
+    /* ldq catalog[g5*16],g0 then movq g0,r12. */
+    {
+        u32 cat = 0x2864b40u + ((u32)g5 << 4);
+
+        g0 = i960_ld_u32(I960_ROM, cat, 0);
+        g1 = i960_ld_u32(I960_ROM, cat, 4);
+        g2 = i960_ld_u32(I960_ROM, cat, 8);
+        g3 = i960_ld_u32(I960_ROM, cat, 12);
+    }
     g7 = g7 + 12;
     r9 = *(u32 *)(fp + 0x90);
     r9 = r9 + 12;
     g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
     r12 = g0;
     r13 = g1;
+    r14 = g2;
+    r15 = g3;
     r4 = r4 + 0x4;
-    i960_st_u64(I960_MMIO, 0x804000, 0, (u64)r12);
+    i960_mmio_write_u32(0x804000, (u32)r12);
+    i960_mmio_write_u32(0x804000, (u32)r13);
+    i960_mmio_write_u32(0x804000, (u32)r14);
+    i960_mmio_write_u32(0x804000, (u32)r15);
     r10 = (uintptr_t)i960_vaddr_ptr(0x10802121);
     *(u32 *)(fp + 0x90) = (u32)r9;
     g13 = g13 + 1;
@@ -227,7 +261,7 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     if (g13 > 3)
         goto L_00024084;
     g4 = r3 - g3;
-    if (1 < (signed char)g4)
+    if (1 < (i32)g4)
         goto L_00023f38;
 
     L_00024084:
@@ -235,7 +269,7 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
         r11 = (uintptr_t)i960_vaddr_ptr(0x10802121);
         i960_mmio_write_u32(0x884000, (u32)r11); /* copro_fifo */;
         g4 = r3 - g4;
-        if (5 >= (signed char)g4)
+        if (5 >= (i32)g4)
             goto L_000240ac;
         g0 = *(u32 *)(fp + 0xb0);
         geo_attract_object_extra((void *)(uintptr_t)g0, g1, g2);
@@ -319,7 +353,15 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = 3 & g4;
     g4 = g4 << 10;
     i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
-    r4 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(g5 << 4));
+    /* ldq catalog[g5*16],r4; movl r6,g10 also copies r7 into g11. */
+    {
+        u32 cat = 0x2864b40u + ((u32)g5 << 4);
+
+        r4 = i960_ld_u32(I960_ROM, cat, 0);
+        r5 = i960_ld_u32(I960_ROM, cat, 4);
+        r6 = i960_ld_u32(I960_ROM, cat, 8);
+        r7 = i960_ld_u32(I960_ROM, cat, 12);
+    }
     g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
     g6 = g6 + 4;
     i960_st_u32(I960_WORKRAM, 0x20a290, 0, (u32)g6);
@@ -328,7 +370,11 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g9 = r5;
     i960_st_u32(I960_WORKRAM, 0x20b940, 0, (u32)g4);
     g10 = r6;
-    i960_st_u64(I960_MMIO, 0x804000, 0, (u64)g8);
+    g11 = r7;
+    i960_mmio_write_u32(0x804000, (u32)g8);
+    i960_mmio_write_u32(0x804000, (u32)g9);
+    i960_mmio_write_u32(0x804000, (u32)g10);
+    i960_mmio_write_u32(0x804000, (u32)g11);
     r10 = (uintptr_t)i960_vaddr_ptr(0x10802121);
     i960_mmio_write_u32(0x884000, (u32)r10); /* copro_fifo */;
     r11 = (uintptr_t)i960_vaddr_ptr(0x10002020);
@@ -364,7 +410,7 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = g4 + 0x34;
     i960_mmio_write_u32(0x801008, (u32)g4); /* geo_write_start */;
     g6 = g2 - g6;
-    if (1 > (signed char)g6) {
+    if (1 > (i32)g6) {
         g6 = 1;
     }
     g4 = i960_ld_u32(I960_WORKRAM, 0x202278, 0);
@@ -372,7 +418,15 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = 3 & g4;
     g4 = g4 << 10;
     i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
-    r4 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(g5 << 4));
+    /* ldq catalog[g5*16],r4 — r7 feeds the span compare. */
+    {
+        u32 cat = 0x2864b40u + ((u32)g5 << 4);
+
+        r4 = i960_ld_u32(I960_ROM, cat, 0);
+        r5 = i960_ld_u32(I960_ROM, cat, 4);
+        r6 = i960_ld_u32(I960_ROM, cat, 8);
+        r7 = i960_ld_u32(I960_ROM, cat, 12);
+    }
     *(u32 *)(fp + 0x40) = (u32)r4;
     *(u32 *)(fp + 0x44) = (u32)r5;
     *(u32 *)(fp + 0x48) = (u32)r6;
@@ -381,11 +435,13 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g5 = g6;
     if (r7 >= g6) {
         *(u32 *)(fp + 0x4c) = (u32)g5;
-        r8 = (u32)*((u64 *)(fp + 0x40));
         g13 = g1;
         g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
         g3 = r3 + 4;
-        i960_st_u64(I960_MMIO, 0x804000, 0, (u64)r8);
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x40));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x44));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x48));
+        i960_mmio_write_u32(0x804000, *(u32 *)(fp + 0x4c));
         r8 = (uintptr_t)i960_vaddr_ptr(0x2800505);
         r10 = (uintptr_t)i960_vaddr_ptr(0x13802727);
         r11 = (uintptr_t)i960_vaddr_ptr(0x15002a2a);
@@ -424,14 +480,27 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     g4 = 3 & g4;
     g4 = g4 << 10;
     i960_mmio_write_u32((u32)(g4 + 0x800010), (u32)g14);
-    r4 = i960_ld_u64(I960_ROM, 0x2864b40, (u32)(g5 << 4));
+    /* ldq catalog[g5*16],r4 then movq r4,r12. */
+    {
+        u32 cat = 0x2864b40u + ((u32)g5 << 4);
+
+        r4 = i960_ld_u32(I960_ROM, cat, 0);
+        r5 = i960_ld_u32(I960_ROM, cat, 4);
+        r6 = i960_ld_u32(I960_ROM, cat, 8);
+        r7 = i960_ld_u32(I960_ROM, cat, 12);
+    }
     g3 = g3 + 12;
     r3 = r3 + 0xc;
     g4 = i960_ld_u32(I960_WORKRAM, 0x20b940, 0);
     r12 = r4;
     r13 = r5;
+    r14 = r6;
+    r15 = r7;
     g13 = g13 + 0x4;
-    i960_st_u64(I960_MMIO, 0x804000, 0, (u64)r12);
+    i960_mmio_write_u32(0x804000, (u32)r12);
+    i960_mmio_write_u32(0x804000, (u32)r13);
+    i960_mmio_write_u32(0x804000, (u32)r14);
+    i960_mmio_write_u32(0x804000, (u32)r15);
     r9 = (uintptr_t)i960_vaddr_ptr(0x10802121);
     g7 = g7 + 1;
     i960_mmio_write_u32(0x884000, (u32)r9); /* copro_fifo */;
@@ -444,7 +513,7 @@ void * placement_geo_feeder(void * arg0, void * arg1, u32 arg2)
     r10 = r9;
     g2 = g2 - g4;
     i960_mmio_write_u32(0x884000, (u32)r10); /* copro_fifo */;
-    if (5 >= (signed char)g2)
+    if (5 >= (i32)g2)
         goto L_0002454c;
     g0 = g1;
     geo_attract_object_extra((void *)(uintptr_t)g0, g1, g2);

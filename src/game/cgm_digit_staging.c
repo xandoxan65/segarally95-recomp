@@ -43,7 +43,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
     g2 = (uintptr_t)arg2;
 
     r6 = 31 + 30;
-    if ((signed char)(u8)g0 > (signed char)r6)
+    if ((i32)g0 > (i32)r6)
         goto L_0002a2f8;
     g5 = (u32)g0 << 3;
     i960_st_u32(I960_WORKRAM, 0x20c95c, 0, (u32)g5);
@@ -54,7 +54,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
 
     L_0002a300:
         r6 = 31 + 16;
-        if ((signed char)(u8)g1 > (signed char)r6)
+        if ((i32)g1 > (i32)r6)
             goto L_0002a318;
         g5 = (u32)g1 << 3;
         i960_st_u32(I960_WORKRAM, 0x20c960, 0, (u32)g5);
@@ -65,7 +65,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
 
     L_0002a320:
         r6 = 31 + 30;
-        if ((signed char)(u8)g2 > (signed char)r6)
+        if ((i32)g2 > (i32)r6)
             goto L_0002a33c;
         g5 = (uintptr_t)g2 * 8u + 0x7u;
         i960_st_u32(I960_WORKRAM, 0x20c964, 0, (u32)g5);
@@ -77,7 +77,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
 
     L_0002a348:
         r6 = 31 + 16;
-        if ((signed char)(u8)g3 > (signed char)r6)
+        if ((i32)g3 > (i32)r6)
             goto L_0002a364;
         g5 = (uintptr_t)g3 * 8u + 0x7u;
         i960_st_u32(I960_WORKRAM, 0x20c968, 0, (u32)g5);
@@ -89,7 +89,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
 
     L_0002a370:
         g13 = i960_ld_u16(I960_WORKRAM, 0x20c958, 0);
-        if ((signed char)(u8)g1 > (signed char)(u8)g3)
+        if ((i32)g1 > (i32)g3)
             goto L_0002a404;
         map_offset = (u32)g0 << 1;
 
@@ -97,9 +97,9 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
         l2_word = i960_ld_u16(I960_ABS, L2_TILE_BASE, map_offset);
         l1_word = i960_ld_u16(I960_ABS, L1_TILE_BASE, map_offset);
         r4 = l1_word;
-        if ((unsigned char)(u8)r4 == 0)
+        if ((i32)r4 == 0)
             goto L_0002a39c;
-        if ((unsigned char)(u8)r4 == 1)
+        if ((i32)r4 == 1)
             goto L_0002a3b8;
         goto L_0002a3d0;
 
@@ -127,7 +127,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
         do {
             g7 = g7 + 1u;
             i960_st_u16(I960_ABS, tile_addr, 0, (u16)pen);
-            if ((unsigned char)(u8)r4 == 0)
+            if ((i32)r4 == 0)
                 pen = i960_ld_u16(I960_ABS, g5 + 0x8000u, (u32)g7 * 2u);
             else
                 pen = pen + 1u;
@@ -136,7 +136,7 @@ u32 cgm_digit_staging(u32 arg0, u32 arg1, u32 arg2)
 
     L_0002a3fc:
         g1 = g1 + 1u;
-        if ((signed char)(u8)g1 <= (signed char)(u8)g3)
+        if ((i32)g1 <= (i32)g3)
             goto L_0002a390;
 
     L_0002a404:

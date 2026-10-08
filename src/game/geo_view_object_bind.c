@@ -104,7 +104,7 @@ L_00033f88:
     g4 = i960_ld_u32(I960_WORKRAM, 0x2139c0, 0);
     g13 = g13 + 4;
     r4 = r4 + 1;
-    if ((i32)(signed char)r4 < (i32)(signed char)g4)
+    if ((i32)r4 < (i32)g4)
         goto L_00033edc;
 
 L_00033fa8:

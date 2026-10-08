@@ -71,7 +71,7 @@ void * libc_scanf_setup(void * arg0, void * arg1, u32 arg2)
             goto L_0005ce40;
 
     L_0005ce64:
-        if ((signed char)(u8)g2 > 0)
+        if ((i32)g2 > 0)
             goto L_0005ce70;
         g0 = 0;
         return (void *)(uintptr_t)g0;

@@ -22,7 +22,7 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
     r7 = 3 << 8;
     g2 = r7 & g4;
     g5 = i960_f64_to_u32((double)(i32)(u32)(g6));
-    if (0 > (signed char)g6) {
+    if (0 > (i32)g6) {
         g4 = 0x4f800000u;
         g5 = i960_f64_to_u32((i960_u32_to_f64(g4)) + (i960_u32_to_f64(g5)));
     }
@@ -42,14 +42,14 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
     goto L_0003acc0;
 
     L_0003acb8:
-        if ((unsigned char)g4 == 0) {
+        if ((i32)g4 == 0) {
             r5 = 1;
         }
 
     L_0003acc0:
         g0 = i960_ld_u32(I960_WORKRAM, 0x214318, 0);
         g5 = i960_f64_to_u32((double)(i32)(u32)(g0));
-        if (0 > (signed char)g0) {
+        if (0 > (i32)g0) {
             g4 = 0x4f800000u;
             g5 = i960_f64_to_u32((i960_u32_to_f64(g4)) + (i960_u32_to_f64(g5)));
         }
@@ -62,7 +62,7 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
         goto L_0003ad18;
     g4 = g5 - g6;
     g4 = g4 >> 2;
-    if ((unsigned char)g4 == 0)
+    if ((i32)g4 == 0)
         goto L_0003ad10;
     g1 = g5 - g4;
     goto L_0003ad14;
@@ -75,22 +75,22 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
 
     L_0003ad18:
         g4 = i960_ld_u32(I960_WORKRAM, 0x2142fc, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0003ad2c;
         r4 = g0;
         goto L_0003ad3c;
 
     L_0003ad2c:
         g4 = i960_ld_u32(I960_WORKRAM, 0x214300, 0);
-        if ((unsigned char)g4 != 0) {
+        if ((i32)g4 != 0) {
             r4 = 0;
         }
 
     L_0003ad3c:
         g4 = i960_ld_u32(I960_WORKRAM, 0x21431c, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0003ad68;
-        if ((unsigned char)g2 != 0)
+        if ((i32)g2 != 0)
             goto L_0003ad68;
         g0 = i960_ld_u32(I960_WORKRAM, 0x214324, 0);
         g1 = 0;
@@ -99,9 +99,9 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
     goto L_0003ad90;
 
     L_0003ad68:
-        if ((unsigned char)g2 == 0)
+        if ((i32)g2 == 0)
             goto L_0003ad90;
-        if ((unsigned char)g4 != 0)
+        if ((i32)g4 != 0)
             goto L_0003ad90;
         g0 = i960_ld_u32(I960_WORKRAM, 0x214320, 0);
         comm_palette_index_call((u32)g0);
@@ -111,15 +111,15 @@ void geo_view_matrix_slot_fill(u32 arg0, u32 arg1, u32 arg2)
 
     L_0003ad90:
         g4 = i960_ld_u32(I960_WORKRAM, 0x214304, 0);
-        if ((unsigned char)g4 != r5)
+        if ((i32)g4 != r5)
             goto L_0003ada8;
         g4 = i960_ld_u32(I960_WORKRAM, 0x214308, 0);
-        if ((unsigned char)g4 == r4)
+        if ((i32)g4 == r4)
             goto L_0003adf4;
 
     L_0003ada8:
         g4 = i960_ld_u32(I960_WORKRAM, 0x21431c, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0003adc4;
         g0 = i960_ld_u32(I960_WORKRAM, 0x214324, 0);
         g1 = r5;

@@ -38,10 +38,10 @@ void libc_printf_outer_loop(void)
 {
     for (;;) {
         g0 = fmt_byte(r12);
-        if ((unsigned char)g0 == 0)
+        if ((i32)g0 == 0)
             return;
         g11 = 31u + 6u;
-        if ((unsigned char)g11 == (unsigned char)g0) {
+        if ((i32)g11 == (i32)g0) {
             r9 = 0;
             r3 = 0;
             r15 = 0;

@@ -140,7 +140,7 @@ void geo_palette_lut_upload(u32 arg0, u32 arg1, u32 arg2)
     } while (g4 != r13);
     g13 = g13 + 1;
     g4 = g13 & r13;
-    if (31 >= (unsigned char)g4)
+    if (31u >= (u32)g4)
         goto L_00003cbc;
     return;
 }

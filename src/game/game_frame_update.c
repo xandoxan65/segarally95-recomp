@@ -24,17 +24,17 @@ void game_frame_update(u32 arg0, u32 arg1, u32 arg2)
 
     g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
     /* lift: cmpibe 0, g4, 0x22c64 @ 0x22b68 */
-    if ((unsigned char)g4 == 0)
+    if ((i32)g4 == 0)
         return;
-    if ((unsigned char)g4 == 3) {
+    if ((i32)g4 == 3) {
         g3 = 0 - 2;
         i960_st_u32(I960_WORKRAM, 0x20a560, 0, (u32)g3);
     }
-    if ((unsigned char)g4 != 1)
+    if ((i32)g4 != 1)
         goto L_00022bd4;
     g4 = i960_ld_u32(I960_WORKRAM, 0x202098, 0);
     /* lift: cmpibe 3, g4, 0x22b90 @ 0x22b88 */
-    if ((unsigned char)g4 != 2)
+    if ((i32)g4 != 2)
         goto L_00022b94;
     i960_call_rom(0x22a10);
 
@@ -56,7 +56,11 @@ void game_frame_update(u32 arg0, u32 arg1, u32 arg2)
         g5 = i960_ld_u32(I960_WORKRAM, 0x20a560, 0);
         g6 = i960_ld_u32(I960_WORKRAM, 0x20a760, 0);
         g4 = i960_host_race_course_index();
-        r4 = (u32)i960_ld_u64(I960_WORKRAM, 0x20a770, 0);
+        /* ldq 0x20a770,r4 — four words, low address in r4. */
+        r4 = i960_ld_u32(I960_WORKRAM, 0x20a770, 0);
+        r5 = i960_ld_u32(I960_WORKRAM, 0x20a770, 4);
+        r6 = i960_ld_u32(I960_WORKRAM, 0x20a770, 8);
+        r7 = i960_ld_u32(I960_WORKRAM, 0x20a770, 12);
         i960_st_u32(I960_WORKRAM, 0x20a5b0, 0, (u32)g4);
         i960_st_u32(I960_WORKRAM, 0x20a5ac, 0, (u32)g5);
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a564, 0);

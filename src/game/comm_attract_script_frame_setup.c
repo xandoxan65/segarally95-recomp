@@ -26,7 +26,10 @@ static void script_case_emit(u32 mode)
 
     rec_idx = comm_attract_fp_u32(0x60);
     scale = i960_ld_u32(I960_WORKRAM, 0x20a804, 0);
-    glyph_off = (u32)i960_ld_u64(I960_WORKRAM, rec_idx * 8u, 0x5ad090);
+    /* ldl 0x5ad090[idx*8],g6 — g6 is the low word, g7 the next. */
+    g6 = i960_ld_u32(I960_WORKRAM, 0x5ad090u, rec_idx * 8u);
+    g7 = i960_ld_u32(I960_WORKRAM, 0x5ad090u, rec_idx * 8u + 4u);
+    glyph_off = (u32)g6;
     span_a = comm_attract_fp_u32(0x50);
     span_b = comm_attract_fp_u32(0x4c);
     scale = (u32)g7 * scale;

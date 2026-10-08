@@ -129,16 +129,16 @@ u32 geo_view_matrix_prep(u32 arg0, u32 arg1, u32 arg2)
         }
     g5 = i960_ld_u32(I960_WORKRAM, 0x214300, 0);
     i960_st_u32(I960_WORKRAM, 0x2142fc, 0, (u32)g6);
-    if (0 > (signed char)g5) {
+    if (0 > (i32)g5) {
         g5 = g5 + 1;
     }
     g4 = i960_ld_u32(I960_WORKRAM, 0x214120, 0);
     i960_st_u32(I960_WORKRAM, 0x214300, 0, (u32)g5);
-    if (1 < (signed char)g4) {
+    if (1 < (i32)g4) {
         r5 = 0;
     }
     g4 = i960_ld_u32(I960_WORKRAM, 0x2139d0, 0);
-    if ((unsigned char)g4 != 0)
+    if ((i32)g4 != 0)
         goto L_0003a408;
     g1 = r5;
     g0 = geo_view_matrix_slot_init(cam, (u32)g1, (u32)g2);
@@ -153,10 +153,10 @@ u32 geo_view_matrix_prep(u32 arg0, u32 arg1, u32 arg2)
 
     L_0003a418:
         g4 = i960_ld_u32(I960_WORKRAM, 0x214120, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0003a430;
         g4 = i960_ld_u32(I960_WORKRAM, 0x2142fc, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0003a438;
 
     L_0003a430:
@@ -250,7 +250,7 @@ u32 geo_view_matrix_prep(u32 arg0, u32 arg1, u32 arg2)
         r7 = i960_f64_to_u32(fp1);
 
     L_0003a5f4:
-        if ((unsigned char)r9 == 0)
+        if ((i32)r9 == 0)
             goto L_0003a7a8;
         g4 = i960_ld_u32(I960_WORKRAM, 0x2142e4, 0);
         g4 = i960_f64_to_u32((i960_u32_to_f64(g4)) + (i960_u32_to_f64(r7)));
@@ -495,7 +495,7 @@ u32 geo_view_matrix_prep(u32 arg0, u32 arg1, u32 arg2)
         if (r9 == 0)
             goto L_0003a9e8;
         g4 = i960_ld_u32(I960_WORKRAM, 0x214120, 0);
-        if (1 < (signed char)g4)
+        if (1 < (i32)g4)
             goto L_0003a9e8;
         g4 = i960_ld_u32(I960_WORKRAM, 0x2142ec, 0);
         r5 = i960_f64_to_u32((i960_u32_to_f64(g4)) * (i960_u32_to_f64(r5)));

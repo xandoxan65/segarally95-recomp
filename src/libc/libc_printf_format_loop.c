@@ -42,7 +42,7 @@ void libc_printf_format_loop(void)
 
         r12 = r12 + 1u;
         g4 = fmt_byte(r12);
-        if ((signed char)(u8)g4 > (signed char)(u8)g9)
+        if ((u32)g4 > (u32)g9)
             goto L_0005d9b4;
         handler_wr = i960_ld_u32(I960_WORKRAM, CGM_FORMAT_JUMP_TABLE,
                                  (u32)((u8)g4 << 2));

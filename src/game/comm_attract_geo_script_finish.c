@@ -63,7 +63,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
     r4 = (uintptr_t)arg0_p;
     /* Disasm: movl g0,r4 copies g0+g1 → r4+r5. Pair calls pass g1=0xa0(fp). */
     r5 = pair_obj;
-    if ((unsigned char)r6 != g6) {
+    if ((i32)r6 != (i32)g6) {
         /* ROM st g14 — frame counter reset (link ≈ 0 as small ROM IP / cleared). */
         i960_st_u32(I960_WORKRAM, 0x20a7f0, 0, 0);
     }
@@ -863,7 +863,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
     L_00012968:
         g4 = *(unsigned char *)((uintptr_t)arg0_p + 0x50);
         g4 = g4 & 15;
-        if ((unsigned char)g4 != 1)
+        if ((i32)g4 != 1)
             goto L_0001299c;
         g5 = (uintptr_t)arg0_p + 0x51;
         g4 = *(unsigned char *)g5;
@@ -908,7 +908,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
         }
         r8 = 2;
         i960_st_u32(I960_WORKRAM, 0x213978, 0, (u32)r8);
-        if ((unsigned char)r6 == 0)
+        if ((i32)r6 == 0)
             goto L_000129fc;
         g0 = (uintptr_t)arg0_p;
         g1 = 0x3f800000u;

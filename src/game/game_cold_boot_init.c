@@ -21,7 +21,7 @@ void game_cold_boot_init(u32 arg0, u32 arg1, u32 arg2)
     game_subsys_boot(0, 0, 0);
     comm_board_setup_probe(0, 0, 0);
     g4 = i960_ld_u32(I960_WORKRAM, 0x20a554, 0);
-    if ((unsigned char)g4 != 0)
+    if ((i32)g4 != 0)
         goto L_000032c0;
     boot_attract_flags_init(0, 0, 0);
 

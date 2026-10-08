@@ -21,7 +21,7 @@ u32 geo_view_matrix_slot_step(u32 arg0, u32 arg1, u32 arg2)
     ctrl = i960_ld_u32(I960_WORKRAM, 0x202044, 0);
     counter = i960_ld_u32(I960_WORKRAM, 0x2142e0, 0);
 
-    if ((u8)ctrl == (u8)arg0) {
+    if ((i32)ctrl == (i32)arg0) {
         next = 0;
         g0 = slot;
         i960_st_u32(I960_WORKRAM, 0x2142e0, 0, next);
@@ -36,8 +36,8 @@ u32 geo_view_matrix_slot_step(u32 arg0, u32 arg1, u32 arg2)
     }
 
     ctrl = i960_ld_u32(I960_WORKRAM, 0x202044, 0);
-    if ((u8)ctrl != 0) {
-        if ((signed char)(u8)ctrl < (signed char)(u8)arg0) {
+    if ((i32)ctrl != 0) {
+        if ((i32)ctrl < (i32)arg0) {
             i960_st_u32(I960_WORKRAM, 0x2142fc, 0, 6u);
         } else {
             delta = -8;

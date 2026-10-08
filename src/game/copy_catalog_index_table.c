@@ -33,7 +33,7 @@ void copy_catalog_index_table(void * arg0, u32 arg1, u32 arg2)
     *(u32 *)(fp + 0x80) = (u32)g0;
     g0 = g4;
     g6 = (uintptr_t)(i32)(i960_u32_to_f64(arg1));
-    if (0 > (signed char)g6) {
+    if (0 > (i32)g6) {
         g6 = 0 - g6;
     }
     g5 = g6 - 1;
@@ -47,7 +47,7 @@ void copy_catalog_index_table(void * arg0, u32 arg1, u32 arg2)
     goto L_00028350;
 
     L_00028338:
-        if ((unsigned char)g3 == 0) {
+        if ((i32)g3 == 0) {
             g9 = *(u32 *)(fp + 0x80);
             g5 = r8 + (u32)(r8 << 3);
             g4 = g9 - 0x1 + (u32)g6;
@@ -63,7 +63,7 @@ void copy_catalog_index_table(void * arg0, u32 arg1, u32 arg2)
         r11 = r11 + (u32)(g5 << 2);
         if (g4 < g10)
             goto L_00028394;
-        if ((unsigned char)g3 != 0)
+        if ((i32)g3 != 0)
             goto L_00028384;
         g4 = g10 - 1;
         g4 = g6 - g4;
@@ -87,9 +87,9 @@ void copy_catalog_index_table(void * arg0, u32 arg1, u32 arg2)
         r9 = r9 + (u32)(g4 << 2);
         g12 = *(u32 *)(fp + 0x80);
         g4 = g6 + 2;
-        if ((signed char)g4 < (signed char)g12)
+        if ((i32)g4 < (i32)g12)
             goto L_000283d0;
-        if ((unsigned char)g3 != 0)
+        if ((i32)g3 != 0)
             goto L_000283c0;
         g4 = g12 - 2;
         g4 = g6 - g4;
@@ -296,11 +296,11 @@ void copy_catalog_index_table(void * arg0, u32 arg1, u32 arg2)
         fp0 = fabs(fp0);
         if (fp0 < fp1)
             goto L_0002872c;
-        if ((unsigned char)g3 == 0) {
+        if ((i32)g3 == 0) {
             g0 = 0;
             goto L_0002872c;
         }
-        if ((unsigned char)g3 == 1) {
+        if ((i32)g3 == 1) {
             g12 = *(u32 *)(fp + 0x80);
             /* cvtir g12,g4; notbit 31; addrl +1.0 */
             g4 = i960_f64_to_u32((double)(i32)g12);

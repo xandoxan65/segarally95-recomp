@@ -20,7 +20,7 @@ void geo_fifo_emit(u32 arg0, u32 arg1)
     g0 = g14;
     g14 = 0;
     g5 = i960_ld_u32(I960_WORKRAM, 0x214374, 0);
-    if ((unsigned char)g5 == 0)
+    if ((i32)g5 == 0)
         goto L_0003ed10;
     g4 = i960_ld_u32(I960_WORKRAM, 0x214370, 0);
     i960_mmio_write_u32(0x800040, (u32)g14); /* geo_regs */;

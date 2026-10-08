@@ -28,7 +28,7 @@ void maincpu_reset_entry(u32 arg0, u32 arg1, u32 arg2)
         g5 = g5 + 4;
         g4 = *(u32 *)g5;
         g6 = g6 + 4;
-    } while ((unsigned char)g8 != g4);
+    } while ((i32)g8 != (i32)g4);
     g4 = i960_mmio_read_u8(0xf80000); /* boot_mmio_gap */;
     g7 = 0;
     g6 = (uintptr_t)(model2_crx_ram + 0x1e40);
@@ -66,7 +66,11 @@ void maincpu_reset_entry(u32 arg0, u32 arg1, u32 arg2)
     do {
         g4 = g4 - 1;
         r4 = 0 - 1;
-        *(u64 *)g5 = (u64)g0;
+        /* stq g0,(g5) — movq 0,g0 cleared g0..g3; advance one quad. */
+        *(u32 *)g5 = 0;
+        *(u32 *)(g5 + 4) = 0;
+        *(u32 *)(g5 + 8) = 0;
+        *(u32 *)(g5 + 12) = 0;
         g5 = g5 + 0x10;
     } while (g4 != r4);
     g7 = 0;

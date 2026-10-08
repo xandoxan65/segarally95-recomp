@@ -149,7 +149,7 @@ u32 catalog_draw_setup(u32 arg0, u32 arg1, u32 arg2)
                     (unsigned)g4);
         }
 
-        if ((unsigned char)batch_count == 0)
+        if (batch_count == 0)
             goto L_00029fd0;
         g6 = 0x1ff;
         r15 = 0x1ff;

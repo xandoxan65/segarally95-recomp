@@ -19,7 +19,7 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
     (void)arg2;
 
     g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
-    if ((unsigned char)g4 != 3)
+    if ((i32)g4 != 3)
         goto L_00016584;
     /* board == 3: slot @ 0x20a970, g0 = 4 */
     g4 = i960_ld_u32(I960_WORKRAM, 0x202008, 0);
@@ -56,10 +56,10 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_000165d8:
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
-        if ((unsigned char)g4 == 3)
+        if ((i32)g4 == 3)
             goto L_0001661c;
         g4 = i960_ld_u8(I960_WORKRAM, 0x202018, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_0001661c;
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a97c, 0);
         g4 = g4 + 1;
@@ -80,28 +80,28 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
         g4 = i960_ld_u32(I960_ABS, 0x1a121d8u + (u32)g4, 0);
         g5 = g5 << 16;
         r4 = (uintptr_t)((i32)g5 >> 16);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016704;
         g4 = i960_ld_u8(I960_WORKRAM, 0x20a980, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_00016704;
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a960, 0);
-        if ((signed char)r4 >= (signed char)g4)
+        if ((i32)r4 >= (i32)g4)
             goto L_00016704;
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a968, 0);
         r5 = 0x3e7;
-        if ((signed char)g4 > (signed char)r5)
+        if ((i32)g4 > (i32)r5)
             goto L_00016704;
         g5 = i960_ld_u32(I960_WORKRAM, 0x20a958, 0);
         g4 = i960_ld_u32(I960_ABS, (u32)g5, 0x10);
         g0 = 0;
-        if ((signed char)g4 >= (signed char)r4)
+        if ((i32)g4 >= (i32)r4)
             goto L_000166a0;
         do {
             g5 = g5 + 0x20;
             g4 = i960_ld_u32(I960_ABS, (u32)g5, 0x10);
             g0 = g0 + 1;
-        } while ((signed char)g4 < (signed char)r4);
+        } while ((i32)g4 < (i32)r4);
 
     L_000166a0:
         i960_call_rom(0x17010);
@@ -109,10 +109,10 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
     g5 = i960_ld_u32(I960_WORKRAM, 0x20a964, 0);
     g4 = g4 + 1;
     i960_st_u32(I960_WORKRAM, 0x20a968, 0, (u32)g4);
-    if ((unsigned char)g5 != 1)
+    if ((i32)g5 != 1)
         goto L_00016ad4;
     g4 = i960_ld_u32(I960_WORKRAM, 0x20227c, 0);
-    if ((unsigned char)g4 != 0)
+    if ((i32)g4 != 0)
         goto L_00016ad4;
     i960_st_u32(I960_WORKRAM, 0x213844, 0, (u32)g14);
     r5 = 4;
@@ -126,20 +126,20 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
     L_00016704:
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
         i960_st_u8(I960_WORKRAM, 0x20a980, 0, (u8)g14);
-        if ((unsigned char)g4 != 3)
+        if ((i32)g4 != 3)
             goto L_00016774;
         g6 = i960_ld_u8(I960_WORKRAM, 0x20a581, 0);
         g0 = 0;
-        if ((signed char)g6 <= 0)
+        if ((i32)g6 <= 0)
             goto L_00016848;
         g5 = 0x1a121d8u;
         g7 = i960_ld_u32(I960_WORKRAM, 0x20a584, 0);
 
     L_00016738:
-        if ((unsigned char)g7 == g0)
+        if ((i32)g7 == g0)
             goto L_00016744;
         g4 = i960_ld_u32(I960_ABS, (u32)g5, 0);
-        if ((unsigned char)g4 == 6)
+        if ((i32)g4 == 6)
             goto L_00016758;
 
     L_00016744:
@@ -161,7 +161,7 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
     L_00016774:
         g2 = i960_ld_u8(I960_WORKRAM, 0x20a581, 0);
         g0 = 0;
-        if ((signed char)g2 <= 0)
+        if ((i32)g2 <= 0)
             goto L_00016848;
         g3 = 0x1a121dcu;
         r4 = 0;
@@ -171,17 +171,17 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_0001679c:
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a584, 0);
-        if ((unsigned char)g4 == g0)
+        if ((i32)g4 == g0)
             goto L_00016830;
         g4 = i960_ld_u32(I960_ABS, (u32)g13, 0);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016830;
         g4 = i960_ld_u32(I960_ABS, 0x1a121dcu + (u32)r4, 0);
         if (g4 <= 0)
             goto L_00016830;
         g5 = g0 + 1;
         /* cmpibge g5,g2 → skip inner match loop when g5 >= count */
-        if ((signed char)g5 >= (signed char)g2)
+        if ((i32)g5 >= (i32)g2)
             goto L_00016824;
         g4 = g5 << 3;
         g4 = g4 - g5;
@@ -194,11 +194,11 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_000167ec:
         g4 = i960_ld_u32(I960_ABS, (u32)g7, 0);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016814;
         g5 = i960_ld_u32(I960_ABS, 0x1a121dcu + (u32)g6, 0);
         g4 = i960_ld_u32(I960_ABS, (u32)g3, 0);
-        if ((unsigned char)g4 != g5)
+        if ((i32)g4 != g5)
             goto L_00016814;
         i960_st_u8(I960_WORKRAM, 0x20a980, 0, (u8)r5);
         goto L_00016824;
@@ -211,7 +211,7 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_00016824:
         g4 = i960_ld_u8(I960_WORKRAM, 0x20a980, 0);
-        if ((unsigned char)g4 == 1)
+        if ((i32)g4 == 1)
             goto L_00016848;
 
     L_00016830:
@@ -224,7 +224,7 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_00016848:
         g4 = i960_ld_u8(I960_WORKRAM, 0x20a980, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_00016ad4;
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a96c, 0);
         g5 = i960_ld_u8(I960_WORKRAM, 0x20a581, 0);
@@ -239,27 +239,27 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
     L_00016890:
         g5 = i960_ld_u32(I960_WORKRAM, 0x20a95c, 0);
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a96c, 0);
-        if ((unsigned char)g4 != g5)
+        if ((i32)g4 != g5)
             goto L_00016934;
         i960_st_u8(I960_WORKRAM, 0x20a980, 0, (u8)g14);
         goto L_00016990;
 
     L_000168b0:
         g0 = i960_ld_u32(I960_WORKRAM, 0x20a95c, 0);
-        if ((unsigned char)g13 == g0)
+        if ((i32)g13 == g0)
             goto L_00016890;
         g5 = g0 << 3;
         g5 = g5 - g0;
         g5 = g5 << 6;
         g4 = i960_ld_u32(I960_ABS, 0x1a121d8u + (u32)g5, 0);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016890;
         g2 = 0x1a121dcu + (u32)g5;
         g4 = i960_ld_u32(I960_ABS, (u32)g2, 0);
         if (g4 <= 0)
             goto L_00016890;
         /* cmpibge 0,g3 → skip when count <= 0 */
-        if ((signed char)g3 <= 0)
+        if ((i32)g3 <= 0)
             goto L_00016934;
         g4 = g3 << 3;
         g4 = g4 - g3;
@@ -269,11 +269,11 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_00016904:
         g4 = i960_ld_u32(I960_ABS, (u32)g7, 0);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016920;
         g5 = i960_ld_u32(I960_ABS, 0x1a121dcu + (u32)g6, 0);
         g4 = i960_ld_u32(I960_ABS, (u32)g2, 0);
-        if ((unsigned char)g4 == g5)
+        if ((i32)g4 == g5)
             goto L_00016768;
 
     L_00016920:
@@ -287,28 +287,28 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a95c, 0);
         g4 = g4 + 1;
         i960_st_u32(I960_WORKRAM, 0x20a95c, 0, (u32)g4);
-        if ((unsigned char)g3 == g4) {
+        if ((i32)g3 == g4) {
             i960_st_u32(I960_WORKRAM, 0x20a95c, 0, (u32)g14);
         }
 
     L_00016954:
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
-        if ((unsigned char)g4 != 3)
+        if ((i32)g4 != 3)
             goto L_000168b0;
         g5 = i960_ld_u32(I960_WORKRAM, 0x20a95c, 0);
-        if ((unsigned char)g13 == g5)
+        if ((i32)g13 == g5)
             goto L_00016890;
         g4 = g5 << 3;
         g4 = g4 - g5;
         g4 = g4 << 6;
         g4 = i960_ld_u32(I960_ABS, 0x1a121d8u + (u32)g4, 0);
-        if ((unsigned char)g4 != 6)
+        if ((i32)g4 != 6)
             goto L_00016890;
         i960_st_u32(I960_WORKRAM, 0x20a96c, 0, (u32)g5);
 
     L_00016990:
         g4 = i960_ld_u8(I960_WORKRAM, 0x20a980, 0);
-        if ((unsigned char)g4 == 0)
+        if ((i32)g4 == 0)
             goto L_00016ad4;
         g5 = i960_ld_u32(I960_WORKRAM, 0x20a95c, 0);
         i960_st_u32(I960_WORKRAM, 0x20a968, 0, (u32)g14);
@@ -321,7 +321,7 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
         g4 = i960_ld_u32(I960_ABS, (u32)g7, 0);
         g5 = g5 << 16;
         r4 = (uintptr_t)((i32)g5 >> 16);
-        if ((unsigned char)g4 == g6)
+        if ((i32)g4 == g6)
             goto L_00016a40;
         r5 = 0 | (1u << 8);
         i960_st_u32(I960_WORKRAM, 0x213844, 0, (u32)r5);
@@ -345,19 +345,19 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
         i960_st_u32(I960_WORKRAM, 0x20a958, 0, (u32)g5);
         g4 = i960_ld_u32(I960_ABS, (u32)g5, 0x10);
         g0 = 0;
-        if ((signed char)g4 >= (signed char)r4)
+        if ((i32)g4 >= (i32)r4)
             goto L_00016a74;
         do {
             g5 = g5 + 0x20;
             g4 = i960_ld_u32(I960_ABS, (u32)g5, 0x10);
             g0 = g0 + 1;
-        } while ((signed char)g4 < (signed char)r4);
+        } while ((i32)g4 < (i32)r4);
 
     L_00016a74:
         g4 = i960_ld_u32(I960_WORKRAM, 0x214354, 0);
         g5 = model2_workram_mirror_u32(0x5b54b0u + (g4 << 2));
         g4 = g0 + 4;
-        if ((signed char)g5 > (signed char)g4)
+        if ((i32)g5 > (i32)g4)
             goto L_00016ab4;
         g4 = i960_ld_u32(I960_WORKRAM, 0x214354, 0);
         g4 = model2_workram_mirror_u32(0x5b54b0u + (g4 << 2));
@@ -377,12 +377,12 @@ u32 comm_attract_board_tick(u32 arg0, u32 arg1, u32 arg2)
 
     L_00016ad4:
         g4 = i960_ld_u8(I960_WORKRAM, 0x20a980, 0);
-        if ((unsigned char)g4 != 0)
+        if ((i32)g4 != 0)
             goto L_00016b18;
         g0 = 0xffff;
         tile_attract_palram_gate((u32)g0);
         g4 = i960_ld_u32(I960_WORKRAM, 0x20a530, 0);
-        if ((unsigned char)g4 == 3)
+        if ((i32)g4 == 3)
             goto L_00016b04;
         i960_st_u32(I960_WORKRAM, 0x20209c, 0, (u32)g14);
         return (u32)g0;

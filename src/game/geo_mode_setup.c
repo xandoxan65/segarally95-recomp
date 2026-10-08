@@ -22,7 +22,7 @@ void geo_mode_setup(u32 arg0, u32 arg1)
         i960_mmio_write_u32(0x801008, (u32)g4); /* geo_write_start */;
         g5 = g5 + 1;
         i960_mmio_write_u32(0x8000f0, (u32)g14); /* geo_regs */;
-    } while (3 >= (signed char)g5);
+    } while (3 >= (i32)g5);
     i960_st_u32(I960_WORKRAM, 0x202260, 0, (u32)g14);
     i960_st_u32(I960_WORKRAM, 0x20a280, 0, (u32)g14);
     /* bx (g0) */
