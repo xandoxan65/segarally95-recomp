@@ -26,6 +26,7 @@ void comm_attract_course_record_copy(void *arg0, u32 arg1, u32 arg2)
     u32 handler;
     u32 w0;
     u32 w1;
+    u32 saved;
 
     src_va = (u32)(uintptr_t)arg0;
     g1 = arg1;
@@ -33,7 +34,10 @@ void comm_attract_course_record_copy(void *arg0, u32 arg1, u32 arg2)
 
     r4 = src_va;
     comm_attract_course_chain_restore(0, arg2);
+    /* callx below gets a new local frame. Host r6 is one global, so keep
+     * the allocated node in a C local (ROM r6 survives the callx). */
     r6 = g0; /* cmpi/mov/be order @ 0x3F228 */
+    saved = (u32)g0;
     if (g0 == 0)
         goto L_done;
 
@@ -81,5 +85,5 @@ void comm_attract_course_record_copy(void *arg0, u32 arg1, u32 arg2)
     }
 
 L_done:
-    g0 = (u32)r6;
+    g0 = saved;
 }

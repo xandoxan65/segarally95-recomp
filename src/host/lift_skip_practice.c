@@ -1,4 +1,4 @@
-/* Host-only skip: attract → desert practice START.
+/* Host-only skip: attract → practice START.
  *
  * Car select @ 0x14820 writes 0x214354 from analog table 5 @ 0x5b3730:
  *   0x80 → idx 2 → 214354=0 (Celica AT)
@@ -6,8 +6,10 @@
  * Confirm @ 0x15200: brake > 0xB0 and 214354==2 → 214354=3 (Delta MT).
  *
  * Course-select result is 0x20a8c4. --practice never runs that scene, so
- * store desert 0 there. Do not store 0 into 0x214354 after confirm — that
- * cell is still the car class (ROM 0x152DC has no such store).
+ * store the requested course there (desert 0, or I960_HOST_COURSE).
+ * Confirm bits match course_select @ 0x16360: 2139cc = (choice>>1)&1,
+ * 2139d0 = 1 when choice is 0 or 3. Do not store into 0x214354 after
+ * confirm — that cell is still the car class (ROM 0x152DC has no such store).
  *
  * After START, analog rest is 0x80: fov_scale @ 0x395D8 is byte−0x80.
  */
@@ -18,6 +20,7 @@
 #include "model2_rom.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SKIP_STEER_DESERT    0x40u
 #define SKIP_STEER_DELTA     0xE0u
@@ -82,12 +85,39 @@ void i960_host_skip_practice_idle_wheel(void)
     skip_force_idle_wheel();
 }
 
+static u32 skip_course_index(void)
+{
+    const char *env = getenv("I960_HOST_COURSE");
+    char *end = NULL;
+    unsigned long v;
+
+    if (!env || env[0] == '\0')
+        return 0;
+    v = strtoul(env, &end, 0);
+    if (end == env || v > 3ul)
+        return 0;
+    return (u32)v;
+}
+
+static const char *skip_course_name(u32 course)
+{
+    static const char *const names[] = {
+        "desert", "forest", "mountain", "lakeside"
+    };
+
+    return names[course & 3u];
+}
+
 static void skip_force_practice_flags(void)
 {
+    u32 course = skip_course_index();
+    u32 sel_bit = (course == 0u || course == 3u) ? 1u : 0u;
+
     i960_st_u32(I960_WORKRAM, 0x202230, 0, 1u);
-    i960_st_u32(I960_WORKRAM, 0x20a8c4, 0, 0);
-    i960_st_u32(I960_WORKRAM, 0x2139cc, 0, 0);
-    i960_st_u32(I960_WORKRAM, 0x2139d0, 0, 1u);
+    i960_st_u32(I960_WORKRAM, 0x20a8c4, 0, course);
+    /* course_select confirm @ 0x16360. */
+    i960_st_u32(I960_WORKRAM, 0x2139cc, 0, (course >> 1) & 1u);
+    i960_st_u32(I960_WORKRAM, 0x2139d0, 0, sel_bit);
 }
 
 u32 i960_host_race_course_index(void)
@@ -185,7 +215,8 @@ void i960_host_skip_practice_tick(void)
         if (!s_logged) {
             lift_log(
                     "lift: skip-practice — waiting for game-start "
-                    "(desert / Delta MT)\n");
+                    "(%s / Delta MT)\n",
+                    skip_course_name(skip_course_index()));
             s_logged = 1;
         }
         return;
@@ -204,8 +235,9 @@ void i960_host_skip_practice_tick(void)
         i960_st_u32(I960_WORKRAM, 0x2020a4, 0, 0);
         if (!s_selects_done) {
             lift_log(
-                    "lift: skip-practice — desert START "
+                    "lift: skip-practice — %s START "
                     "(course 20a8c4=%u car 214354=%u lookup=%u)\n",
+                    skip_course_name(skip_course_index()),
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a8c4, 0),
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x214354, 0),
                     (unsigned)i960_ld_u32(I960_WORKRAM, 0x20a8bc, 0));
@@ -232,7 +264,8 @@ void i960_host_skip_practice_tick(void)
 
     if (!s_started) {
         lift_log(
-                "lift: skip-practice — practice + desert + Delta MT analog\n");
+                "lift: skip-practice — practice + %s + Delta MT analog\n",
+                skip_course_name(skip_course_index()));
         s_started = 1;
     }
 }

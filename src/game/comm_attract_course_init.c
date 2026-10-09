@@ -73,21 +73,30 @@ u32 comm_attract_course_init(u32 arg0, u32 arg1, u32 arg2)
         r9 = 0x1869fu;
 
     L_0003f390:
-        r4 = i960_ld_u32(I960_ABS, walk_va, 0);
-        if (r4 == r9)
-            goto L_0003f3d0;
-        if (r4 == r7)
-            goto L_0003f3bc;
-        comm_attract_course_record_copy((void *)(uintptr_t)walk_va, r5, arg2);
-        r7 = r4;
-        walk_va += 0x20u;
-        i960_st_u32(I960_WORKRAM, 0x215390, r4 << 2, (u32)g0);
-        goto L_0003f3e0;
+        /*
+         * @0x3F390 ld (r6),r4 is the caller's local. record_copy's own
+         * r4 = src (@0x3F220 movl) is a new frame. Host r4 is one global,
+         * so keep the id here across the call. @0x3F3B0 stores that id.
+         */
+        {
+            u32 id = i960_ld_u32(I960_ABS, walk_va, 0);
 
-    L_0003f3bc:
-        comm_attract_course_record_copy((void *)(uintptr_t)walk_va, r5, arg2);
-        walk_va += 0x20u;
-        goto L_0003f3e0;
+            r4 = id;
+            if (id == r9)
+                goto L_0003f3d0;
+            if (id == r7)
+                goto L_0003f3bc;
+            comm_attract_course_record_copy((void *)(uintptr_t)walk_va, r5, arg2);
+            r7 = id;
+            walk_va += 0x20u;
+            i960_st_u32(I960_WORKRAM, 0x215390, id << 2, (u32)g0);
+            goto L_0003f3e0;
+
+        L_0003f3bc:
+            comm_attract_course_record_copy((void *)(uintptr_t)walk_va, r5, arg2);
+            walk_va += 0x20u;
+            goto L_0003f3e0;
+        }
 
     L_0003f3d0:
         comm_attract_course_record_copy((void *)(uintptr_t)walk_va, r5, arg2);

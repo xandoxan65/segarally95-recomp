@@ -18,7 +18,8 @@ typedef struct track_viewer_opts {
     int cgm_splash_preamble;   /* run inner_2 tail: palette index + splash_bind */
     const char *geo_fifo_path; /* --decode-geo-fifo FILE.bin (prg_fifo words) */
     const char *geo_summary;   /* JSON summary output path */
-    int skip_practice;         /* 1 = --practice: desert START with Delta AT */
+    int skip_practice;         /* 1 = --practice / --lakeside: skip to START */
+    int skip_course;           /* 0x20a8c4 while skipping; 3 = lakeside */
     const char *aspect;        /* "4:3" (default) or "16:9" / --widescreen */
 } track_viewer_opts_t;
 

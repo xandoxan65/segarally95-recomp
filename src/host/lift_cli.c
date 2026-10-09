@@ -49,6 +49,7 @@ static void defaults(track_viewer_opts_t *opts)
     opts->geo_fifo_path = NULL;
     opts->geo_summary = "build/lift/geo_decode_summary.json";
     opts->skip_practice = 0;
+    opts->skip_course = 0;
     opts->aspect = "4:3";
 }
 
@@ -69,6 +70,8 @@ void track_viewer_cli_help(void)
             "                         also: I960_HOST_ASPECT=16:9\n"
             "  --practice             skip attract/menus → desert practice START (Delta MT)\n"
             "                         also: I960_HOST_SKIP_PRACTICE=1\n"
+            "  --lakeside             same skip, course 3 (lakeside) instead of desert\n"
+            "                         also: I960_HOST_SKIP_PRACTICE=1 I960_HOST_COURSE=3\n"
             "  --region NAME          cabinet region: international (default), japan, or us\n"
             "                         overrides the NVRAM country byte (0x202019)\n"
             "  --record FILE          pipe live frames to ffmpeg (*.avi=mjpeg, else x264)\n"
@@ -167,8 +170,11 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
             opts->record_path = argv[++i];
             continue;
         }
-        if (streq(argv[i], "--practice") || streq(argv[i], "--skip-to-practice")) {
+        if (streq(argv[i], "--practice") || streq(argv[i], "--skip-to-practice")
+            || streq(argv[i], "--lakeside")) {
             opts->skip_practice = 1;
+            if (streq(argv[i], "--lakeside"))
+                opts->skip_course = 3;
             opts->viewer_boot = 1;
             viewer = 1;
             if (!opts->headless)

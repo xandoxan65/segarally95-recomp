@@ -58,7 +58,11 @@ int i960_lift_boot_screen_run(const track_viewer_opts_t *opts)
             (dump && *dump) ? ", dump=" : "",
             (dump && *dump) ? dump : "",
             opts->live_view ? " (live SDL — close window to exit)" : "",
-            opts->skip_practice ? " (--practice desert / Delta MT)" : "");
+            opts->skip_practice
+                ? (opts->skip_course == 3
+                       ? " (--lakeside practice / Delta MT)"
+                       : " (--practice desert / Delta MT)")
+                : "");
 
     if (opts->live_view) {
         set_live_view_env(1);
@@ -82,6 +86,12 @@ int i960_lift_boot_screen_run(const track_viewer_opts_t *opts)
 
     if (opts->skip_practice)
         set_boot_env("I960_HOST_SKIP_PRACTICE", "1");
+    if (opts->skip_practice && opts->skip_course != 0) {
+        char course_env[16];
+
+        snprintf(course_env, sizeof(course_env), "%d", opts->skip_course);
+        set_boot_env("I960_HOST_COURSE", course_env);
+    }
 
     if (opts->aspect && *opts->aspect)
         set_boot_env("I960_HOST_ASPECT", opts->aspect);
