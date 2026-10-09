@@ -485,7 +485,7 @@ after_mode:
         g0 = node;
         g1 = span_base;
         game_start_race_obj_road_span((u32)g0, (u32)g1, 0);
-        /* @0x2C02C–0x2C438 still unlifted (TGP + call 0x2EEF0). */
+        /* @0x2C02C–0x2C438 body and call 0x2EEF0 are still unlifted. */
     } else if (e8 == 3u) {
         car_frame_e8_mode3(node, span_base, wrap_n, frame);
     }

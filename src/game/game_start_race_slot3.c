@@ -179,36 +179,57 @@ void game_start_race_slot3(u32 arg0, u32 arg1, u32 arg2)
     pair_hi = i960_ld_u32(I960_WORKRAM, 0x20aca0u + (ac98 << 3) + 4u, 0);
 
     if (pair_lo == c8) {
-        if ((i32)pair_hi <= 0) {
-            /* @0x1D3E8 path when r4==0 from ldl pair — pair_hi is r5. */
-            u32 c0 = i960_ld_u32(I960_WORKRAM, 0x2020c0, 0);
-            u32 lim = c0 * 0x12cu + 0x118u;
+        /* cmpible 0,r5 → 0x1D3E8 when pair_hi >= 0. Negative hi is the finish. */
+        if ((i32)pair_hi >= 0) {
+            u32 add_bonus = 0u;
 
-            c4 = i960_ld_u32(I960_WORKRAM, 0x2140c4, 0);
-            if ((i32)c4 > (i32)lim) {
-                game_start_race_hud_lap_time(0, 0, 0);
-                i960_call_rom(0x1c940);
-                ac98 = i960_ld_u32(I960_WORKRAM, 0x20ac98, 0);
+            if (pair_lo != 0u) {
+                /* @0x1D470: nonzero checkpoint id. Advance, then maybe add. */
+                u32 prev = ac98;
+
                 i960_st_u32(I960_WORKRAM, 0x20a760, 0, 1u);
                 i960_st_u32(I960_WORKRAM, 0x20aea0, 0, 31u + 29u);
                 timer = i960_ld_u32(I960_WORKRAM, 0x20a560, 0);
-                i960_st_u32(I960_WORKRAM, 0x20ac98, 0, ac98 + 1u);
-                i960_st_u32(I960_WORKRAM, 0x20a770, 0, ac98);
-                i960_st_u32(I960_WORKRAM, 0x20a774, 0, ac98);
-                if ((i32)timer > 0
-                    || i960_ld_u32(I960_WORKRAM, 0x20a758, 0) != 0u) {
-                    if ((i32)pair_hi >= 0) {
-                        u32 b0b0 = i960_ld_u32(I960_WORKRAM, 0x20b0b0, 0);
+                i960_st_u32(I960_WORKRAM, 0x20ac98, 0, prev + 1u);
+                i960_st_u32(I960_WORKRAM, 0x20a770, 0, prev);
+                i960_st_u32(I960_WORKRAM, 0x20a774, 0, prev);
+                if ((i32)timer < 0
+                    || i960_ld_u32(I960_WORKRAM, 0x20a758, 0) != 0u)
+                    add_bonus = 1u;
+            } else {
+                /* @0x1D3E8: id 0 also waits on 0x2140c4 and records the split. */
+                u32 c0 = i960_ld_u32(I960_WORKRAM, 0x2020c0, 0);
+                u32 lim = c0 * 0x12cu + 0x118u;
 
-                        i960_st_u32(I960_WORKRAM, 0x20b0b0, 0,
-                                    b0b0 + pair_hi);
-                        g0 = 0x7fu;
-                        g1 = 0x7fu;
-                        tile_texture_descriptor_apply(0x7fu, 0x7fu, 0);
-                        g0 = 4;
-                        comm_palette_index_call(4);
-                    }
+                c4 = i960_ld_u32(I960_WORKRAM, 0x2140c4, 0);
+                if ((i32)c4 > (i32)lim) {
+                    u32 prev;
+
+                    game_start_race_hud_lap_time(0, 0, 0);
+                    i960_call_rom(0x1c940);
+                    ac98 = i960_ld_u32(I960_WORKRAM, 0x20ac98, 0);
+                    prev = ac98;
+                    i960_st_u32(I960_WORKRAM, 0x20a760, 0, 1u);
+                    i960_st_u32(I960_WORKRAM, 0x20aea0, 0, 31u + 29u);
+                    timer = i960_ld_u32(I960_WORKRAM, 0x20a560, 0);
+                    i960_st_u32(I960_WORKRAM, 0x20ac98, 0, prev + 1u);
+                    i960_st_u32(I960_WORKRAM, 0x20a770, 0, prev);
+                    i960_st_u32(I960_WORKRAM, 0x20a774, 0, prev);
+                    if ((i32)timer < 0
+                        || i960_ld_u32(I960_WORKRAM, 0x20a758, 0) != 0u)
+                        add_bonus = 1u;
                 }
+            }
+            /* @0x1D4C8: cmpibge 0,r5 skips; add only when the bonus is > 0. */
+            if (add_bonus != 0u && (i32)pair_hi > 0) {
+                u32 b0b0 = i960_ld_u32(I960_WORKRAM, 0x20b0b0, 0);
+
+                i960_st_u32(I960_WORKRAM, 0x20b0b0, 0, b0b0 + pair_hi);
+                g0 = 0x7fu;
+                g1 = 0x7fu;
+                tile_texture_descriptor_apply(0x7fu, 0x7fu, 0);
+                g0 = 4;
+                comm_palette_index_call(4);
             }
         } else {
             /* @0x1D31C: progress toward slot4 (sub=8). */

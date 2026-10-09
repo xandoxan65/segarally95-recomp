@@ -84,17 +84,15 @@ void game_start_race_slot1(u32 arg0, u32 arg1, u32 arg2)
     } else if ((i32)counter <= 50) {
         /*
          * @0x1CDB4–0x1CE0C: blend only while counter ≤ 50 (addo 31,19).
-         *   step = (0x20aea8 * counter) / 60
-         *   half = 0x20b0b0 / 60
-         *   0x20b0b0 = step + 0x20aad8
-         *   q = (step + snap) / 60
-         *   if q != half → call 0x26140(g0=0x94)
+         *   g7 is still 50 (addo 31,19). mulo then divo: step = aea8*counter/50.
+         *   Then g7 = 60. half = span/60. span = step + 0x20aad8.
+         *   q = (step + snap) / 60. if q != half → call 0x26140(g0=0x94).
          */
         u32 aea8 = i960_ld_u32(I960_WORKRAM, 0x20aea8, 0);
         u32 snap = i960_ld_u32(I960_WORKRAM, 0x20aad8, 0);
         u32 cur = i960_ld_u32(I960_WORKRAM, 0x20b0b0, 0);
         u32 sixty = 60u;
-        u32 step = (aea8 * counter) / sixty;
+        u32 step = (aea8 * counter) / 50u;
         i32 half = (i32)cur / (i32)sixty;
         u32 blended = step + snap;
         i32 q = (i32)blended / (i32)sixty;

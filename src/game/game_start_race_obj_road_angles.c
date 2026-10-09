@@ -148,14 +148,20 @@ void game_start_race_obj_road_angles(void *arg0, u32 arg1, u32 arg2)
     b1 = fsub(fmul(sx, c2), fmul(c0, sz));
     b2 = fsub(fmul(c0, sy), fmul(sx, c1));
 
-    /* @0x2F710–0x2F728: |b0|; atanr b2,|b0| → yaw @ ang+4; stq basis→0x40. */
+    /*
+     * @0x2F6C8 b skips to @0x2F710. Live path:
+     *   notbit 31, r8, g4     g4 = −b0
+     *   atanr r10, g4, r15    yaw = atan2(−b0, b2)
+     * Clearing the sign (abs) folds both turn directions onto +yaw, so
+     * 0x2a(−sin, cos) faces away from a +X span step.
+     */
     frame_st(frame, 0x40, b0);
     frame_st(frame, 0x44, b1);
     frame_st(frame, 0x48, b2);
     frame_st(frame, 0x60, b0);
     frame_st(frame, 0x64, b1);
     frame_st(frame, 0x68, b2);
-    yaw = atan2_bits(b2, b0 & ~0x80000000u);
+    yaw = atan2_bits(b2, b0 ^ 0x80000000u);
     i960_st_u32(I960_ABS, ang, 4, yaw);
 
     /* @0x2F72C–0x2F750: 0x25; 0x2a(-yaw); 0x2c(basis @ 0x40). */

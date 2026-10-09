@@ -12,6 +12,7 @@
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "i960_host.h"
+#include "model2_rom.h"
 
 #include "lift_syms.h"
 
@@ -642,7 +643,13 @@ static u32 integrate_force_core(u32 node, u32 bank, u8 *frame)
         u32 yaw_n;
 
         lane = (lane >> 2) & 28u;
-        table = i960_ld_u32(I960_WORKRAM, 0x5cabe0u + lane, 0);
+        /*
+         * @0x2D730 ld 0x5cabe0(g4). ROM words are 1.0, 0.95, 0.9, 0.85,
+         * 0.8, 0.7, 0.6, 0.5. The image has no store to this address.
+         * Same mirror read as the 0x5cabc0 lane word in car_frame: the
+         * host CGM stage @ 0x5CA000 covers these bytes.
+         */
+        table = model2_workram_mirror_u32(0x5cabe0u + lane);
         gain = scale * 1000.0 * coeff * integrate_f64(table);
         abs_side_pi = fabs(side_pi);
         if (abs_side_pi > i960_rifl_read(0x54442d18u, 0x3ff921fbu))

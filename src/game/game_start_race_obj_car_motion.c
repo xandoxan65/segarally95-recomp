@@ -16,6 +16,7 @@
 #include "i960_mem.h"
 #include "i960_host.h"
 #include "model2_hw.h"
+#include "model2_rom.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -200,8 +201,12 @@ void game_start_race_obj_car_motion(u32 arg0, u32 arg1, u32 arg2)
         for (u32 lane = 0; lane < 3u; ++lane)
             cross[lane] = i960_mmio_read_u32(0x884000u);
 
-        table_weight =
-            i960_ld_u32(I960_WORKRAM, 0x5cabb0u + i * 4u, 0);
+        /*
+         * @0x3067C lda 0x5cabb0,r6; @0x306B0 ld (r6); @0x30794 r6+=4.
+         * Two iterations, so words +0 and +4. ROM weights; no store
+         * in the image targets this address.
+         */
+        table_weight = model2_workram_mirror_u32(0x5cabb0u + i * 4u);
         weighted = motion_add(weighted, motion_mul(table_weight, cross[1]));
         weight = motion_add(weight, table_weight);
     }

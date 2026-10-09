@@ -1,10 +1,9 @@
-/* Race HUD tachometer digits @ 0x1E500 — per-frame from hud_frame.
+/* Race HUD countdown digits @ 0x1E500 — per-frame from hud_frame.
  *
- * ROM: ld 0x20b0b0 → lda 0x3b(g4) → divi 60, clamp 99. 0x20b0b0 is the
- * lap-span integer (slot0/1/3), not engine speed, so that formula parks
- * at 00. Analog needle math @ 0x3A5A0 is 60×60×|0x20b0b4| / 1.885
- * (same float the speedo uses). Digit path uses that product as `raw`
- * then the ROM /60 + 0x3b rounding.
+ * ld 0x20b0b0, lda 0x3b(g4), divi by 60, clamp to 99. 0x20b0b0 is the
+ * lap-span frame count (seeded from the course bonus table, ticked in
+ * lap_tick, refilled at checkpoints). Displayed seconds are
+ * (span + 59) / 60. Speed lives in 0x20b0b4 and is the speedo, not this.
  *
  * Draws/erases tens and ones into batch 0x20ac7c at (0x20aebc, 0x20aec0)
  * when 0x20aeb8 changes.
@@ -14,7 +13,6 @@
 
 #include "i960_lift.h"
 #include "lift_log.h"
-#include "i960_fp.h"
 #include "i960_mem.h"
 
 #include "lift_syms.h"
@@ -23,7 +21,6 @@
 
 void game_start_race_hud_tach(u32 arg0, u32 arg1, u32 arg2)
 {
-    u32 raw;
     i32 v;
     u32 slot_base;
     u32 x;
@@ -41,17 +38,12 @@ void game_start_race_hud_tach(u32 arg0, u32 arg1, u32 arg2)
         logged = 1;
     }
 
-    /* @0x3A5A0: 60*60*|20b0b4|; @0x1E50C: lda 0x3b then /60. */
+    /* @0x1E500: ld 0x20b0b0; addo 60; lda 0x3b; divi; cmpible r4,99. */
     {
-        double mag = i960_u32_to_f64(i960_ld_u32(I960_WORKRAM, 0x20b0b4, 0));
+        i32 span = (i32)i960_ld_u32(I960_WORKRAM, 0x20b0b0, 0);
 
-        if (mag < 0.0)
-            mag = -mag;
-        mag *= i960_u32_to_f64(0x42700000u);
-        mag *= i960_u32_to_f64(0x42700000u);
-        raw = (u32)mag;
+        v = (span + 0x3b) / 60;
     }
-    v = (i32)((raw + 0x3bu) / 60u);
     if (v > 0x63)
         v = 0x63;
 
