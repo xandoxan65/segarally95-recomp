@@ -634,6 +634,8 @@ static int dispatch(model2_geo_dl_ctx_t *ctx, int cmd, u32 opcode, model2_geo_st
         return index + 1;
     case 0x08:
     case 0x18:
+        geo->z_adjust = words[index];
+        return index + 1;
     case 0x10:
     case 0x1E:
         if (!require(index, 1, end_limit))

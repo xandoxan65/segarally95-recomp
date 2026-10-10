@@ -39,6 +39,7 @@ typedef struct {
     u16 center_sel;
     model2_texture_param_t texture_parameters[32];
     float coef_table[32];
+    u32 z_adjust;
 } model2_geo_state_t;
 
 enum { MODEL2_MESH_MAX_INDICES = 4 };
@@ -65,6 +66,7 @@ typedef struct {
     u8 tex_flags; /* MODEL2_GEO_TEX_* */
     /* Race tach needle @ catalog 0x02865130 / ROM 0x1a7a: identity HUD pose. */
     u8 hud_overlay;
+    u32 z_adjust;
 } model2_mesh_prim_t;
 
 /* Copy texture fields after add_prim (append / filtered merge). */

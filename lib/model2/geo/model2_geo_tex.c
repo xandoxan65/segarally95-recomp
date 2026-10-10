@@ -147,6 +147,7 @@ void model2_mesh_apply_texture_state(model2_mesh_collector_t *mesh, model2_tex_s
         p->patch_y = 0;
         p->patch_w = 32;
         p->patch_h = 32;
+        p->z_adjust = geo->z_adjust;
         for (k = 0; k < MODEL2_MESH_MAX_INDICES; k++) {
             p->u[k] = 0.f;
             p->v[k] = 0.f;
@@ -160,17 +161,17 @@ void model2_mesh_apply_texture_state(model2_mesh_collector_t *mesh, model2_tex_s
         }
 
         /*
-         * Renderer/lumabase from texheader (MAME model2_3d_render). Colorbase:
-         * header words[3]>>6 when non-zero; else polygon attr>>16 (srally solid
-         * body/spoiler headers often store 0 there — Celica high-Y solids use
-         * attr pens 276/148/…; header-only → palram[0x1000] black).
-         * Renderer 0 = solid (not textured); do not force textured on those.
-         */
+        * Renderer/lumabase extracted from texheader (MAME model2_3d_render).
+        * Colorbase: always sourced from (hdr.words[3] >> 6).
+        * Note: Do not fallback to (p->attr >> 16) when colorbase == 0;
+        * rendering issues (black polygons) were resolved by fixing polygon orientation/culling.
+        * Renderer 0 = solid (not textured); do not force texturing on those.
+        */
         renderer = (u8)((hdr.words[0] >> 13) & 3u);
         lumabase = ((u32)(hdr.words[1] & 0xffu)) << 7;
         colorbase = (hdr.words[3] >> 6) & 0x3ffu;
-        if (colorbase == 0u)
-            colorbase = (p->attr >> 16) & 0x3ffu;
+        //if (colorbase == 0u)
+        //    colorbase = (p->attr >> 16) & 0x3ffu;
 
         p->colorbase = (u16)colorbase;
         p->lumabase = (u16)lumabase;

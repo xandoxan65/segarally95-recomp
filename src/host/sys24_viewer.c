@@ -68,6 +68,7 @@ static u32 *g_record_bgra; /* native 496×384 BGRA for async ffmpeg pipe */
 static u32 g_tile_sig;
 static int g_tile_valid;
 static int g_tile_tex_dirty;
+static int g_bottom_tile_has_content;
 static const u32 *g_tile_upload_src; /* source for next GL tex upload */
 #endif
 
@@ -1043,7 +1044,7 @@ static void draw_geo_layer(int vx, int vy, int vw, int vh,
     glEnable(GL_SCISSOR_TEST);
     glScissor(vx, vy, vw, vh);
     if (clear_color) {
-        glClearColor(0.04f, 0.05f, 0.08f, 1.f);
+        glClearColor(0.42f, 0.52f, 0.82f, 1.f); // Closer to sky color (multiplied original values by 10)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     } else {
         /* Over tile BG — reset depth+stencil so fillmap starts clean. */
@@ -1285,6 +1286,18 @@ int sys24_viewer_flip(const u8 *tile_map, const u8 *char_ram, const u8 *palram)
                         sys24_tile_draw_layers_rgb32(
                             g_tile, g_bitmap, palram, 0x00000000u,
                             SYS24_PASS_BOTTOM);
+                            { // Check if tile was drawn -> if not, clean screen in blue. Need to be optimize ?
+                                size_t px;
+                                size_t npix = (size_t)SYS24_FB_WIDTH * (size_t)SYS24_FB_HEIGHT;
+
+                                g_bottom_tile_has_content = 0;
+                                for (px = 0; px < npix; px++) {
+                                    if (g_bitmap[px] & 0x00ffffffu) {
+                                        g_bottom_tile_has_content = 1;
+                                        break;
+                                    }
+                                }
+                            }
                         if (g_bitmap_pri)
                             sys24_tile_draw_layers_rgb32(
                                 g_tile, g_bitmap_pri, palram, 0x00000000u,
@@ -1460,7 +1473,7 @@ int sys24_viewer_flip(const u8 *tile_map, const u8 *char_ram, const u8 *palram)
             } else {
                 draw_tile_quad(hdx, hdy, hdww, hdhh, 0, 0, g_bitmap);
                 draw_geo_layer(gdx, gdy, gdww, gdhh,
-                               have_hwproj ? &hwproj : NULL, have_hwproj, 0);
+                               have_hwproj ? &hwproj : NULL, have_hwproj, !g_bottom_tile_has_content);
                 if (g_bitmap_pri)
                     draw_tile_quad(hdx, hdy, hdww, hdhh, 0, 0, g_bitmap_pri);
             }

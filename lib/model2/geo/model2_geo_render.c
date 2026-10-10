@@ -221,6 +221,8 @@ static void emit_tri_mat(model2_geo_tri_mat_t *mats, unsigned *ti,
     /* pad: bit0 = HUD overlay, bit1 = MAME front (n·p >= 0). */
     m->pad = (u8)((p->hud_overlay ? 1u : 0u) | (p->front ? 2u : 0u));
     m->z_sort = z_sort;
+    m->z_adjust = p->z_adjust;
+    m->cull_face = ((p->attr >> 17) & 1u) == 0;
     (*ti)++;
 }
 

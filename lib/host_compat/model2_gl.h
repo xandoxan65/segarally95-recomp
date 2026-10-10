@@ -11,6 +11,11 @@
 #if defined(__APPLE__)
 #include <OpenGL/gl.h>
 #else
+#if defined(__linux__)
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/gl.h>
+//#include <GL/glext.h>
+#else
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -18,6 +23,7 @@
 #include <windows.h>
 #endif
 #include <GL/gl.h>
+#endif
 #endif
 
 #ifndef GL_CLAMP_TO_EDGE
@@ -82,6 +88,12 @@ typedef void (GLAPIENTRY *PFN_model2_glUniform1i)(GLint, GLint);
 typedef void (GLAPIENTRY *PFN_model2_glUniform1f)(GLint, GLfloat);
 typedef void (GLAPIENTRY *PFN_model2_glUniform4f)(GLint, GLfloat, GLfloat, GLfloat, GLfloat);
 typedef void (GLAPIENTRY *PFN_model2_glUniform2f)(GLint, GLfloat, GLfloat);
+typedef void (GLAPIENTRY *PFN_model2_glBindAttribLocation)(GLuint, GLuint, const GLchar *);
+typedef GLint (GLAPIENTRY *PFN_model2_glGetAttribLocation)(GLuint, const GLchar *);
+typedef void (GLAPIENTRY *PFN_model2_glEnableVertexAttribArray)(GLuint);
+typedef void (GLAPIENTRY *PFN_model2_glDisableVertexAttribArray)(GLuint);
+typedef void (GLAPIENTRY *PFN_model2_glVertexAttribPointer)(GLuint, GLint, GLenum, GLboolean,
+                                                           GLsizei, const void *);
 
 extern PFN_model2_glCreateShader model2_glCreateShader;
 extern PFN_model2_glShaderSource model2_glShaderSource;
@@ -102,6 +114,11 @@ extern PFN_model2_glUniform1i model2_glUniform1i;
 extern PFN_model2_glUniform1f model2_glUniform1f;
 extern PFN_model2_glUniform4f model2_glUniform4f;
 extern PFN_model2_glUniform2f model2_glUniform2f;
+extern PFN_model2_glBindAttribLocation model2_glBindAttribLocation;
+extern PFN_model2_glGetAttribLocation model2_glGetAttribLocation;
+extern PFN_model2_glEnableVertexAttribArray model2_glEnableVertexAttribArray;
+extern PFN_model2_glDisableVertexAttribArray model2_glDisableVertexAttribArray;
+extern PFN_model2_glVertexAttribPointer model2_glVertexAttribPointer;
 
 #define glCreateShader model2_glCreateShader
 #define glShaderSource model2_glShaderSource
@@ -122,6 +139,11 @@ extern PFN_model2_glUniform2f model2_glUniform2f;
 #define glUniform1f model2_glUniform1f
 #define glUniform4f model2_glUniform4f
 #define glUniform2f model2_glUniform2f
+#define glBindAttribLocation model2_glBindAttribLocation
+#define glGetAttribLocation model2_glGetAttribLocation
+#define glEnableVertexAttribArray model2_glEnableVertexAttribArray
+#define glDisableVertexAttribArray model2_glDisableVertexAttribArray
+#define glVertexAttribPointer model2_glVertexAttribPointer
 
 #endif /* _WIN32 */
 
