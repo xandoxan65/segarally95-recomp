@@ -136,6 +136,7 @@ void model2_mesh_prim_copy_tex(model2_mesh_prim_t *dst, const model2_mesh_prim_t
         dst->u[k] = src->u[k];
         dst->v[k] = src->v[k];
     }
+    dst->z_adjust = src->z_adjust; // Unsure: should this come from model2_geo_state_t instead?
 }
 
 void model2_mesh_collector_append(model2_mesh_collector_t *dst,

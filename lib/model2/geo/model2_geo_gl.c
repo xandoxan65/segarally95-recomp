@@ -1,12 +1,15 @@
 /* Direct host OpenGL textured geo — no MAME rasterizer port.
  *
- * MAME model2rd fillmap (operator contract). Host phases:
- *   A) solids — GL depth seed
- *   B) opaque-tex — fillmap + depth write (car panels; desert slot8 renderer-2
- *      sky sheets share fillmap so they do not z-fight)
- *   C) cutouts — fillmap after stencil clear (logos/shadows/sky cutouts;
- *      LEQUAL vs A/B depth so they cannot steal car pixels)
- * Emit every exportable prim (both sides) until host n·p matches hardware.
+ * Single pass, coarse Model 2 draw-priority sort: triangles are ranked by
+ * z_sort/z_adjust (see float_to_zval), HUD polys first, last-submitted wins
+ * on ties, then encoded as a per-vertex depth key (aDepthKey) written to
+ * gl_Position.z so GL depth test (LESS) reproduces front-to-back ordering.
+ * Each triangle is emitted exactly once — no separate solid/opaque/cutout
+ * passes. Polygons are single-sided by default; a per-material cull_face
+ * attribute flags the ones that must render double-sided (GL_CULL_FACE is
+ * toggled per batch accordingly). A secondary sort by material
+ * (sheet/flags/cull/patch) groups the draw into GL state-coherent batches
+ * without changing this priority order.
  */
 
 #include "model2_geo_gl.h"
@@ -71,15 +74,22 @@ static GLint g_loc_patch = -1;   /* xy = origin, zw = size (pixels) */
 static GLint g_loc_mirror = -1;  /* x = mirror_x, y = mirror_y */
 static GLint g_loc_sort_depth = -1;
 static GLint g_loc_solid_depth = -1;
+static GLint g_loc_stipple = -1;
+static GLint g_loc_solid_stipple = -1;
 
 static lut_cache_ent_t g_lut_cache[LUT_CACHE_CAP];
 static unsigned g_lut_cache_n;
 static unsigned g_lut_cache_clock;
 
-static unsigned *g_order;
+static unsigned *g_order; 
 static unsigned *g_elem; /* 3 indices per tri, remapped for DrawElements */
 static unsigned char *g_solid_rgb; /* 9 bytes per tri (only used for solids) */
 static unsigned g_scratch_tris;
+static unsigned *g_prio_idx; /* Scratch buffer for priority sorting (HUD/zval/arrival) */
+static unsigned *g_rank;     /* g_rank[original_triangle] = unique priority rank (0..ntris-1) */
+static float *g_depth_keys = NULL; // Scratch buffer for keys
+
+static const model2_geo_tri_mat_t *g_prio_mats;
 
 static GLuint compile_shader(GLenum type, const char *src)
 {
@@ -101,15 +111,20 @@ static GLuint compile_shader(GLenum type, const char *src)
 static int build_program(void)
 {
     /* macOS legacy GL defaults to GLSL 1.10 (no int bitops) — stay float-only. */
+    // Customize gl_Position to control draw order in code to simulate Model 2    
     static const char *vs =
+        "attribute float aDepthKey;\n"
         "void main() {\n"
         "  gl_TexCoord[0] = gl_MultiTexCoord0;\n"
-        "  gl_Position = ftransform();\n"
+        "  vec4 pos = ftransform();\n"
+        "  pos.z = (aDepthKey * 2.0 - 1.0) * pos.w;\n"
+        "  gl_Position = pos;\n"
         "}\n";
     /*
      * Texcoords are patch-local pixels (pu/8). Mirror + wrap match MAME
      * fetch_bilinear_texel (nearest), then sample absolute sheet UV.
      * Sheet R8 is baked with get_texel(0,0,sx,sy) including the x>=1024 fold.
+     * Real Model 2 has no alpha blending: this 1-in-2 pixel dither fakes 50% translucency exactly like the arcade hardware.
      */
     static const char *fs =
         "uniform sampler2D uSheet;\n"
@@ -117,6 +132,7 @@ static int build_program(void)
         "uniform float uCutout;\n"
         "uniform vec4 uPatch;\n"
         "uniform vec2 uMirror;\n"
+        "uniform float uStipple;\n"
         "float wrap_coord(float pix, float size, float mirror) {\n"
         "  float s = max(size, 1.0);\n"
         "  float cell = floor(pix / s);\n"
@@ -128,6 +144,10 @@ static int build_program(void)
         "  return floor(local);\n"
         "}\n"
         "void main() {\n"
+        "  if (uStipple > 0.5) {\n"
+        "    float chk = mod(floor(gl_FragCoord.x) + floor(gl_FragCoord.y), 2.0);\n"
+        "    if (chk < 1.0) discard;\n"
+        "  }\n"
         "  float u0 = wrap_coord(gl_TexCoord[0].x, uPatch.z, uMirror.x);\n"
         "  float v0 = wrap_coord(gl_TexCoord[0].y, uPatch.w, uMirror.y);\n"
         "  vec2 st = vec2((uPatch.x + u0 + 0.5) / 2048.0,\n"
@@ -137,7 +157,29 @@ static int build_program(void)
         "  if (uCutout > 0.5 && c.a < 0.5) discard;\n"
         "  gl_FragColor = vec4(c.rgb, 1.0);\n"
         "}\n";
-    GLuint v, f;
+
+
+    /* SHADER UNICOLOR */
+    static const char *vs_solid =
+        "attribute float aDepthKey;\n"
+        "void main() {\n"
+        "  gl_FrontColor = gl_Color;\n"
+        "  vec4 pos = ftransform();\n"
+        "  pos.z = (aDepthKey * 2.0 - 1.0) * pos.w;\n"
+        "  gl_Position = pos;\n"
+        "}\n";
+
+    static const char *fs_solid =
+        "uniform float uStipple;\n"
+        "void main() {\n"
+        "  if (uStipple > 0.5) {\n"
+        "    float chk = mod(floor(gl_FragCoord.x) + floor(gl_FragCoord.y), 2.0);\n"
+        "    if (chk < 1.0) discard;\n"
+        "  }\n"
+        "  gl_FragColor = gl_Color;\n"
+        "}\n";
+
+    GLuint v, f, vs_s, fs_s;
     GLint ok = 0;
 
     v = compile_shader(GL_VERTEX_SHADER, vs);
@@ -152,26 +194,32 @@ static int build_program(void)
     g_prog = glCreateProgram();
     glAttachShader(g_prog, v);
     glAttachShader(g_prog, f);
+    glBindAttribLocation(g_prog, 1, "aDepthKey");
     glLinkProgram(g_prog);
     glDeleteShader(v);
     glDeleteShader(f);
-    glGetProgramiv(g_prog, GL_LINK_STATUS, &ok);
-    if (!ok) {
-        char log[512];
-        glGetProgramInfoLog(g_prog, (GLsizei)sizeof(log), NULL, log);
-        fprintf(stderr, "lift: geo shader link: %s\n", log);
-        glDeleteProgram(g_prog);
-        g_prog = 0;
-        return -1;
-    }
     g_loc_sheet = glGetUniformLocation(g_prog, "uSheet");
     g_loc_lut = glGetUniformLocation(g_prog, "uLut");
     g_loc_cutout = glGetUniformLocation(g_prog, "uCutout");
     g_loc_patch = glGetUniformLocation(g_prog, "uPatch");
     g_loc_mirror = glGetUniformLocation(g_prog, "uMirror");
-    g_loc_sort_depth = -1;
-    g_solid_prog = 0;
-    g_loc_solid_depth = -1;
+    g_loc_sort_depth = glGetAttribLocation(g_prog, "aDepthKey");
+    g_loc_stipple = glGetUniformLocation(g_prog, "uStipple");
+
+    vs_s = compile_shader(GL_VERTEX_SHADER, vs_solid);
+    fs_s = compile_shader(GL_FRAGMENT_SHADER, fs_solid);
+    if (vs_s && fs_s) {
+        g_solid_prog = glCreateProgram();
+        glAttachShader(g_solid_prog, vs_s);
+        glAttachShader(g_solid_prog, fs_s);
+        glBindAttribLocation(g_solid_prog, 1, "aDepthKey");
+        glLinkProgram(g_solid_prog);
+        glDeleteShader(vs_s);
+        glDeleteShader(fs_s);
+        g_loc_solid_depth = glGetAttribLocation(g_solid_prog, "aDepthKey");
+        g_loc_solid_stipple = glGetUniformLocation(g_solid_prog, "uStipple");
+    }
+
     return 0;
 }
 
@@ -221,7 +269,9 @@ static int mat_same(const model2_geo_tri_mat_t *a, const model2_geo_tri_mat_t *b
 {
     if (a->colorbase != b->colorbase || a->lumabase != b->lumabase
         || a->sheet != b->sheet || a->flags != b->flags || a->luma != b->luma
-        || a->pad != b->pad)
+        )
+        return 0;
+    if (a->cull_face != b->cull_face) // Polygons need to show 2 faces
         return 0;
     if ((a->flags & MODEL2_GEO_TEX_TEXTURED) == 0)
         return 1;
@@ -238,9 +288,11 @@ static int ensure_scratch(unsigned ntris)
         while (cap < ntris)
             cap *= 2u;
         g_order = (unsigned *)realloc(g_order, cap * sizeof(unsigned));
+        g_prio_idx = (unsigned *)realloc(g_prio_idx, cap * sizeof(unsigned));
+        g_rank = (unsigned *)realloc(g_rank, cap * sizeof(unsigned));
         g_elem = (unsigned *)realloc(g_elem, cap * 3u * sizeof(unsigned));
         g_solid_rgb = (unsigned char *)realloc(g_solid_rgb, cap * 9u);
-        if (!g_order || !g_elem || !g_solid_rgb)
+        if (!g_order || !g_elem || !g_solid_rgb || !g_prio_idx || !g_rank )
             return -1;
         g_scratch_tris = cap;
     }
@@ -251,7 +303,7 @@ static const model2_geo_tri_mat_t *g_sort_mats;
 
 /*
  * MAME model2_state::float_to_zval (model2_v.cpp) — z_adjust from GEO 0x08;
- * attract bootstrap does not emit 0x08, so adjust stays 0.
+ * z_adjust increases floatval precision (real Model 2 stores z_sort on 16 bits).
  */
 static unsigned float_to_zval(float floatval, u32 z_adjust)
 {
@@ -284,39 +336,59 @@ static unsigned float_to_zval(float floatval, u32 z_adjust)
     return 0xffffu;
 }
 
+static int prio_order_cmp(const void *a, const void *b)
+{
+    unsigned ia = *(const unsigned *)a;
+    unsigned ib = *(const unsigned *)b;
+    const model2_geo_tri_mat_t *ma = &g_prio_mats[ia];
+    const model2_geo_tri_mat_t *mb = &g_prio_mats[ib];
 
+    /* HUD first */
+    if ((ma->pad & 1u) != (mb->pad & 1u))
+        return ((ma->pad & 1u) < (mb->pad & 1u)) ? 1 : -1;
+
+    /* Custom z_sort -> Model 2 has lower Z precision than modern architectures */
+    unsigned za = float_to_zval(ma->z_sort, ma->z_adjust);
+    unsigned zb = float_to_zval(mb->z_sort, mb->z_adjust);
+    if (za != zb) return (za < zb) ? -1 : 1;
+
+    /* prioritize last generate */
+    if (ia != ib) return (ia > ib) ? -1 : 1;
+    return 0;
+}
+
+/*
+ * Material state sorting for OpenGL pipeline optimization only.
+ * Independent of polygon draw order.
+ */
 static int mat_order_cmp(const void *a, const void *b)
 {
     unsigned ia = *(const unsigned *)a;
     unsigned ib = *(const unsigned *)b;
     const model2_geo_tri_mat_t *ma = &g_sort_mats[ia];
     const model2_geo_tri_mat_t *mb = &g_sort_mats[ib];
-    unsigned za = float_to_zval(ma->z_sort, 0u);
-    unsigned zb = float_to_zval(mb->z_sort, 0u);
-    int ca = (ma->flags & MODEL2_GEO_TEX_CUTOUT) ? 1 : 0;
-    int cb = (mb->flags & MODEL2_GEO_TEX_CUTOUT) ? 1 : 0;
-    int ta = (ma->flags & MODEL2_GEO_TEX_TEXTURED) ? 1 : 0;
-    int tb = (mb->flags & MODEL2_GEO_TEX_TEXTURED) ? 1 : 0;
-    /* solid=0, opaque-tex=1, cutout=2 */
-    int ka = ta ? (ca ? 2 : 1) : 0;
-    int kb = tb ? (cb ? 2 : 1) : 0;
+   
+    if (ma->sheet != mb->sheet)
+        return (ma->sheet < mb->sheet) ? -1 : 1;
 
-    /* HUD tach needle after world so overlay depth-disable can punch the hole. */
-    if ((ma->pad & 1u) != (mb->pad & 1u))
-        return ((ma->pad & 1u) < (mb->pad & 1u)) ? -1 : 1;
+    if (ma->flags != mb->flags)
+        return (ma->flags < mb->flags) ? -1 : 1;
 
-    if (ka != kb)
-        return (ka < kb) ? -1 : 1;
+    if (ma->cull_face != mb->cull_face)
+        return (ma->cull_face < mb->cull_face) ? -1 : 1;
 
-    /*
-     * Nearer float_to_zval first. Attract eye-Z often saturates zval to 0xffff
-     * (far sky + cars in one bucket); then compare raw polygon_z so nearer
-     * car opaque-tex still sorts before far env sheets.
-     */
-    if (za != zb)
-        return (za < zb) ? -1 : 1;
-    if (za == 0xffffu && ma->z_sort != mb->z_sort)
-        return (ma->z_sort < mb->z_sort) ? -1 : 1;
+    if (ma->colorbase != mb->colorbase)
+        return (ma->colorbase < mb->colorbase) ? -1 : 1;
+    if (ma->lumabase != mb->lumabase)
+        return (ma->lumabase < mb->lumabase) ? -1 : 1;
+    if (ma->luma != mb->luma)
+        return (ma->luma < mb->luma) ? -1 : 1;
+
+    if (ma->patch_x != mb->patch_x) return (ma->patch_x < mb->patch_x) ? -1 : 1;
+    if (ma->patch_y != mb->patch_y) return (ma->patch_y < mb->patch_y) ? -1 : 1;
+    if (ma->patch_w != mb->patch_w) return (ma->patch_w < mb->patch_w) ? -1 : 1;
+    if (ma->patch_h != mb->patch_h) return (ma->patch_h < mb->patch_h) ? -1 : 1;
+
     /* Last-submitted first (MAME list prepend). */
     if (ia != ib)
         return (ia > ib) ? -1 : 1;
@@ -403,10 +475,15 @@ void model2_geo_gl_tex_shutdown(void)
     free(g_order);
     free(g_elem);
     free(g_solid_rgb);
+    free(g_prio_idx);
+    free(g_rank);
+    free(g_depth_keys);
     g_prog = 0;
     g_solid_prog = 0;
     g_sheet_tex[0] = g_sheet_tex[1] = 0;
     g_order = NULL;
+    g_prio_idx = NULL;
+    g_rank = NULL;
     g_elem = NULL;
     g_solid_rgb = NULL;
     g_scratch_tris = 0;
@@ -456,7 +533,7 @@ static void draw_solid_elements(const float *xyzuv, const unsigned char *rgb_by_
                                 const model2_geo_tri_mat_t *m)
 {
     (void)m;
-    glUseProgram(0);
+    glUseProgram(g_solid_prog);
     /* Textured path leaves LUT on TEXTURE1 — must clear both units or fixed-
      * function solids sample the LUT and go black (logos still look fine). */
     glActiveTexture(GL_TEXTURE1);
@@ -474,6 +551,7 @@ static void draw_solid_elements(const float *xyzuv, const unsigned char *rgb_by_
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+/* Main polygon loop (Model 2 logic: front-to-back, no overdraw). */
 void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
                                  const model2_geo_tri_mat_t *mats, unsigned ntris)
 {
@@ -537,13 +615,34 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
         glEnd();
         return;
     }
-
+    
     /* Palram/colorxlat/lumaram change after CGM — drop stale LUTs. */
     {
         u32 psig = model2_palette_state_sig();
         if (psig != g_lut_palette_sig) {
             lut_cache_clear();
             g_lut_palette_sig = psig;
+        }
+    }
+
+    /* Custom per-triangle depth key encoding the Model 2 draw-priority algorithm:
+    * coarse global z-sort first, last-submitted-wins on ties (rank -> NDC z). */
+    for (t = 0; t < ntris; t++) { g_prio_idx[t] = t; }
+    g_prio_mats = mats;
+    qsort(g_prio_idx, ntris, sizeof(unsigned), prio_order_cmp);
+
+    g_depth_keys = (float *)realloc(g_depth_keys, nverts * sizeof(float));
+    {
+        float inv_ntris = 1.0f / (float)ntris;
+        for (t = 0; t < ntris; t++) {
+            unsigned src = g_prio_idx[t];
+            unsigned base = src * 3u;
+            float dk = (float)t * inv_ntris;
+
+            g_rank[src] = t;
+            g_depth_keys[base + 0u] = dk;
+            g_depth_keys[base + 1u] = dk;
+            g_depth_keys[base + 2u] = dk;
         }
     }
 
@@ -597,137 +696,47 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
     if (!g_ready) {
         draw_solid_elements(xyzuv, rgb_by_vert, g_elem, ntris * 3u, &mats[0]);
         return;
-    }
+    }    
     upload_sheets();
     glDisable(GL_BLEND);
-    /*
-     * A: solids depth. B: opaque-tex fillmap + depth write (cars + slot8
-     * renderer-2 sky). C: stencil cleared; cutout fillmap + LEQUAL (logos /
-     * shadows / sky cutouts) without stealing B's depth-seeded pixels.
-     */
-    {
-        unsigned world_end = 0;
-        unsigned solid_end = 0;
-        unsigned opaque_tex_end = 0;
 
-        while (world_end < ntris && !(mats[g_order[world_end]].pad & 1u))
-            world_end++;
-        while (solid_end < world_end
-               && !(mats[g_order[solid_end]].flags & MODEL2_GEO_TEX_TEXTURED))
-            solid_end++;
-        opaque_tex_end = solid_end;
-        while (opaque_tex_end < world_end
-               && (mats[g_order[opaque_tex_end]].flags & MODEL2_GEO_TEX_TEXTURED)
-               && !(mats[g_order[opaque_tex_end]].flags & MODEL2_GEO_TEX_CUTOUT))
-            opaque_tex_end++;
+    glDisable(GL_STENCIL_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LESS);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
-        glClear(GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-        glStencilMask(0xffu);
+    glCullFace(GL_FRONT);
+
+    /* Feed the custom per-vertex depth key used to fake Model 2 draw order. */
+    if (g_loc_sort_depth >= 0) {
+        glEnableVertexAttribArray(g_loc_sort_depth);
+        glVertexAttribPointer(g_loc_sort_depth, 1, GL_FLOAT, GL_FALSE, 0, g_depth_keys);
+    }
+
+
+    /* Only one pass for rendering */
+    run_start = 0;
+    for (t = 1; t <= ntris; t++) {
+        int same = (t < ntris) && mat_same(&mats[g_order[run_start]], &mats[g_order[t]]);
+        if (same)
+            continue;
         {
-            static int logged_stencil;
-            GLint bits = 0;
+            const model2_geo_tri_mat_t *batch = &mats[g_order[run_start]];
+            unsigned nidx = (t - run_start) * 3u;
+            const unsigned *elem = g_elem + run_start * 3u;
 
-            if (!logged_stencil) {
-                glGetIntegerv(GL_STENCIL_BITS, &bits);
-                lift_log(
-                        "lift: geo fillmap stencil_bits=%d solid=%u "
-                        "opaque_tex=%u cutout=%u\n",
-                        (int)bits, solid_end,
-                        opaque_tex_end > solid_end ? opaque_tex_end - solid_end : 0u,
-                        world_end > opaque_tex_end ? world_end - opaque_tex_end : 0u);
-                logged_stencil = 1;
-            }
-        }
+            int stip = (batch->flags & MODEL2_GEO_TEX_CHECKER) ? 1 : 0;
+            if (g_loc_stipple >= 0) glUniform1f(g_loc_stipple, stip ? 1.f : 0.f);
 
-        /* --- A: solids --- */
-        glDisable(GL_STENCIL_TEST);
-        glEnable(GL_DEPTH_TEST);
-        glDepthMask(GL_TRUE);
-        glDepthFunc(GL_LESS);
-        run_start = 0;
-        for (t = 1; t <= solid_end; t++) {
-            int same = (t < solid_end)
-                && mat_same(&mats[g_order[run_start]], &mats[g_order[t]]);
-            if (same)
-                continue;
-            draw_solid_elements(xyzuv, rgb_by_vert, g_elem + run_start * 3u,
-                                (t - run_start) * 3u, &mats[g_order[run_start]]);
+            if (batch->cull_face) { glEnable(GL_CULL_FACE); }
+            else { glDisable(GL_CULL_FACE); }
+
+            if (batch->flags & MODEL2_GEO_TEX_TEXTURED)
+                draw_tex_elements(xyzuv, elem, nidx, batch);
+            else
+                draw_solid_elements(xyzuv, rgb_by_vert, elem, nidx, batch);
             batches++;
-            run_start = t;
-        }
-
-        /* --- B: opaque-tex fillmap + depth write --- */
-        glEnable(GL_DEPTH_TEST);
-        glDepthMask(GL_TRUE);
-        glDepthFunc(GL_LEQUAL);
-        glEnable(GL_STENCIL_TEST);
-        glStencilFunc(GL_EQUAL, 0, 0xff);
-        glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-        run_start = solid_end;
-        for (t = solid_end + 1u; t <= opaque_tex_end; t++) {
-            int same = (t < opaque_tex_end)
-                && mat_same(&mats[g_order[run_start]], &mats[g_order[t]]);
-            if (same)
-                continue;
-            {
-                const model2_geo_tri_mat_t *batch = &mats[g_order[run_start]];
-                unsigned nidx = (t - run_start) * 3u;
-                const unsigned *elem = g_elem + run_start * 3u;
-
-                if (batch->flags & MODEL2_GEO_TEX_TEXTURED)
-                    draw_tex_elements(xyzuv, elem, nidx, batch);
-                batches++;
-            }
-            run_start = t;
-        }
-
-        /* --- C: cutouts on fresh fillmap, depth test vs A/B --- */
-        glClear(GL_STENCIL_BUFFER_BIT);
-        glDepthMask(GL_FALSE);
-        glDepthFunc(GL_LEQUAL);
-        glEnable(GL_STENCIL_TEST);
-        glStencilFunc(GL_EQUAL, 0, 0xff);
-        glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-        run_start = opaque_tex_end;
-        for (t = opaque_tex_end + 1u; t <= world_end; t++) {
-            int same = (t < world_end)
-                && mat_same(&mats[g_order[run_start]], &mats[g_order[t]]);
-            if (same)
-                continue;
-            {
-                const model2_geo_tri_mat_t *batch = &mats[g_order[run_start]];
-                unsigned nidx = (t - run_start) * 3u;
-                const unsigned *elem = g_elem + run_start * 3u;
-
-                if (batch->flags & MODEL2_GEO_TEX_TEXTURED)
-                    draw_tex_elements(xyzuv, elem, nidx, batch);
-                batches++;
-            }
-            run_start = t;
-        }
-
-        /* pad / HUD overlays after world */
-        run_start = world_end;
-        for (t = world_end + 1u; t <= ntris; t++) {
-            int same = (t < ntris)
-                && mat_same(&mats[g_order[run_start]], &mats[g_order[t]]);
-            if (same)
-                continue;
-            {
-                const model2_geo_tri_mat_t *batch = &mats[g_order[run_start]];
-                unsigned nidx = (t - run_start) * 3u;
-                const unsigned *elem = g_elem + run_start * 3u;
-
-                glDisable(GL_STENCIL_TEST);
-                glDisable(GL_DEPTH_TEST);
-                glDepthMask(GL_FALSE);
-                if (batch->flags & MODEL2_GEO_TEX_TEXTURED)
-                    draw_tex_elements(xyzuv, elem, nidx, batch);
-                else
-                    draw_solid_elements(xyzuv, rgb_by_vert, elem, nidx, batch);
-                batches++;
-            }
             run_start = t;
         }
     }
@@ -738,10 +747,13 @@ void model2_geo_gl_draw_textured(const float *xyzuv, unsigned nverts,
         logged_batches = 1;
     }
 
+
+    if (g_loc_sort_depth >= 0)
+        { glDisableVertexAttribArray(g_loc_sort_depth); }
+
     glDisable(GL_STENCIL_TEST);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
-    glDepthFunc(GL_LEQUAL);
     glUseProgram(0);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, 0);

@@ -36,6 +36,8 @@ typedef struct {
     u8 luma;
     u8 pad;
     float z_sort;
+    u32 z_adjust;
+    u8 cull_face;
 } model2_geo_tri_mat_t;
 
 /*
