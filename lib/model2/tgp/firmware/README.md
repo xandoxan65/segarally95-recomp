@@ -32,7 +32,7 @@ ISA reference: MAME `mb86233d.cpp` (MB86233/34 family). Not Ghidra.
 ## FIFO dispatch
 
 After reset (`brif alw #0x10` @ PC0), main loop `@ 0x70` reads FIFO (`rf1`),
-validates the duplicated opcode byte, then:
+validates the opcode (repeated three times: `(op<<23)|(op<<8)|op`), then:
 
 ```text
 lid #0xaf
@@ -100,8 +100,10 @@ normal+divisor (bit7 set) — not host-invented.
 
 | Region | ROMs | Role |
 |--------|------|------|
-| `copro_tgp_tables` | opr-14742a/43a | sin/inv/isqrt |
+| `copro_tgp_tables` | opr-14742a/43a | sin-cos / atan / 1/x / 1/sqrt (four 16K-word tables) |
 | `copro_data` | mpr-17754/55 | collision / height (TGP `rf3` bank `0x800000`) |
 
 Host: `model2_tgp_fw_load_copro_data_default()` reads
 `out/heightmaps/copro_data_deinterleaved.bin` on first `0x52`.
+
+Full command table and where `model2_tgp.c` differs: `notes/tgp_firmware_commands.md`.
