@@ -31,6 +31,11 @@ PFN_model2_glUniform1i model2_glUniform1i;
 PFN_model2_glUniform1f model2_glUniform1f;
 PFN_model2_glUniform4f model2_glUniform4f;
 PFN_model2_glUniform2f model2_glUniform2f;
+PFN_model2_glBindAttribLocation model2_glBindAttribLocation;
+PFN_model2_glGetAttribLocation model2_glGetAttribLocation;
+PFN_model2_glEnableVertexAttribArray model2_glEnableVertexAttribArray;
+PFN_model2_glDisableVertexAttribArray model2_glDisableVertexAttribArray;
+PFN_model2_glVertexAttribPointer model2_glVertexAttribPointer;
 
 static void *gl_get_proc(const char *name)
 {
@@ -80,6 +85,11 @@ int model2_gl_load(void)
     LOAD(model2_glUniform1f, "glUniform1f");
     LOAD(model2_glUniform4f, "glUniform4f");
     LOAD(model2_glUniform2f, "glUniform2f");
+    LOAD(model2_glBindAttribLocation, "glBindAttribLocation");
+    LOAD(model2_glGetAttribLocation, "glGetAttribLocation");
+    LOAD(model2_glEnableVertexAttribArray, "glEnableVertexAttribArray");
+    LOAD(model2_glDisableVertexAttribArray, "glDisableVertexAttribArray");
+    LOAD(model2_glVertexAttribPointer, "glVertexAttribPointer");
 #undef LOAD
 
     if (!ok)

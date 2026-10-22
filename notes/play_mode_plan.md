@@ -49,8 +49,5 @@ No invented deadzone (`0x80` rest). Then re-check vs ROM `pitch_smooth` / `a8`.
 No lifted AT writer. Pin `214354` (AT vs MT) and host shifter vs `0x202044`
 (also camera view). Unbind Q/E from view for AT playtests.
 
-**5. Celica roof yellow / flash**  
-Solid colorbase / luma / fillmap — last; does not block 1–4.
-
 Do not “fix” spectators by dropping the practice gate, or steering with a
 deadzone, or sky-bounce with look-at.

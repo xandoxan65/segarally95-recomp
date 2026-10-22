@@ -8,6 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#ifdef _WIN32
+#include <direct.h>
+#define mkdir(dir, mode) _mkdir(dir)
+#endif
 
 #ifndef MODEL2_ROM_DEFAULT_MAINCPU
 #define MODEL2_ROM_DEFAULT_MAINCPU "out/i960/maincpu_deinterleaved.bin"
