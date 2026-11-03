@@ -9,6 +9,7 @@
 // @rom 0x2f520 +0x378 game_start_race_obj_road_angles
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
@@ -65,11 +66,11 @@ static u32 fsub(u32 a, u32 b)
     return (u32)i960_f64_to_u32(i960_u32_to_f64(a) - i960_u32_to_f64(b));
 }
 
-/* MAME atanr src1,src2,dst → atan2(src2, src1). */
+/* MAME atanr src1,src2,dst → m2_atan2(src2, src1). */
 static u32 atan2_bits(u32 src1, u32 src2)
 {
     return (u32)i960_f64_to_u32(
-        atan2(i960_u32_to_f64(src2), i960_u32_to_f64(src1)));
+        m2_atan2(i960_u32_to_f64(src2), i960_u32_to_f64(src1)));
 }
 
 void game_start_race_obj_road_angles(void *arg0, u32 arg1, u32 arg2)
@@ -166,7 +167,7 @@ void game_start_race_obj_road_angles(void *arg0, u32 arg1, u32 arg2)
     /*
      * @0x2F6C8 b skips to @0x2F710. Live path:
      *   notbit 31, r8, g4     g4 = −b0
-     *   atanr r10, g4, r15    yaw = atan2(−b0, b2)
+     *   atanr r10, g4, r15    yaw = m2_atan2(−b0, b2)
      * Clearing the sign (abs) folds both turn directions onto +yaw, so
      * 0x2a(−sin, cos) faces away from a +X span step.
      */

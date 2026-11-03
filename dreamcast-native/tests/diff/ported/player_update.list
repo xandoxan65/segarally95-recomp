@@ -1,0 +1,10 @@
+# Ported routines checked by wrap_player_update.c: lifted function name, source file under src/.
+geo_view_input_gate game/geo_view_input_gate.c
+geo_view_latch_apply game/geo_view_latch_apply.c
+geo_view_mode_apply game/geo_view_mode_apply.c
+geo_view_trig_scale game/geo_view_trig_scale.c
+geo_view_pitch_blend game/geo_view_pitch_blend.c
+geo_view_sin_mix game/geo_view_sin_mix.c
+geo_view_sqrt_mix_a game/geo_view_sqrt_mix_a.c
+geo_view_sqrt_mix_b game/geo_view_sqrt_mix_b.c
+geo_view_frame_update game/geo_view_frame_update.c

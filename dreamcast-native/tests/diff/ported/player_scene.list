@@ -1,0 +1,10 @@
+# Ported routines checked by wrap_player_scene.c: lifted function name, source file under src/.
+geo_view_scene_prep game/geo_view_scene_prep.c
+geo_view_copro_vec_push game/geo_view_copro_vec_push.c
+geo_view_mode_latch game/geo_view_mode_latch.c
+geo_view_pitch_smooth game/geo_view_pitch_smooth.c
+geo_view_fov_scale game/geo_view_fov_scale.c
+geo_view_object_bind game/geo_view_object_bind.c
+geo_view_scene_epilogue game/geo_view_scene_epilogue.c
+geo_rng_u8 game/geo_rng_u8.c
+geo_view_scene_frame game/geo_view_scene_frame.c

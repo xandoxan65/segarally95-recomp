@@ -117,7 +117,10 @@ if(MSVC)
     _CRT_NONSTDC_NO_WARNINGS)
 else()
   target_compile_options(segamod2_common INTERFACE
-    -Wall -Wextra -Wno-unused-parameter)
+    -Wall -Wextra -Wno-unused-parameter
+    # No FMA contraction: the reference must give the same bits on every host
+    # and on the Dreamcast port it checks (docs/dreamcast-port.md).
+    -ffp-contract=off)
 endif()
 
 if(WIN32)
@@ -229,6 +232,13 @@ add_executable(segamod2
 )
 target_link_libraries(segamod2 PRIVATE
   model2_geo model2_hw model2_tgp model2_snd host_compat)
+
+# --- Dreamcast port: differential checks (dreamcast-native/tests/diff) -------
+option(SEGAMOD2_DIFF "Build segamod2-diff (native port vs lifted, per routine)" ON)
+if(SEGAMOD2_DIFF AND NOT MSVC)
+  add_subdirectory(dreamcast-native/tests/diff)
+  add_subdirectory(dreamcast-native/tests/native_run)
+endif()
 
 # --- ROM extract ------------------------------------------------------------
 if(DEFINED ENV{SEGAMOD2_ROM_DIR} AND NOT "$ENV{SEGAMOD2_ROM_DIR}" STREQUAL "")

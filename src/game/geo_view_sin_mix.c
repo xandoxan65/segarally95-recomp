@@ -1,9 +1,10 @@
-/* Sin mix @ 0x38A18: g0 + sin(g0 * pi) * scale (scale from 0x5D6688/8C).
+/* Sin mix @ 0x38A18: g0 + m2_sin(g0 * pi) * scale (scale from 0x5D6688/8C).
  * Copro marker 0x0A801515 (host sin). bal from geo_view_frame_update.
  * source: disasm/maincpu/maincpu_038a18_b4.asm */
 // @rom 0x38a18 +0xb4 geo_view_sin_mix
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 

@@ -13,6 +13,7 @@
 // @rom 0x1f1d0 +0x810 game_start_race_cam_seed
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
@@ -249,7 +250,7 @@ seed_tail:
         yaw_f = f32_bits(-(t_val + i960_rifl_read(0x54442d18u, 0x400921fbu)));
         two_t_f = f32_bits(two_t);
 
-        /* @0x1F528–0x1F570: push, yaw(-(t+π)), sin(2t). */
+        /* @0x1F528–0x1F570: push, yaw(-(t+π)), m2_sin(2t). */
         i960_mmio_write_u32(0x884000, 0x10002020u);
         i960_mmio_write_u32(0x884000, 0x15002a2au);
         i960_mmio_write_u32(0x884000, yaw_f);
@@ -310,7 +311,7 @@ seed_tail:
                              + i960_rifl_read(0x66666666u, 0x3fe66666u));
         i960_st_u32(I960_WORKRAM, 0x202210, 0, eye_y);
 
-        /* @0x1F700–0x1F820: sin(2t) → pitch/yaw compose + xform (−√½,−√½,+√½).
+        /* @0x1F700–0x1F820: m2_sin(2t) → pitch/yaw compose + xform (−√½,−√½,+√½).
          * eye.z uses first-xform z (g2 from ldq @ 0x120); 0x2c feed goes to PRG. */
         {
             u32 ang2 = f32_bits(two_t);

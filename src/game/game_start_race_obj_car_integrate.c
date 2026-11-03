@@ -8,6 +8,7 @@
 // @rom 0x2cce0 +0x196c game_start_race_obj_car_integrate
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
@@ -654,7 +655,7 @@ static u32 integrate_force_core(u32 node, u32 bank, u8 *frame)
             if (fabs(cross) > 1.0)
                 angle = 0.0;
             else
-                angle = asin(cross);
+                angle = m2_asin(cross);
             if (fabs(angle) > 1.5707963267948966)
                 angle = signbit(angle) ? -1.5707963267948966
                                        : 1.5707963267948966;

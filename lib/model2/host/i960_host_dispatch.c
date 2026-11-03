@@ -198,12 +198,16 @@ void i960_host_request_halt(void)
     g_dispatch_halt = 1;
 }
 
+void i960_host_export_course_tick(void); /* src/host/lift_export_course.c */
+
 void i960_host_frame_present(void)
 {
     const char *dump;
     static unsigned s_boot_dump_frame;
 
     i960_host_skip_practice_tick();
+    i960_host_race_trace_tick();
+    i960_host_export_course_tick();
 
     if (sys24_viewer_wanted()) {
         /* Live: SDL present runs inside geo_vsync_wait (one swap per frame). */

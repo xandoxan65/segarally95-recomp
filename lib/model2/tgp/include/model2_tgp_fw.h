@@ -2,6 +2,8 @@
 #ifndef MODEL2_TGP_FW_H
 #define MODEL2_TGP_FW_H
 
+#include <stddef.h>
+
 #include "model2_tgp_types.h"
 
 #ifdef __cplusplus
@@ -26,6 +28,17 @@ void model2_tgp_fw_slot_clear(u32 arg_shifted);
  * Returns 1 if handled (including miss→17×0); 0 if no push fn.
  */
 int model2_tgp_fw_emit_53(u32 arg_shifted, void (*out_push)(u32));
+
+/* The bound copro data words (NULL before loading). */
+const u32 *model2_tgp_fw_copro_words(unsigned *count);
+
+/* Called with each copro data word address the firmware reads, when set (NULL by default). */
+extern void (*model2_tgp_fw_read_trace)(u32 word_addr);
+
+/* Road slot state for differential checks (model2_tgp_state_save). */
+size_t model2_tgp_fw_state_size(void);
+void model2_tgp_fw_state_save(void *dst);
+void model2_tgp_fw_state_load(const void *src);
 
 #ifdef __cplusplus
 }

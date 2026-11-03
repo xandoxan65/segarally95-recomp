@@ -8,6 +8,7 @@
 // @rom 0x43790 +0x98 game_start_race_desert_node_init
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 
@@ -27,7 +28,7 @@ void game_start_race_desert_node_init(u32 arg0, u32 arg1, u32 arg2)
 
     /* @0x437A0–0x437D0: sqrtr → sinr → divrl (double imm / sin). */
     s = sqrt(i960_u32_to_f64(0x3d798ae7u));
-    s = sin(s);
+    s = m2_sin(s);
     d = i960_rifl_read(0x684bda13u, 0x3feda12fu);
     if (s != 0.0)
         d = d / s;

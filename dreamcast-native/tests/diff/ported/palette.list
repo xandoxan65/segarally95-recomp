@@ -1,0 +1,6 @@
+# The palette interrupt's fade state machine (wrap_palette.c): lifted function name, source file under src/.
+geo_palette_irq_frame game/geo_palette_irq_frame.c
+geo_palette_mode0_promote game/geo_palette_mode0_promote.c
+geo_palette_mode4_fade game/geo_palette_mode4_fade.c
+geo_palette_fade_step game/geo_palette_fade_step.c
+geo_palette_fade_commit game/geo_palette_fade_commit.c

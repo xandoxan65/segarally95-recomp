@@ -3,6 +3,7 @@
 // @rom 0x3ed20 +0x168 geo_attract_pen_angle_push
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
@@ -79,10 +80,10 @@ u32 geo_attract_pen_angle_push(u32 arg0, u32 arg1, u32 arg2)
     d = ld_obj_u32(obj, 8);
     obj_y = ld_obj_u32(obj, 4);
     /* Disasm: subr → g7=wr.x−obj.x, g6=wr.z−obj.z; atanr g6,g7,g6.
-     * MAME atanr = atan2(src2, src1) → atan2(x_delta, z_delta). */
+     * MAME atanr = m2_atan2(src2, src1) → m2_atan2(x_delta, z_delta). */
     f7 = (float)(i960_u32_to_f64(a) - i960_u32_to_f64(b));
     f6 = (float)(i960_u32_to_f64(c) - i960_u32_to_f64(d));
-    fang = atan2f(f7, f6);
+    fang = m2_atan2f(f7, f6);
     fang += (float)i960_u32_to_f64(ld_obj_u32(obj18, 4));
 
     {

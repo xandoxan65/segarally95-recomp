@@ -1,0 +1,9 @@
+# Ported routines checked by wrap_player_input.c: lifted function name, source file under src/.
+geo_view_matrix_prep game/geo_view_matrix_prep.c
+geo_view_angle_frac game/geo_view_angle_frac.c
+geo_view_control_byte_apply game/geo_view_control_byte_apply.c
+geo_view_matrix_mode_gate game/geo_view_matrix_mode_gate.c
+geo_view_matrix_slot_fill game/geo_view_matrix_slot_fill.c
+geo_view_matrix_slot_init game/geo_view_matrix_slot_init.c
+geo_view_matrix_slot_step game/geo_view_matrix_slot_step.c
+geo_view_scene_apply game/geo_view_scene_apply.c

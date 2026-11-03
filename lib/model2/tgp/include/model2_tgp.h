@@ -7,6 +7,8 @@
 #ifndef MODEL2_TGP_H
 #define MODEL2_TGP_H
 
+#include <stddef.h>
+
 #include "model2_tgp_types.h"
 #include "model2_tgp_host.h"
 
@@ -26,6 +28,8 @@ void model2_tgp_fifo_reset_counts(void);
  */
 void model2_tgp_arm_course_handle(u32 handle);
 void model2_tgp_arm_52_block(const u32 words[9]);
+/* The slot word the next 0x60/0x61 takes, where the i960 stores it behind the cursor (car_motion). */
+void model2_tgp_arm_ext_selector(u32 word);
 
 /* Process one COPRO FIFO write (log ring + HLE). */
 void model2_tgp_fifo_write(u32 value);
@@ -48,6 +52,11 @@ const u32 *model2_tgp_words(unsigned *out_count);
 unsigned model2_tgp_copy_range(unsigned start_abs, unsigned end_abs, u32 *dst,
                                unsigned dst_cap);
 void model2_tgp_dump(const char *path);
+
+/* Whole HLE state (FIFOs, matrices, road slots) for differential checks. */
+size_t model2_tgp_state_size(void);
+void model2_tgp_state_save(void *dst);
+void model2_tgp_state_load(const void *src);
 
 #ifdef __cplusplus
 }

@@ -134,6 +134,11 @@ int model2_io_consume_test_menu_request(void);
 /* Battery-backed SRAM @ 0x01D00000 (16 KiB). */
 #define MODEL2_BACKUP_SRAM_BASE 0x01D00000u
 #define MODEL2_BACKUP_SRAM_SIZE 0x00004000u
+
+/* Backing array of the comm board shared RAM (0x01A00000, 16 KiB, mirrored at
+ * +0x10000), for the Dreamcast port's differential checks. */
+#define MODEL2_M2COMM_SHARE_SIZE 0x00004000u
+u8 *model2_m2comm_share_ptr(void);
 u8 *model2_backup_sram_ptr(void);
 
 /* Read workram cell, falling back to maincpu ROM mirror @ vaddr - 0x0059F000. */

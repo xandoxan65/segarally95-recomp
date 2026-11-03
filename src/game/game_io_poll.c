@@ -95,6 +95,8 @@ void game_io_poll(u32 arg0, u32 arg1, u32 arg2)
      * 0x01C00202 so probe leaves gate 0 — but keyboard coin/start are Port B
      * IN0, so always take the 315-5649 body.
      */
+    /* Scripted race inputs (--inputs) replace the mux before the sample. */
+    i960_host_race_inputs_apply();
     game_io_poll_315_5649();
 
     /*

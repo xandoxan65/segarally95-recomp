@@ -18,6 +18,7 @@
 #include "model2_rom.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SKIP_STEER_DESERT    0x40u
 #define SKIP_STEER_DELTA     0xE0u
@@ -82,10 +83,22 @@ void i960_host_skip_practice_idle_wheel(void)
     skip_force_idle_wheel();
 }
 
+/* The practice course in 0x20a8c4: desert 0 unless I960_HOST_PRACTICE_COURSE names another. */
+static u32 skip_practice_course(void)
+{
+    static int s_course = -1;
+
+    if (s_course < 0) {
+        const char *env = getenv("I960_HOST_PRACTICE_COURSE");
+        s_course = env ? (int)strtoul(env, NULL, 0) : 0;
+    }
+    return (u32)s_course;
+}
+
 static void skip_force_practice_flags(void)
 {
     i960_st_u32(I960_WORKRAM, 0x202230, 0, 1u);
-    i960_st_u32(I960_WORKRAM, 0x20a8c4, 0, 0);
+    i960_st_u32(I960_WORKRAM, 0x20a8c4, 0, skip_practice_course());
     i960_st_u32(I960_WORKRAM, 0x2139cc, 0, 0);
     i960_st_u32(I960_WORKRAM, 0x2139d0, 0, 1u);
     /*

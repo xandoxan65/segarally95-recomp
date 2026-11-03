@@ -316,6 +316,11 @@ const u8 *model2_tile_char_ptr(void)
     return model2_tile_char;
 }
 
+u8 *model2_m2comm_share_ptr(void)
+{
+    return model2_m2comm_share;
+}
+
 static const u8 *m2comm_share_at(u32 vaddr)
 {
     u32 rel;

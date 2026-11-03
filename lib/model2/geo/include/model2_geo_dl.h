@@ -21,6 +21,11 @@ typedef struct {
     u32 obc;
     unsigned vertex_count;
     int mode;
+    /* Object command texture pointers and the model-view matrix the GEO state
+     * applied to this draw (3x4 column layout, T at 9..11) — capture/export. */
+    u32 tpa;
+    u32 tha;
+    float matrix[12];
 } model2_drawn_object_t;
 
 typedef struct {
@@ -69,6 +74,15 @@ int model2_geo_dl_run_stream_state(model2_geo_dl_ctx_t *ctx, const u32 *words,
                                    unsigned n_words, const float *per_word_mtx,
                                    unsigned mtx_words, model2_geo_state_t *state,
                                    model2_geo_dl_result_t *out);
+
+/*
+ * Decode one object command (tpa, tha, oba, obc) in the object's own space:
+ * identity matrix, unit focus, GEO mode `mode`, texture fields attached. The
+ * mesh is appended to out->mesh and the draw recorded in out->objects (as the
+ * stream runner would). Used by the course export (src/host/lift_export_course.c).
+ */
+int model2_geo_dl_decode_object(model2_geo_dl_ctx_t *ctx, u32 tpa, u32 tha, u32 oba,
+                                u32 obc, int mode, model2_geo_dl_result_t *out);
 
 float model2_fixed24_to_float(u32 word);
 int model2_is_polygon_rom_oba(u32 oba);

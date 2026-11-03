@@ -3,6 +3,7 @@
 // @rom 0x34f40 +0x22b4 geo_view_scene_frame
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
@@ -696,9 +697,9 @@ void geo_view_scene_frame(void * arg0, void * arg1, void * arg2)
         g4 = i960_f64_to_u32(sqrt(i960_u32_to_f64(g4)));
         if (i960_u32_to_f64(g4) == i960_u32_to_f64(+0.0))
             goto L_00035a3c;
-        /* divr g4,fp1,g4 → fp1/g4; atanr +1.0,g4,g5 → atan2(g4, 1.0). */
+        /* divr g4,fp1,g4 → fp1/g4; atanr +1.0,g4,g5 → m2_atan2(g4, 1.0). */
         g4 = i960_f64_to_u32((fp1) / (i960_u32_to_f64(g4)));
-        g5 = i960_f64_to_u32(atan(i960_u32_to_f64(g4)));
+        g5 = i960_f64_to_u32(m2_atan(i960_u32_to_f64(g4)));
         goto L_00035a54;
 
     L_00035a3c:

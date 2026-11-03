@@ -68,6 +68,16 @@ void track_viewer_cli_help(void)
             "                         16:9: wider 3D HFOV; HUD/tiles stay centered 4:3\n"
             "                         also: I960_HOST_ASPECT=16:9\n"
             "  --practice             skip attract/menus → desert practice START (Delta MT)\n"
+            "  --course NAME          practice course: desert (default), forest, mountain, lakeside\n"
+            "                         also: I960_HOST_PRACTICE_COURSE=0..3\n"
+            "\n"
+            "Race reference (Dreamcast lockstep, docs/dreamcast-port.md):\n"
+            "  --frames N             halt after N ticks (I960_HOST_MAX_FRAMES)\n"
+            "  --inputs FILE          scripted race inputs: race_tick steer accel brake gear\n"
+            "  --trace-race FILE      one row per tick: phase, inputs, player car node\n"
+            "  --snapshot FILE@TICK   RAM and TGP state after race tick TICK\n"
+            "  --export-course FILE   course pack (scenery + car meshes) captured while racing\n"
+            "                         (I960_HOST_EXPORT_COURSE; dreamcast-native/tools/export_course.sh)\n"
             "                         also: I960_HOST_SKIP_PRACTICE=1\n"
             "  --region NAME          cabinet region: international (default), japan, or us\n"
             "                         overrides the NVRAM country byte (0x202019)\n"
@@ -170,6 +180,19 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
             opts->record_path = argv[++i];
             continue;
         }
+        if (streq(argv[i], "--course") && i + 1 < argc) {
+            static const char *const names[] = {"desert", "forest", "mountain", "lakeside"};
+            const char *name = argv[++i];
+            unsigned c;
+            for (c = 0; c < 4u && !streq(name, names[c]); c++)
+                ;
+            if (c == 4u) {
+                fprintf(stderr, "--course: desert, forest, mountain or lakeside\n");
+                return -1;
+            }
+            cli_setenv("I960_HOST_PRACTICE_COURSE", c == 0u ? "0" : c == 1u ? "1" : c == 2u ? "2" : "3");
+            continue;
+        }
         if (streq(argv[i], "--practice") || streq(argv[i], "--skip-to-practice")) {
             opts->skip_practice = 1;
             opts->viewer_boot = 1;
@@ -221,6 +244,26 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         }
         if (streq(argv[i], "--geo-summary") && i + 1 < argc) {
             opts->geo_summary = argv[++i];
+            continue;
+        }
+        if (streq(argv[i], "--frames") && i + 1 < argc) {
+            cli_setenv("I960_HOST_MAX_FRAMES", argv[++i]);
+            continue;
+        }
+        if (streq(argv[i], "--inputs") && i + 1 < argc) {
+            cli_setenv("I960_HOST_RACE_INPUTS", argv[++i]);
+            continue;
+        }
+        if (streq(argv[i], "--trace-race") && i + 1 < argc) {
+            cli_setenv("I960_HOST_TRACE_RACE", argv[++i]);
+            continue;
+        }
+        if (streq(argv[i], "--export-course") && i + 1 < argc) {
+            cli_setenv("I960_HOST_EXPORT_COURSE", argv[++i]);
+            continue;
+        }
+        if (streq(argv[i], "--snapshot") && i + 1 < argc) {
+            cli_setenv("I960_HOST_SNAPSHOT", argv[++i]);
             continue;
         }
         if (streq(argv[i], "--log-lift")) {
