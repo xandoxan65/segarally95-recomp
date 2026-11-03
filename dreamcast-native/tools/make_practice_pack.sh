@@ -7,14 +7,20 @@
 # view from race tick 300) are what PRACTICE_REPLAY=1 drives.
 #
 #   dreamcast-native/tools/make_practice_pack.sh [BUILD_DIR [OUT]]   default build, dreamcast-native/pc/practice.pak
+#
+# COURSE=forest (or mountain, lakeside; default desert) makes the pack for that course; the console then draws it
+# from pc/<course>.course, .attach, .light and .title (export_course.sh with the same COURSE).
 set -e
 cd "$(dirname "$0")/../.." >/dev/null
 BUILD=${1:-build}
 OUT=${2:-dreamcast-native/pc/practice.pak}
 case $OUT in /*) ;; *) OUT=$PWD/$OUT ;; esac
-T=build/practice_pack
 TOOLS=dreamcast-native/tools
 START=${START:-t147}
+COURSE=${COURSE:-desert}
+case $COURSE in desert) c=0 ;; forest) c=1 ;; mountain) c=2 ;; lakeside) c=3 ;; *) echo "COURSE: desert, forest, mountain or lakeside"; exit 2 ;; esac
+export I960_HOST_PRACTICE_COURSE=$c
+T=build/practice_pack; [ "$COURSE" = desert ] || T=${T}_$COURSE
 mkdir -p "$T"
 cmake --build "$BUILD" -j8 --target segamod2 sr-native-run >/dev/null
 
@@ -24,11 +30,11 @@ I960_HOST_NVRAM="$T/nv.yaml" I960_HOST_EXPORT_AUTOPILOT=1 I960_HOST_EXPORT_AUTOP
     "$BUILD/segamod2" --headless --practice --frames 6000 --export-course "$T/autopilot.course" \
     --snapshot "$T/start.snap@$START" >/dev/null 2>&1
 # the title card before the countdown (absolute ticks 26..146, static: composed from the 2D layer in its middle),
-# next to the pack as <dir>/desert.title (tools/make_title_image.py)
+# next to the pack as <dir>/<course>.title (tools/make_title_image.py)
 rm -f "$T/nv_title.yaml"
 I960_HOST_NVRAM="$T/nv_title.yaml" "$BUILD/segamod2" --headless --practice --frames 200 \
     --snapshot "$T/title.snap@t100" >/dev/null 2>&1
-python3 "$TOOLS/make_title_image.py" "$T/title.snap" "$(dirname "$OUT")/desert.title" --frames 121
+python3 "$TOOLS/make_title_image.py" "$T/title.snap" "$(dirname "$OUT")/$COURSE.title" --frames 121
 # the replay's controls: the autopilot, VIEW CHANGE held at race ticks 300..305 (the behind view)
 awk '/^#/ {print; next} {v = ($1 >= 300 && $1 < 306) ? 1 : 0; print $1, $2, $3, $4, $5, v}' "$T/autopilot.inputs" \
     > "$T/replay.inputs"

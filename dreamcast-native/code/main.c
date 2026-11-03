@@ -32,7 +32,7 @@ typedef struct {
     sr_course_t course;
     sr_actors_t actors; /* n = 0 without /pc/desert.attach */
     int hud2d;          /* the arcade's HUD (2D layer) is drawn: the text stand-in only shows the debug lines */
-    uint32_t title_len, title_frames; /* the title card's frames (/pc/desert.title), and those still to show */
+    uint32_t title_len, title_frames; /* the title card's frames (/pc/<course>.title), and those still to show */
     uint32_t gear;
     sr_render_stats_t stats;
     uint64_t render_us_total, render_us_max, tris_total, cycles_xform, cycles_emit, verts_total;
@@ -390,22 +390,36 @@ static uint8_t *load_file(const char *path, size_t *size) {
     return data;
 }
 
-static int load_course(sr_course_t *course, sr_actors_t *actors, const char *path, const char *attach_path) {
+/* The practice course in the pack's start (0x20a8c4, as the host's I960_HOST_PRACTICE_COURSE set it) names the
+ * files drawn for it: /pc/NAME.course, .attach, .light and .title. */
+static const char *course_name(void) {
+    static const char *const names[4] = {"desert", "forest", "mountain", "lakeside"};
+    const uint32_t course = sr_ld32(0x20a8c4u);
+    return course < 4 ? names[course] : names[0];
+}
+
+static uint8_t *load_course_file(const char *ext, size_t *size) {
+    char path[48];
+    snprintf(path, sizeof path, "/pc/%s.%s", course_name(), ext);
+    return load_file(path, size);
+}
+
+static int load_course(sr_course_t *course, sr_actors_t *actors) {
     size_t n;
-    uint8_t *data = load_file(path, &n), *attach;
+    uint8_t *data = load_course_file("course", &n), *attach;
     if(!data || sr_course_parse(course, data, n)) return -1;
-    printf("sr: course %s: %lu meshes, %lu instances\n", path, (unsigned long)course->n_meshes,
+    printf("sr: course %s: %lu meshes, %lu instances\n", course_name(), (unsigned long)course->n_meshes,
            (unsigned long)course->n_instances);
     /* the attach file is optional: without it no cars or helicopter */
-    attach = load_file(attach_path, &n);
+    attach = load_course_file("attach", &n);
     if(attach && sr_actors_parse(actors, course, attach, n) == 0)
-        printf("sr: %s: %lu attachments\n", attach_path, (unsigned long)actors->n);
+        printf("sr: %s.attach: %lu attachments\n", course_name(), (unsigned long)actors->n);
     else
         actors->n = 0;
     free(attach);
     /* the cars' per-triangle lighting (optional: without it they keep the baked brightness) */
-    attach = load_file("/pc/desert.light", &n);
-    if(attach && sr_actors_light_load(course, attach, n) > 0) printf("sr: /pc/desert.light: cars lit\n");
+    attach = load_course_file("light", &n);
+    if(attach && sr_actors_light_load(course, attach, n) > 0) printf("sr: %s.light: cars lit\n", course_name());
     free(attach);
     return 0;
 }
@@ -416,8 +430,8 @@ int main(__unused int argc, __unused char **argv) {
     if(sr_lockstep_load("/pc/race.pak") != 0) return -1;
 #endif
 #ifdef SR_PRACTICE
-    if(sr_lockstep_load("/pc/practice.pak") != 0 || load_course(&s_run.course, &s_run.actors, "/pc/desert.course", "/pc/desert.attach") != 0) {
-        printf("sr: practice needs /pc/practice.pak and /pc/desert.course\n");
+    if(sr_lockstep_load("/pc/practice.pak") != 0 || load_course(&s_run.course, &s_run.actors) != 0) {
+        printf("sr: practice needs /pc/practice.pak and the /pc/<course>.course it names\n");
         return -1;
     }
 #ifdef SR_DEMO
@@ -433,8 +447,12 @@ int main(__unused int argc, __unused char **argv) {
 #endif
     enj_state_init_defaults();
 #ifdef SR_PRACTICE
-    /* The course is drawn without the arcade's sky planes yet: clear to the desert sky's colour. */
-    enj_state_get()->video.bg_color.raw = 0x005a8cc8u;
+    {
+        /* The course is drawn without the arcade's sky planes yet: clear to its sky's colour (forest, mountain and
+         * lakeside: the average of the reference's sky, clouds included). */
+        static const uint32_t sky[4] = {0x005a8cc8u, 0x006585d7u, 0x0092a0d2u, 0x007e789fu};
+        enj_state_get()->video.bg_color.raw = sky[sr_ld32(0x20a8c4u) & 3u];
+    }
 #endif
     if(enj_state_startup() != 0) return -1;
     sr_pc_prof_start();
@@ -444,7 +462,7 @@ int main(__unused int argc, __unused char **argv) {
     {
         /* the title card is optional (tools/make_title_image.py): without it the race starts at the countdown */
         size_t n;
-        uint8_t *title = load_file("/pc/desert.title", &n);
+        uint8_t *title = load_course_file("title", &n);
         s_run.title_len = s_run.title_frames = title ? sr_pvr_title_load(title, n) : 0;
         free(title);
         if(s_run.title_len) {

@@ -8,6 +8,7 @@ game_start_race_obj_span_test game/game_start_race_obj_span_test.c
 game_start_race_aea8_set game/game_start_race_aea8_set.c
 game_start_race_lap_best game/game_start_race_lap_best.c
 game_start_race_lap_record game/game_start_race_lap_record.c
+game_start_race_list_unlink game/game_start_race_list_unlink.c
 # obj_bind's file also holds obj_list (0x22E20, linked race only), which stays lifted and unchecked here.
 game_start_race_obj_bind game/game_start_race_obj_bind.c
 game_start_race_obj_publish game/game_start_race_obj_publish.c

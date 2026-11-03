@@ -31,6 +31,11 @@ dc-tool-ip -t <dreamcast-ip> -c pc -x bin/segarally-native.elf   # /pc is served
 ```
 
 On the pad: the stick steers, R accelerates, L brakes, Y / X shift up / down, A changes the view, START restarts.
+The other courses: `COURSE=forest` (or `mountain`, `lakeside`) on `export_course.sh` and `make_practice_pack.sh`,
+then the VQ step on `build/course_forest/forest.course`, and copy its `.attach` and `.light` into `pc/`. The console
+draws whichever course `pc/practice.pak` starts on (`/pc/<course>.course`, `.attach`, `.light`, `.title`). On the
+host, `segamod2 --practice --course forest` plays it. The native race tick needs nothing per course: all four
+check bit-exact against the reference (diff check and standalone run).
 `make PRACTICE=1 PRACTICE_REPLAY=1` drives the pack's recorded inputs instead; the other build options are listed
 in `dreamcast-native/local.cfg.mk`. `dreamcast-native/tools/diff_check.sh` checks every ported routine against
 the lifted code (below).

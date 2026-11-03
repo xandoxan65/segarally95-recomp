@@ -68,6 +68,8 @@ void track_viewer_cli_help(void)
             "                         16:9: wider 3D HFOV; HUD/tiles stay centered 4:3\n"
             "                         also: I960_HOST_ASPECT=16:9\n"
             "  --practice             skip attract/menus → desert practice START (Delta MT)\n"
+            "  --course NAME          practice course: desert (default), forest, mountain, lakeside\n"
+            "                         also: I960_HOST_PRACTICE_COURSE=0..3\n"
             "\n"
             "Race reference (Dreamcast lockstep, docs/dreamcast-port.md):\n"
             "  --frames N             halt after N ticks (I960_HOST_MAX_FRAMES)\n"
@@ -176,6 +178,19 @@ int track_viewer_cli_parse(int argc, char **argv, track_viewer_opts_t *opts)
         }
         if (streq(argv[i], "--record") && i + 1 < argc) {
             opts->record_path = argv[++i];
+            continue;
+        }
+        if (streq(argv[i], "--course") && i + 1 < argc) {
+            static const char *const names[] = {"desert", "forest", "mountain", "lakeside"};
+            const char *name = argv[++i];
+            unsigned c;
+            for (c = 0; c < 4u && !streq(name, names[c]); c++)
+                ;
+            if (c == 4u) {
+                fprintf(stderr, "--course: desert, forest, mountain or lakeside\n");
+                return -1;
+            }
+            cli_setenv("I960_HOST_PRACTICE_COURSE", c == 0u ? "0" : c == 1u ? "1" : c == 2u ? "2" : "3");
             continue;
         }
         if (streq(argv[i], "--practice") || streq(argv[i], "--skip-to-practice")) {

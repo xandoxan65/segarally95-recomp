@@ -56,5 +56,8 @@ void sr_obj_depth_pass(uint32_t start);     /* 0x23280 */
 /* budget: 0x20aac0 (timer-3 based draw budget); link: the caller's g14, the original's return address
  * (0x1BC54 from the race frame), which it stores as a list mode. */
 void sr_list_flag_prep(uint32_t budget, uint32_t link);  /* 0x1C2A0 */
+/* Takes a race list node out of the list (node +8 / +0xc: prev / next) and pushes it on the free list its kind
+ * names (byte 0 & 3: 0 -> 0x20cab0, 1 -> 0x20cab4). */
+void sr_race_list_unlink(uint32_t node); /* 0x2AAF0 */
 
 #endif

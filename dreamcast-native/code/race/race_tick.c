@@ -63,7 +63,11 @@ static void list_walk(void) {
         case 0x5d3f40u: sr_player_scene_frame(node); break;
         case 0x5cacf0u: sr_car_frame(node); break;
         case 0x5e17a0u: sr_desert_node_frame(node); break;
-        case 0: not_ported("race list unlink at node", node); break;
+        case 0:
+            /* 0x2AB94: the walk moves to the next node and unlinks that one's predecessor (this node) */
+            node = sr_ld32(node + 0xc);
+            sr_race_list_unlink(sr_ld32(node + 8));
+            continue;
         default: not_ported("race list handler", handler); break;
         }
         node = sr_ld32(node + 0xc);

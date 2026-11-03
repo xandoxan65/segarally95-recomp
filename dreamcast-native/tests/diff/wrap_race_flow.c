@@ -84,6 +84,20 @@ void game_start_race_list_flag_prep(u32 a0, u32 a1, u32 a2) {
     regs_load(&regs);
 }
 
+/* list_unlink takes its node from g0 when the argument is 0 (the list walk passes it in g0). */
+void lifted_game_start_race_list_unlink(u32 a0, u32 a1, u32 a2);
+void game_start_race_list_unlink(u32 a0, u32 a1, u32 a2) {
+    const u32 node = a0 ? a0 : (u32)g0;
+    regs_t regs;
+    SR_DIFF_BEGIN();
+    lifted_game_start_race_list_unlink(a0, a1, a2);
+    regs_save(&regs);
+    SR_DIFF_NATIVE();
+    sr_race_list_unlink(node);
+    SR_DIFF_END("game_start_race_list_unlink");
+    regs_load(&regs);
+}
+
 /* obj_scan returns its count in g0 (slot3 stores it at 0x2020c8). */
 void lifted_game_start_race_obj_scan(u32 a0, u32 a1, u32 a2);
 void game_start_race_obj_scan(u32 a0, u32 a1, u32 a2) {

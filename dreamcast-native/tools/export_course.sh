@@ -10,6 +10,9 @@
 #
 #   dreamcast-native/tools/export_course.sh [BUILD_DIR [OUT]]      default build-export build/course/desert.course
 #
+# COURSE=forest (or mountain, lakeside; default desert) exports that course, by default to
+# build/course_<course>/<course>.course.
+#
 # Drives:
 #   autopilot  no --inputs; I960_HOST_EXPORT_AUTOPILOT steers the player's car along the path the road-following
 #              car drives (full lap, until the practice race ends; the capture stops when the race scene ends)
@@ -19,8 +22,12 @@
 #              keep their indices
 set -e
 cd "$(dirname "$0")/../.." >/dev/null
+COURSE=${COURSE:-desert}
+case $COURSE in desert) c=0 ;; forest) c=1 ;; mountain) c=2 ;; lakeside) c=3 ;; *) echo "COURSE: desert, forest, mountain or lakeside"; exit 2 ;; esac
+export I960_HOST_PRACTICE_COURSE=$c
 BUILD=${1:-build-export}
-OUT=${2:-build/course/desert.course}
+OUT=build/course/desert.course; [ "$COURSE" = desert ] || OUT=build/course_$COURSE/$COURSE.course
+OUT=${2:-$OUT}
 DIR=$(dirname "$OUT")
 DRIVES=$DIR/drives
 TOOLS=dreamcast-native/tools

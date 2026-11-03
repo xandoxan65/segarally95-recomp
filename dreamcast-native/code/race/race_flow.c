@@ -461,3 +461,20 @@ void sr_race_slot3(void) {
     sr_st32(RF_NEAR_COUNT, count);
     /* ROM 0x1EA40 (g0 = 0x213b94) when 0x20201d > 1: unlifted, a no-op in the reference. */
 }
+
+/* 0x2AAF0, with the free-list pushes 0x2A928 / 0x2A968. */
+void sr_race_list_unlink(uint32_t node) {
+    uint32_t prev, next, head;
+    if(!node) return;
+    prev = sr_ld32(node + 8);
+    next = sr_ld32(node + 0xc);
+    sr_st32(prev + 0xc, next);
+    sr_st32(next + 8, prev);
+    switch(sr_ld8(node) & 3u) {
+    case 0: head = 0x20cab0u; break;
+    case 1: head = 0x20cab4u; break;
+    default: return;
+    }
+    sr_st32(node + 0xc, sr_ld32(head));
+    sr_st32(head, node);
+}
