@@ -3,6 +3,7 @@
 // @rom 0x11b90 +0xefc comm_attract_geo_script_finish
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "i960_fp.h"
 #include "model2_rom.h"
@@ -788,7 +789,7 @@ void comm_attract_geo_script_finish(void * arg0, void * arg1, u32 arg2)
                         cz = R[2] * wx + R[5] * wy + R[8] * wz;
                     }
                     bearing_deg =
-                        (float)(atan2((double)cx, (double)cz) * (180.0 / 3.141592653589793));
+                        (float)(m2_atan2((double)cx, (double)cz) * (180.0 / 3.141592653589793));
 
                     lift_log(
                             "lift: cam%d obj_world=(%.3g,%.3g,%.3g) "

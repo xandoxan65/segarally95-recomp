@@ -1537,6 +1537,7 @@ int sys24_viewer_present(const u8 *tile_map, const u8 *char_ram, const u8 *palra
 
 void sys24_viewer_shutdown(void)
 {
+    i960_host_race_trace_close();
     /* Persist NVRAM while workram / backup SRAM are still live. */
     (void)model2_nvram_save(NULL);
     sys24_viewer_record_stop();

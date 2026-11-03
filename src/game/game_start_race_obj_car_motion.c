@@ -17,6 +17,7 @@
 #include "i960_host.h"
 #include "model2_hw.h"
 #include "model2_rom.h"
+#include "model2_tgp.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -135,6 +136,8 @@ void game_start_race_obj_car_motion(u32 arg0, u32 arg1, u32 arg2)
 
         i960_st_u32(I960_WORKRAM, 0x20a290u, 0, cursor + 4u);
         i960_st_u32(I960_ABS, cursor, 0, 0);
+        /* The TGP takes this 0 from its list position; the HLE would read the advanced cursor. */
+        model2_tgp_arm_ext_selector(0);
     }
     motion_fifo_cmd(0x30806161u);
 

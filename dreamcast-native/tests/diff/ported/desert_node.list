@@ -1,0 +1,10 @@
+# Desert helicopter, race list node 0x500200 (wrap_desert_node.c): lifted function name, source file under src/.
+game_start_race_desert_node_init game/game_start_race_desert_node_init.c
+game_start_race_desert_node_frame game/game_start_race_desert_node_frame.c
+game_start_race_desert_table_pick game/game_start_race_desert_table_pick.c
+game_start_race_desert_near_pick game/game_start_race_desert_near_pick.c
+game_start_race_desert_pose_step game/game_start_race_desert_pose_step.c
+game_start_race_desert_rng_jitter game/game_start_race_desert_rng_jitter.c
+game_start_race_desert_tgp55_walk game/game_start_race_desert_tgp55_walk.c
+game_start_race_desert_obj_near_flag game/game_start_race_desert_obj_near_flag.c
+game_start_race_desert_slot_flag game/game_start_race_desert_slot_flag.c

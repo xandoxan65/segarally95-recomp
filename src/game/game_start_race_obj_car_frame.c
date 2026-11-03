@@ -297,6 +297,7 @@ void game_start_race_obj_car_frame(u32 arg0, u32 arg1, u32 arg2)
 
     if (node == 0u)
         return;
+    i960_host_race_trace_car(node);
 
     memset(frame, 0, sizeof(frame));
     fp = (uintptr_t)frame;

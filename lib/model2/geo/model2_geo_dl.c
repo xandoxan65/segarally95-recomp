@@ -129,7 +129,7 @@ static int require(int index, int count, int end_limit)
 }
 
 static int add_drawn(model2_geo_dl_result_t *out, int rom_offset, u32 oba, u32 obc,
-                     unsigned vcount, int mode)
+                     unsigned vcount, int mode, u32 tpa, u32 tha, const float *matrix)
 {
     if (out->objects_drawn >= out->objects_cap) {
         unsigned ncap = out->objects_cap ? out->objects_cap * 2u : 32u;
@@ -145,6 +145,10 @@ static int add_drawn(model2_geo_dl_result_t *out, int rom_offset, u32 oba, u32 o
     out->objects[out->objects_drawn].obc = obc;
     out->objects[out->objects_drawn].vertex_count = vcount;
     out->objects[out->objects_drawn].mode = mode;
+    out->objects[out->objects_drawn].tpa = tpa;
+    out->objects[out->objects_drawn].tha = tha;
+    memcpy(out->objects[out->objects_drawn].matrix, matrix,
+           sizeof(out->objects[out->objects_drawn].matrix));
     out->objects_drawn++;
     return 0;
 }
@@ -449,7 +453,7 @@ static int object_data(model2_geo_dl_ctx_t *ctx, model2_geo_state_t *geo, u32 op
     /* MAME center_sel vanishing point → bake into focal-space verts. */
     model2_geo_bake_center_sel(geo, &local);
     model2_mesh_collector_append(&out->mesh, &local);
-    add_drawn(out, (int)base, oba, obc, local.n_verts, mode);
+    add_drawn(out, (int)base, oba, obc, local.n_verts, mode, tpa, tha, geo->matrix);
     model2_mesh_collector_free(&local);
     return index;
 }
@@ -793,6 +797,23 @@ int model2_geo_dl_run_mtx(model2_geo_dl_ctx_t *ctx, const u32 *words, unsigned n
         return fail(out, "display list did not reach geo_end");
     out->ok = 1;
     return 0;
+}
+
+int model2_geo_dl_decode_object(model2_geo_dl_ctx_t *ctx, u32 tpa, u32 tha, u32 oba,
+                                u32 obc, int mode, model2_geo_dl_result_t *out)
+{
+    model2_geo_state_t geo;
+    u32 words[4];
+
+    if (!ctx || !out)
+        return -1;
+    model2_geo_state_init(&geo);
+    geo.mode = mode & 3;
+    words[0] = tpa;
+    words[1] = tha;
+    words[2] = oba;
+    words[3] = obc;
+    return object_data(ctx, &geo, 0x00800000u, words, 0, 4, out) < 0 ? -1 : 0;
 }
 
 int model2_geo_dl_run_stream_state(model2_geo_dl_ctx_t *ctx, const u32 *words,

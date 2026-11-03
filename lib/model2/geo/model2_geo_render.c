@@ -1083,6 +1083,78 @@ int model2_geo_render_projection(model2_geo_projection_t *out)
     return valid;
 }
 
+/* Course export capture: see model2_geo_render.h. Additive; unused otherwise. */
+int model2_geo_render_capture_display(model2_geo_capture_fn fn, void *user)
+{
+    static u32 cap_prg[262144];
+    static unsigned s_cap_gen;
+    unsigned disp_start = 0, disp_end = 0, gen, n;
+    model2_geo_state_t state;
+    model2_geo_dl_result_t result;
+    float hw_focus[2];
+    u32 hw_window[6];
+    int rc;
+
+    if (!g_inited)
+        model2_geo_render_init();
+    if (!g_fifo_valid || !g_fifo.copy_prg_range || !g_fifo.display_range
+        || !g_fifo.display_gen)
+        return -1;
+    gen = g_fifo.display_gen();
+    if (gen == s_cap_gen)
+        return 0;
+    g_fifo.display_range(&disp_start, &disp_end);
+    if (disp_end <= disp_start)
+        return 0;
+    n = g_fifo.copy_prg_range(disp_start, disp_end, cap_prg, 262144u);
+    s_cap_gen = gen;
+    if (n <= 4)
+        return 0;
+    ensure_polygon_rom();
+    model2_geo_state_init(&state);
+    if (g_fifo.projection && g_fifo.projection(hw_focus, hw_window)) {
+        state.focus.x = hw_focus[0];
+        state.focus.y = hw_focus[1];
+        memcpy(state.window, hw_window, sizeof(state.window));
+        state.window_valid = 1;
+    }
+    if (g_fifo.shading) {
+        float hw_light[3];
+        int hw_mode = 0;
+        u32 hw_tex[32];
+        float hw_coef[32];
+        int shade = g_fifo.shading(hw_light, &hw_mode, hw_tex, hw_coef);
+        unsigned ti;
+
+        if (shade & 1) {
+            state.light.x = hw_light[0];
+            state.light.y = hw_light[1];
+            state.light.z = hw_light[2];
+        }
+        if (shade & 2)
+            state.mode = hw_mode;
+        if (shade & 4) {
+            for (ti = 0; ti < 32u; ti++) {
+                u32 p = hw_tex[ti];
+
+                state.texture_parameters[ti].diffuse = (float)(p & 0xffu);
+                state.texture_parameters[ti].ambient = (float)((p >> 8) & 0xffu);
+                state.texture_parameters[ti].specular_scale = (float)((p >> 16) & 0xffu);
+                state.texture_parameters[ti].specular_control = (int)((p >> 24) & 0xffu);
+                state.coef_table[ti] = hw_coef[ti];
+            }
+        }
+    }
+    model2_geo_dl_result_init(&result);
+    pthread_mutex_lock(&g_geo_ram_mtx);
+    rc = model2_geo_dl_run_stream_state(&g_ctx, cap_prg, n, NULL, 0, &state, &result);
+    if (rc == 0 && fn)
+        fn(user, &g_ctx, &state, result.objects, result.objects_drawn, &result.mesh);
+    pthread_mutex_unlock(&g_geo_ram_mtx);
+    model2_geo_dl_result_free(&result);
+    return rc == 0 ? 1 : -1;
+}
+
 int model2_geo_render_decode_prg_file(const char *path, int require_end)
 {
     FILE *fp;

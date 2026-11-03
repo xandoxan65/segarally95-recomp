@@ -35,8 +35,13 @@ static const u32 *g_copro;
 static u32 g_copro_words;
 static u32 *g_copro_owned;
 
+/* Optional: told every copro data word the firmware reads (the Dreamcast port sizes its course packs with it). */
+void (*model2_tgp_fw_read_trace)(u32 word_addr);
+
 static u32 copro_ld(u32 word_addr)
 {
+    if (model2_tgp_fw_read_trace)
+        model2_tgp_fw_read_trace(word_addr);
     if (g_copro == NULL || word_addr >= g_copro_words)
         return 0u;
     return g_copro[word_addr];
@@ -323,7 +328,7 @@ static int tris_side(float ox, float oz, const float *xyz4, int nverts)
     u32 sign_and = 0x80000000u;
 
     for (i = 0; i < (unsigned)nverts; i++) {
-        unsigned j = (i + 1u) % (unsigned)nverts;
+        unsigned j = i + 1u == (unsigned)nverts ? 0u : i + 1u;
         float c = edge_cross_xz(ox, oz, xyz4[i * 3u], xyz4[i * 3u + 2u],
                                 xyz4[j * 3u], xyz4[j * 3u + 2u]);
         u32 sign = f2u(c) & 0x80000000u;
@@ -364,16 +369,18 @@ static int walk_entry(u32 entry_wa, float ox, float oz, u32 slot_arg)
         int nverts;
         int side;
 
-        for (k = 0; k < 16u; k++)
-            floats[k] = copro_ld(geom + i * 16u + k);
-        for (k = 0; k < 12u; k++)
-            xyz[k] = u2f(floats[k]);
-
         flag = copro_ld(attr + i);
         /* attr & 4 → quad (4 edges); else triangle (3). PC 0x5F4–0x5F6. */
         nverts = (flag & 4u) ? 4 : 3;
+        /* the test reads the corners' x and z; the polygon's 16 words are copied only for a hit */
+        for (k = 0; k < (unsigned)nverts; k++) {
+            xyz[k * 3u] = u2f(copro_ld(geom + i * 16u + k * 3u));
+            xyz[k * 3u + 2u] = u2f(copro_ld(geom + i * 16u + k * 3u + 2u));
+        }
         side = tris_side(ox, oz, xyz, nverts);
         if (side > 0) {
+            for (k = 0; k < 16u; k++)
+                floats[k] = copro_ld(geom + i * 16u + k);
             model2_tgp_fw_slot_store(slot_arg, flag, floats);
             return 1;
         }
@@ -424,4 +431,26 @@ int model2_tgp_fw_run_52(const u32 words[9])
 
     model2_tgp_fw_slot_clear(slot_arg);
     return 0;
+}
+
+size_t model2_tgp_fw_state_size(void)
+{
+    return sizeof(g_slots);
+}
+
+void model2_tgp_fw_state_save(void *dst)
+{
+    memcpy(dst, g_slots, sizeof(g_slots));
+}
+
+void model2_tgp_fw_state_load(const void *src)
+{
+    memcpy(g_slots, src, sizeof(g_slots));
+}
+
+const u32 *model2_tgp_fw_copro_words(unsigned *count)
+{
+    if (count)
+        *count = g_copro_words;
+    return g_copro;
 }

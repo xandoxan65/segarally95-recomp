@@ -66,6 +66,13 @@ void i960_host_dispatch_reset(void);
 int i960_host_dispatch_halted(void);
 void i960_host_request_halt(void);
 void i960_host_frame_present(void);
+
+/* Race reference trace (src/host/lift_race_trace.c, docs/dreamcast-port.md). */
+int i960_host_race_scripted(void);
+void i960_host_race_inputs_apply(void);
+void i960_host_race_trace_car(u32 node);
+void i960_host_race_trace_tick(void);
+void i960_host_race_trace_close(void);
 void i960_host_run_post_reset(u32 arg0, u32 arg1, u32 arg2);
 
 /* Boot milestones (tile-script completion hooks).

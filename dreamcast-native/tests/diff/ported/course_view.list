@@ -1,0 +1,7 @@
+# Course section selection (wrap_course_view.c): lifted function name, source file under src/.
+game_start_race_prg_budget game/game_start_race_prg_budget.c
+geo_attract_course_view_bind game/geo_attract_course_view_bind.c
+geo_attract_course_catalog_span game/geo_attract_course_catalog_span.c
+geo_attract_course_prg_mode game/geo_attract_course_prg_mode.c
+geo_attract_copro_marker_burst game/geo_attract_copro_marker_burst.c
+geo_attract_span_table_draw game/geo_attract_span_table_draw.c

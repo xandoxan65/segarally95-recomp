@@ -1,0 +1,13 @@
+# The race HUD and the 2D layer writes it makes (wrap_hud.c): lifted function name, source file under src/.
+game_start_race_hud_frame game/game_start_race_hud_frame.c
+game_start_race_hud_layers game/game_start_race_hud_layers.c
+game_start_race_hud_tach game/game_start_race_hud_tach.c
+game_start_race_cam_matrix_long game/game_start_race_cam_matrix_long.c
+game_start_race_hud_lap_time game/game_start_race_hud_lap_time.c
+game_start_race_hud_position game/game_start_race_hud_position.c
+game_start_race_hud_speed game/game_start_race_hud_speed.c
+game_start_race_hud_progress game/game_start_race_hud_progress.c
+draw_scene_dispatch game/draw_scene_dispatch.c
+erase_scene_dispatch game/erase_scene_dispatch.c
+boot_tile_map_fill game/boot_tile_map_fill.c
+tile_map_banks_clear game/tile_map_banks_clear.c

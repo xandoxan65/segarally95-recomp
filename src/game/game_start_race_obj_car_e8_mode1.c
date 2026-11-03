@@ -13,6 +13,7 @@
 // @rom 0x2e650 +0x894 game_start_race_obj_car_e8_mode1
 
 #include "i960_lift.h"
+#include "m2_math.h"
 #include "i960_fp.h"
 #include "i960_mem.h"
 #include "model2_hw.h"
@@ -109,7 +110,7 @@ static u32 blend_ang(u32 sample, u32 current)
     return f32(mixed);
 }
 
-/* @0x2EE00: sin(pitch) scale, integrate xyz, scale velocity by r13. */
+/* @0x2EE00: m2_sin(pitch) scale, integrate xyz, scale velocity by r13. */
 static void mode1_epilogue(u32 node, u8 *frame, u32 r13)
 {
     u32 pitch = nd(node, 0x38u);

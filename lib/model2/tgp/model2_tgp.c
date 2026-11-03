@@ -1,4 +1,5 @@
 #include "model2_tgp.h"
+#include "m2_math.h"
 #include "lift_log.h"
 #include "model2_tgp_fw.h"
 
@@ -190,10 +191,31 @@ static u32 copro_out_pop(void)
     return w;
 }
 
+/*
+ * The TGP reads the 0x60/0x61 slot from its own position in the i960's parameter
+ * list. Reading at the i960 cursor matches where road_span_basis and xz_clamp put
+ * the word, but car_motion @ 0x30508 advances 0x20a290 before storing its 0, so the
+ * cursor then points at a stale word from an earlier frame. Call sites like that
+ * arm the word they store (model2_tgp_arm_ext_selector).
+ */
+static int g_copro_ext_armed;
+static u32 g_copro_ext_armed_word;
+
+void model2_tgp_arm_ext_selector(u32 word)
+{
+    g_copro_ext_armed = 1;
+    g_copro_ext_armed_word = word;
+}
+
 static unsigned copro_ext_selector(void)
 {
     u32 cursor = tgp_workram_ld(0x20a290u);
     u32 word = cursor != 0u ? tgp_workram_ld(cursor) : 0u;
+
+    if (g_copro_ext_armed) {
+        word = g_copro_ext_armed_word;
+        g_copro_ext_armed = 0;
+    }
 
     /* road_span_basis / xz_clamp / car_motion: lda 0 / 16 then 0x60/0x61. */
     if (word >= COPRO_EXT_MTX_WORDS)
@@ -218,7 +240,7 @@ static void copro_matrix_sanitize(void);
 static void copro_translate(float x, float y, float z)
 {
     copro_matrix_sanitize();
-    if (!isfinite(x) || !isfinite(y) || !isfinite(z))
+    if (!m2_isfinitef(x) || !m2_isfinitef(y) || !m2_isfinitef(z))
         return;
     g_copro_matrix[9] += g_copro_matrix[0] * x + g_copro_matrix[3] * y
                        + g_copro_matrix[6] * z;
@@ -231,7 +253,7 @@ static void copro_translate(float x, float y, float z)
 static void copro_xform_point(float x, float y, float z, float out[3])
 {
     copro_matrix_sanitize();
-    if (!isfinite(x) || !isfinite(y) || !isfinite(z)) {
+    if (!m2_isfinitef(x) || !m2_isfinitef(y) || !m2_isfinitef(z)) {
         out[0] = out[1] = out[2] = 0.f;
         return;
     }
@@ -241,7 +263,7 @@ static void copro_xform_point(float x, float y, float z, float out[3])
            + g_copro_matrix[7] * z + g_copro_matrix[10];
     out[2] = g_copro_matrix[2] * x + g_copro_matrix[5] * y
            + g_copro_matrix[8] * z + g_copro_matrix[11];
-    if (!isfinite(out[0]) || !isfinite(out[1]) || !isfinite(out[2])) {
+    if (!m2_isfinitef(out[0]) || !m2_isfinitef(out[1]) || !m2_isfinitef(out[2])) {
         out[0] = out[1] = out[2] = 0.f;
     }
 }
@@ -324,10 +346,10 @@ static float copro_reduce_angle(float angle)
     const float two_pi = 6.28318530717958647692f;
     float r;
 
-    if (!isfinite(angle) || fabsf(angle) > 1.0e6f)
+    if (!m2_isfinitef(angle) || fabsf(angle) > 1.0e6f)
         return 0.f;
     r = remainderf(angle, two_pi);
-    if (!isfinite(r))
+    if (!m2_isfinitef(r))
         return 0.f;
     return r;
 }
@@ -337,7 +359,7 @@ static int copro_matrix_finite(void)
     unsigned i;
 
     for (i = 0; i < 12u; i++) {
-        if (!isfinite(g_copro_matrix[i]))
+        if (!m2_isfinitef(g_copro_matrix[i]))
             return 0;
     }
     return 1;
@@ -367,12 +389,12 @@ static void copro_rotate_x(float angle)
      * with keyframe pitch. Textbook Rx nosed cars into the road plane.
      */
     float a = copro_reduce_angle(angle);
-    float c = cosf(a), s = sinf(a);
+    float c = m2_cosf(a), s = m2_sinf(a);
     float c1[3], c2[3];
     int r;
 
     copro_matrix_sanitize();
-    if (!isfinite(c) || !isfinite(s))
+    if (!m2_isfinitef(c) || !m2_isfinitef(s))
         return;
     for (r = 0; r < 3; r++) {
         c1[r] = g_copro_matrix[3 + r];
@@ -393,12 +415,12 @@ static void copro_rotate_y(float angle)
      * rotate — that pairs with this HLE, not a second object-side negate.)
      */
     float a = copro_reduce_angle(angle);
-    float c = cosf(a), s = sinf(a);
+    float c = m2_cosf(a), s = m2_sinf(a);
     float c0[3], c2[3];
     int r;
 
     copro_matrix_sanitize();
-    if (!isfinite(c) || !isfinite(s))
+    if (!m2_isfinitef(c) || !m2_isfinitef(s))
         return;
     for (r = 0; r < 3; r++) {
         c0[r] = g_copro_matrix[r];
@@ -416,12 +438,12 @@ static void copro_rotate_z(float angle)
      * bank the mesh with keyframe travel. Textbook Rz rolls cars the wrong way.
      */
     float a = copro_reduce_angle(angle);
-    float c = cosf(a), s = sinf(a);
+    float c = m2_cosf(a), s = m2_sinf(a);
     float c0[3], c1[3];
     int r;
 
     copro_matrix_sanitize();
-    if (!isfinite(c) || !isfinite(s))
+    if (!m2_isfinitef(c) || !m2_isfinitef(s))
         return;
     for (r = 0; r < 3; r++) {
         c0[r] = g_copro_matrix[r];
@@ -436,7 +458,7 @@ static void copro_scale(float x, float y, float z)
     int r;
 
     copro_matrix_sanitize();
-    if (!isfinite(x) || !isfinite(y) || !isfinite(z))
+    if (!m2_isfinitef(x) || !m2_isfinitef(y) || !m2_isfinitef(z))
         return;
     for (r = 0; r < 3; r++) {
         g_copro_matrix[r] *= x;
@@ -613,7 +635,7 @@ static void copro_finish_cmd(void)
         if (g_copro_in_n >= 2u) {
             float x = u2f(g_copro_in[0]);
             float y = u2f(g_copro_in[1]);
-            i32 angle = (i32)(atan2f(y, x)
+            i32 angle = (i32)(m2_atan2f(y, x)
                               * (32768.f / 3.14159265358979323846f));
 
             /*
@@ -714,7 +736,7 @@ static void copro_finish_cmd(void)
          * not sequential Axyz then Bxyz. Both call sites match:
          *   hy, vz, hz, vy, vx, hx  (heading × unit pos / table vec)
          * Reconstruct A=(Ax,Ay,Az), B=(Bx,By,Bz) then cross. Sequential
-         * HLE made Y≈Az·Bx−Ax·Bz with Ax=hy → ~cos(yaw)·vy, so XZ heading
+         * HLE made Y≈Az·Bx−Ax·Bz with Ax=hy → ~m2_cos(yaw)·vy, so XZ heading
          * steer (214204) died and yaw froze near ±π.
          */
         if (g_copro_in_n >= 6u) {
@@ -1070,7 +1092,7 @@ static void copro_finish_cmd(void)
          * Host HLE uses sinf — matches TGP sincos-class use before 0x202049 encode.
          */
         if (g_copro_in_n >= 1u)
-            copro_out_push(fbits(sinf(copro_reduce_angle(u2f(g_copro_in[0])))));
+            copro_out_push(fbits(m2_sinf(copro_reduce_angle(u2f(g_copro_in[0])))));
         break;
     case 0x08801111u:
         /*
@@ -1598,4 +1620,49 @@ void model2_tgp_dump(const char *path)
     fclose(fp);
     free(tmp);
     fprintf(stderr, "lift: wrote %u copro_fifo words to %s\n", n, path);
+}
+
+/*
+ * Whole HLE state as one blob, for the Dreamcast port's differential checks
+ * (dreamcast-native/tests/diff): a lifted routine and its native port each run
+ * from the same TGP state, then both end states are compared.
+ */
+#define TGP_STATE_FIELDS(X) \
+    X(g_copro) X(g_copro_total) X(g_copro_out) X(g_copro_out_r) \
+    X(g_copro_out_w) X(g_copro_out_n) X(g_copro_cmd) X(g_copro_in) \
+    X(g_copro_in_n) X(g_copro_need) X(g_copro_matrix) \
+    X(g_copro_matrix_stack) X(g_copro_matrix_sp) X(g_copro_ext_mtx) \
+    X(g_view_matrix) X(g_view_focus) X(g_view_pitch_seed) X(g_view_seed_a) \
+    X(g_view_seed_b) X(g_view_matrix_valid) X(g_copro_ang_x) \
+    X(g_copro_ang_y) X(g_copro_ang_z) X(g_copro_scale) X(g_copro_vec) \
+    X(g_copro_vslot) X(g_copro_vsel) X(g_copro_road) \
+    X(g_copro_handle_armed) X(g_copro_handle_armed_val) \
+    X(g_copro_52_armed) X(g_copro_52_armed_words) X(g_copro_ext_armed) \
+    X(g_copro_ext_armed_word)
+
+#define TGP_STATE_SIZE_OF(v) + sizeof(v)
+
+size_t model2_tgp_state_size(void)
+{
+    return 0 TGP_STATE_FIELDS(TGP_STATE_SIZE_OF) + model2_tgp_fw_state_size();
+}
+
+void model2_tgp_state_save(void *dst)
+{
+    u8 *p = (u8 *)dst;
+
+#define TGP_STATE_SAVE(v) memcpy(p, &(v), sizeof(v)); p += sizeof(v);
+    TGP_STATE_FIELDS(TGP_STATE_SAVE)
+#undef TGP_STATE_SAVE
+    model2_tgp_fw_state_save(p);
+}
+
+void model2_tgp_state_load(const void *src)
+{
+    const u8 *p = (const u8 *)src;
+
+#define TGP_STATE_LOAD(v) memcpy(&(v), p, sizeof(v)); p += sizeof(v);
+    TGP_STATE_FIELDS(TGP_STATE_LOAD)
+#undef TGP_STATE_LOAD
+    model2_tgp_fw_state_load(p);
 }

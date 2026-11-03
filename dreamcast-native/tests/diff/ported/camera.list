@@ -1,0 +1,9 @@
+# Camera (wrap_camera.c).
+game_start_race_cam_bind game/game_start_race_cam_bind.c
+game_start_race_cam_rebind game/game_start_race_cam_rebind.c
+game_start_race_cam_chase game/game_start_race_cam_chase.c
+geo_view_matrix_dir_emit game/geo_view_matrix_dir_emit.c
+game_start_race_cam_desert game/game_start_race_cam_desert.c
+game_start_race_cam_chase_alt game/game_start_race_cam_chase_alt.c
+geo_attract_fp_series game/geo_attract_fp_series.c
+geo_view_matrix_row_swap_upload game/geo_view_matrix_row_swap_upload.c

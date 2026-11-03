@@ -1,0 +1,11 @@
+# Car pens and their particles (wrap_particles.c): lifted function name, source file under src/.
+game_start_race_object_pen_walk game/game_start_race_object_pen_walk.c
+game_start_race_object_pen_desc game/game_start_race_object_pen_desc.c
+geo_attract_object_pen game/geo_attract_object_pen.c
+geo_attract_glyph_emit game/geo_attract_glyph_emit.c
+game_start_race_object_pen_far game/game_start_race_object_pen_far.c
+game_start_race_object_pen_mid game/game_start_race_object_pen_far.c
+geo_attract_object_extra game/geo_attract_object_extra.c
+geo_rng_next game/geo_rng_next.c
+geo_attract_copro_submit game/geo_attract_copro_submit.c
+geo_attract_copro_object game/geo_attract_copro_object.c
